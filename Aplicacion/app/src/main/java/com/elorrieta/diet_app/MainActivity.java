@@ -7,6 +7,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -16,7 +17,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     ImageView Imagen, Titulo;
-
+    final int iCODIGO = 1234;
     TextView inicio;
     Boolean Terminar=false;
     ObjectAnimator AparecertAnimator;
@@ -142,5 +143,9 @@ public class MainActivity extends AppCompatActivity {
             oAnimation7.setDuration(500L);
             oAnimation7.start();
         }
+    }
+    public void IrVisualizar(View poView){
+        Intent oIntent = new Intent(this, Visualizar_Recetas.class);
+        startActivityForResult(oIntent, iCODIGO);
     }
 }
