@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#A300BCD4"
     tools:context=".Visualizar_Recetas">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/iddificultad"
-        android:layout_width="422dp"
+        android:layout_width="250dp"
         android:layout_height="145dp"
         android:layout_marginTop="480dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -19,8 +21,8 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="436dp"
-        android:layout_marginEnd="152dp"
+        android:layout_marginTop="440dp"
+        android:layout_marginEnd="80dp"
         android:text="DIFICULTAD"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -30,10 +32,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idtiempo"
-        android:layout_width="426dp"
-        android:layout_height="167dp"
-        android:layout_marginTop="244dp"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="272dp"
         android:layout_marginEnd="24dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -41,8 +44,8 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="172dp"
+        android:layout_marginTop="228dp"
+        android:layout_marginEnd="112dp"
         android:text="TIEMPO"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -52,14 +55,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="603dp"
-        android:layout_height="507dp"
+        android:layout_width="589dp"
+        android:layout_height="461dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView2"
@@ -71,16 +76,17 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.732"
+        app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idmenu"
-        android:layout_width="422dp"
-        android:layout_height="145dp"
+        android:layout_width="250dp"
+        android:layout_height="175dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="24dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -90,6 +96,7 @@
         android:layout_height="49dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
+        android:background="@color/white"
         android:ems="10"
         android:hint="BUSCADOR DE RECETAS"
         android:inputType="textPersonName"
