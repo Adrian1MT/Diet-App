@@ -1,28 +1,40 @@
 package com.elorrieta.diet_app;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ImageView Imagen, Titulo;
+    RecyclerView oRecyclerView;
+    ArrayList<Menu> menuArrayList;
+    View view;
 
-    TextView inicio;
-    Boolean Terminar=false;
-    ObjectAnimator AparecertAnimator;
-    ObjectAnimator DesaparecertAnimator;
-    //VARIABLES TEMPORALES DE PRUEBA- SE SUSTITUIRA CON UN MENU BIEN HECHO
-    Button temporal1,temporal2,temporal3;
+    // inicializarmos el adapter con nuestros datos.
+    OnItemClickListener escuchador = new OnItemClickListener() {
+        @Override
+        public void onItemClick(Menu item) {
+            view = new View(MainActivity.super.getApplicationContext());
+            if(item.getItem().contentEquals("Recetas")){
+                Recetas(view);
+            } else if (item.getItem().contentEquals("Dietario")) {
+                Dietario(view);
+            } else {
+                ListaCompra(view);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,37 +45,32 @@ public class MainActivity extends AppCompatActivity {
 
         Titulo= (ImageView)findViewById(R.id.imageView2);
         Titulo.setImageResource(R.drawable.nombre);
-        inicio= findViewById(R.id.textTocar);
-        //VARIABLES TEMPORALES DE PRUEBA- SE SUSTITUIRA CON UN MENU BIEN HECHO
-        temporal1= (Button)findViewById(R.id.button);
-        temporal2= (Button)findViewById(R.id.button2);
-        temporal3= (Button)findViewById(R.id.button3);
 
         Imagen.setOnClickListener(this::mover_ObjectAnimator);
         Titulo.setOnClickListener(this::mover_ObjectAnimator);
 
-        invisible();
-    }
-    public void invisible(){
-        temporal1.setVisibility(View.INVISIBLE);
-        temporal2.setVisibility(View.INVISIBLE);
-        temporal3.setVisibility(View.INVISIBLE);
-        ViewPropertyAnimator oAnimation = temporal1.animate();
-        oAnimation.alpha(0f);
-        oAnimation.start();
+        // Llenamos el ArrayList.
+        menuArrayList = new ArrayList<Menu>();
+        menuArrayList.add(new Menu("Recetas"));
+        menuArrayList.add(new Menu("Dietario"));
+        menuArrayList.add(new Menu("Lista de la compra"));
 
-        ViewPropertyAnimator oAnimation2 = temporal2.animate();
-        oAnimation2.alpha(0f);
-        oAnimation2.start();
+        oRecyclerView = (RecyclerView) findViewById(R.id.Recycler);
 
-        ViewPropertyAnimator oAnimation3 = temporal3.animate();
-        oAnimation3.alpha(0f);
-        oAnimation3.start();
-        Cartel();
+        MenuAdapter ma = new MenuAdapter(menuArrayList, escuchador);
+        oRecyclerView.setAdapter(ma);
+
+        // establecemos el Layout Manager.
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        oRecyclerView.setLayoutManager(llm);
+        oRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
+
     public void mover_ObjectAnimator(View v) {
         ObjectAnimator oObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 Imagen,
+                PropertyValuesHolder.ofFloat("alpha", 1f,0f),
                 PropertyValuesHolder.ofFloat("translationX", -1150),
                 PropertyValuesHolder.ofFloat("translationY", -350),
                 PropertyValuesHolder.ofFloat("scaleX", 0.2f),
@@ -71,10 +78,18 @@ public class MainActivity extends AppCompatActivity {
         );
         ObjectAnimator oObjectAnimator2 = ObjectAnimator.ofPropertyValuesHolder(
                 Titulo,
+                PropertyValuesHolder.ofFloat("alpha", 1f,0f),
                 PropertyValuesHolder.ofFloat("translationX", -1140),
                 PropertyValuesHolder.ofFloat("translationY", -800),
                 PropertyValuesHolder.ofFloat("scaleX", 0.4f),
                 PropertyValuesHolder.ofFloat("scaleY", 0.4f)
+        );
+        ObjectAnimator oObjectAnimator3 = ObjectAnimator.ofPropertyValuesHolder(
+                oRecyclerView,
+                PropertyValuesHolder.ofFloat("alpha", 0f,1f),
+                PropertyValuesHolder.ofFloat("translationX", 200),
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f)
         );
         oObjectAnimator.setDuration(3000L);
         oObjectAnimator.setStartDelay(500L);
@@ -82,65 +97,25 @@ public class MainActivity extends AppCompatActivity {
         oObjectAnimator2.setDuration(3000L);
         oObjectAnimator2.setStartDelay(500L);
 
+        oObjectAnimator3.setDuration(3000L);
+        oObjectAnimator3.setStartDelay(500L);
+
         oObjectAnimator.start();
         oObjectAnimator2.start();
-
-        visible();
+        oObjectAnimator3.start();
     }
-    public void visible(){
-        Terminar=true;
-        temporal1.setVisibility(View.VISIBLE);
-        temporal2.setVisibility(View.VISIBLE);
-        temporal3.setVisibility(View.VISIBLE);
-        ViewPropertyAnimator oAnimation = temporal1.animate();
-        oAnimation.alpha(1f);
-        oAnimation.setDuration(2000);
-        oAnimation.setStartDelay(2500L);
-        oAnimation.start();
 
-        ViewPropertyAnimator oAnimation2 = temporal2.animate();
-        oAnimation2.alpha(1f);
-        oAnimation2.setDuration(2000);
-        oAnimation2.setStartDelay(2500L);
-        oAnimation2.start();
-
-        ViewPropertyAnimator oAnimation3 = temporal3.animate();
-        oAnimation3.alpha(1f);
-        oAnimation3.setDuration(2000);
-        oAnimation3.setStartDelay(2500L);
-        oAnimation3.start();
+    public void Recetas(View poView){
+        Intent oIntent = new Intent(this, Recetas.class);
+        startActivity(oIntent);
     }
-    public void Cartel(){
-        if (Terminar==false){
+    public void Dietario(View poView){
+        Intent oIntent = new Intent(this, Dietario.class);
+        startActivity(oIntent);
+    }
 
-            AparecertAnimator = ObjectAnimator.ofFloat(inicio,View.ALPHA,1f,0f);
-            AparecertAnimator.setDuration(500);
-            AnimatorSet Animacioncontinua =new AnimatorSet();
-            Animacioncontinua.playTogether(AparecertAnimator);
-            Animacioncontinua.addListener(new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    DesaparecertAnimator=ObjectAnimator.ofFloat(inicio,View.ALPHA,0f,1f);
-                    DesaparecertAnimator.setDuration(500);
-
-                    AnimatorSet AnimacionRepetir =new AnimatorSet();
-                    AnimacionRepetir.playTogether(DesaparecertAnimator);
-                    AnimacionRepetir.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            Cartel();
-                        }
-                    });
-                    AnimacionRepetir.start();
-                }
-            });
-            Animacioncontinua.start();
-        }if (Terminar==true){
-            ViewPropertyAnimator oAnimation7 = inicio.animate();
-            oAnimation7.alpha(0f);
-            oAnimation7.setDuration(500L);
-            oAnimation7.start();
-        }
+    public void ListaCompra(View poView){
+        Intent oIntent = new Intent(this, ListaCompra.class);
+        startActivity(oIntent);
     }
 }
