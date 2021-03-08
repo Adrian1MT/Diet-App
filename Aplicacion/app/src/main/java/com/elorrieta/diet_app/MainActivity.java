@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ImageView Imagen, Titulo;
+<<<<<<< HEAD
     RecyclerView oRecyclerView;
     ArrayList<Menu> menuArrayList;
     View view;
@@ -35,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+=======
+    final int iCODIGO = 1234;
+    TextView inicio;
+    Boolean Terminar=false;
+    ObjectAnimator AparecertAnimator;
+    ObjectAnimator DesaparecertAnimator;
+    //VARIABLES TEMPORALES DE PRUEBA- SE SUSTITUIRA CON UN MENU BIEN HECHO
+    Button temporal1,temporal2,temporal3;
+>>>>>>> 6c8e56ae61e14276937fac935c42e839e5b0cba5
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,5 +127,9 @@ public class MainActivity extends AppCompatActivity {
     public void ListaCompra(View poView){
         Intent oIntent = new Intent(this, ListaCompra.class);
         startActivity(oIntent);
+    }
+    public void IrVisualizar(View poView){
+        Intent oIntent = new Intent(this, Visualizar_Recetas.class);
+        startActivityForResult(oIntent, iCODIGO);
     }
 }
