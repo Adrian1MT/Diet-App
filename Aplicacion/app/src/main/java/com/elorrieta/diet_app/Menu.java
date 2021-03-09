@@ -1,11 +1,13 @@
 package com.elorrieta.diet_app;
 
+import android.widget.ImageView;
+
 public class Menu {
     private String item;
 
     //Constructor para llenar la lista
     public Menu() {
-        this.item = "item";
+        this.item = item;
     }
 
     public Menu(String item) {

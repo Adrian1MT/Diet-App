@@ -72,7 +72,7 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.idmenu:
-                    dato.setTextColor(context.getResources().getColor(R.color.purple_200));
+                    dato.setTextColor(context.getResources().getColor(R.color.design_default_color_secondary));
                     break;
             }
         }

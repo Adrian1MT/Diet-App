@@ -1,19 +1,21 @@
 package com.elorrieta.diet_app;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> {
-
     private List<Menu> listaItem;
     private final OnItemClickListener listener;
+
     /* Clase ViewHolder */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView icono;
@@ -27,7 +29,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
     }
 
     //Constructor del Adaptador
-    public MenuAdapter(List<Menu> listaItem, OnItemClickListener listener) {
+    MenuAdapter(List<Menu> listaItem, OnItemClickListener listener) {
         this.listaItem = listaItem;
         this.listener = listener;
     }
@@ -35,6 +37,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
     // Este método es llamado por el RecyclerView para mostrar los datos del elemento de esa posición.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if(listaItem.get(position).getItem()=="Recetas"){
+            holder.icono.setImageResource(R.drawable.recetas);
+        } else if(listaItem.get(position).getItem()=="Dietario"){
+            holder.icono.setImageResource(R.drawable.dietario);
+        } else {
+            holder.icono.setImageResource(R.drawable.listado_compra);
+        }
         Menu m = listaItem.get(position);
         holder.item.setText(m.getItem());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
