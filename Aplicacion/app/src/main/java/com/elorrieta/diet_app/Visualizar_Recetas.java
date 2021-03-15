@@ -44,7 +44,7 @@ public class Visualizar_Recetas extends AppCompatActivity {
         adapterMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                int id = RecyclerMenu.getChildAdapterPosition(view);
             }
         });
 
