@@ -10,22 +10,35 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:onClick="volver"
         android:text="Volver"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.592" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="341dp"
-        android:layout_height="60dp"
-        android:text="Pantalla de Dietario"
+        android:layout_width="427dp"
+        android:layout_height="59dp"
+        android:text="Pantalla de Elegir Dieta"
         android:textSize="34dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.149" />
+
+    <Button
+        android:id="@+id/btnDS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="dietaSemanal"
+        android:text="Dieta Semanal"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.329" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DietApp">
-
-        <activity android:name=".ListaCompra"/>
+        <activity android:name=".DietaSemanal" />
+        <activity android:name=".ListaCompra" />
         <activity android:name=".Dietario" />
         <activity android:name=".Recetas" />
-        <activity android:name=".Visualizar_Recetas"></activity>
+        <activity android:name=".Visualizar_Recetas" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
