@@ -27,7 +27,6 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_seleccion_derecho,null,false);
-       // view.setOnClickListener(this);
         return new ViewHolderDatos(view);
     }
 
