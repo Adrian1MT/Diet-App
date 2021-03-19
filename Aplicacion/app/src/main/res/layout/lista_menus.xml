@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/idReceta"
+        android:layout_width="596dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:freezesText="false"
+        android:gravity="center_vertical"
+        android:linksClickable="false"
+        android:longClickable="false"
+        android:orientation="horizontal"
+        android:text="mensaje"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="29sp"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

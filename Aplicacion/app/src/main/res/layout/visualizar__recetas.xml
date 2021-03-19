@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A300BCD4"
+    android:background="#d1e39b"
     tools:context=".Visualizar_Recetas">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -55,7 +55,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ListadoReceta"
-        android:layout_width="589dp"
+        android:layout_width="596dp"
         android:layout_height="461dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="140dp"
@@ -77,7 +77,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.887"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/idBuscador"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -91,7 +91,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/idBuscador"
         android:layout_width="596dp"
         android:layout_height="49dp"
         android:layout_marginStart="24dp"

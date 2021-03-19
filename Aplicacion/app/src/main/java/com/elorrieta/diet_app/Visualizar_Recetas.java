@@ -10,8 +10,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+
+import com.elorrieta.diet_app.ui.main.AdapterListaRecetas;
 
 import java.util.ArrayList;
 
@@ -25,6 +30,9 @@ public class Visualizar_Recetas extends AppCompatActivity {
     ArrayList<String> NombreDificultad = new ArrayList<String>();
     ArrayList<Integer> IDs = new ArrayList<Integer>();
     ArrayList<String> NombreReceta = new ArrayList<String>();
+
+    String ContenidoBuscar;
+    EditText Texto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +56,31 @@ public class Visualizar_Recetas extends AppCompatActivity {
         RecyclerListaRecetas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         RecyclerListaRecetas.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         TodoElMenuDerecha();
+        Texto= (EditText)findViewById(R.id.idBuscador);
+        Texto.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ContenidoBuscar="";
+                if(Texto.getText().toString().length()>0){
+                    ContenidoBuscar=" nombre LIKE '"+Texto.getText().toString().trim()+"%'";
+                    Buscar();
+                }else{
+                    TodoElListado();
+                    relleno();
+                }
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         TodoElListado();
 
         AdapterSeleccionDerecha adapterMenu = new AdapterSeleccionDerecha(NombreMenu);
         AdapterSeleccionDerecha adapterTiempo = new AdapterSeleccionDerecha(NombreTiempo);
         AdapterSeleccionDerecha adapterDifilcutad = new AdapterSeleccionDerecha(NombreDificultad);
-
-        AdapterSeleccionDerecha adapterReceta = new AdapterSeleccionDerecha(NombreReceta);// cambiar adapter y eleccion
 
         adapterMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +88,16 @@ public class Visualizar_Recetas extends AppCompatActivity {
                 int id = RecyclerMenu.getChildAdapterPosition(view);
             }
         });
-        RecyclerListaRecetas.setAdapter(adapterReceta);
+
+
         RecyclerMenu.setAdapter(adapterMenu);
         RecyclerTiempo.setAdapter(adapterTiempo);
         RecyclerDificultad.setAdapter(adapterDifilcutad);
+        relleno();
+    }
+    public void relleno(){
+        AdapterListaRecetas adapterReceta = new AdapterListaRecetas(NombreReceta);// cambiar adapter y eleccion
+        RecyclerListaRecetas.setAdapter(adapterReceta);
     }
     public void TodoElMenuDerecha(){
         NombreMenu.add("ENTRANTE");
@@ -98,6 +130,26 @@ public class Visualizar_Recetas extends AppCompatActivity {
         }while (bucle==false);
         bd.close();
         admin.close();
+    }
+    public void Buscar(){
+        LimpiarArrays();
+        boolean bucle=false;
+        BBDD admin = new BBDD(this,"administracion",
+                null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select id,nombre from receta where"+ContenidoBuscar, null);
+      //  Cursor fila = bd.rawQuery("select id,nombre from receta where nombre = 'Menu1'", null);
+        do{
+            if (fila.moveToNext()){
+                IDs.add(fila.getInt(0));
+                NombreReceta.add(fila.getString(1));
+            }else{
+                bucle=true;
+            }
+        }while (bucle==false);
+        bd.close();
+        admin.close();
+        relleno();
     }
     public void LimpiarArrays(){
         IDs.clear();
