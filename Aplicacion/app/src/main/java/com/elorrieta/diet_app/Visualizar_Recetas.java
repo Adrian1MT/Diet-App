@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.elorrieta.diet_app.ui.main.AdapterListaRecetas;
 
@@ -31,7 +33,22 @@ public class Visualizar_Recetas extends AppCompatActivity {
     ArrayList<Integer> IDs = new ArrayList<Integer>();
     ArrayList<String> NombreReceta = new ArrayList<String>();
 
-    String ContenidoBuscar;
+    boolean entrante=false;
+    boolean primero=false;
+    boolean segundo=false;
+    boolean postre=false;
+
+    boolean Menor15=false;
+    boolean Entre15_30=false;
+    boolean Mayor30=false;
+
+    boolean alta=false;
+    boolean media=false;
+    boolean baja=false;
+
+    String ContenidoBuscar="";
+    String Filtro="";
+
     EditText Texto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +81,13 @@ public class Visualizar_Recetas extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 ContenidoBuscar="";
-                if(Texto.getText().toString().length()>0){
-                    ContenidoBuscar=" nombre LIKE '"+Texto.getText().toString().trim()+"%'";
+                if(Texto.getText().toString().trim().length()>0){
+                    ContenidoBuscar=" where nombre LIKE '"+Texto.getText().toString().trim()+"%'";
                     Buscar();
                 }else{
                     TodoElListado();
                     relleno();
                 }
-
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -85,19 +101,121 @@ public class Visualizar_Recetas extends AppCompatActivity {
         adapterMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id = RecyclerMenu.getChildAdapterPosition(view);
+                int opcion = RecyclerMenu.getChildAdapterPosition(view);
+                verificar_menu(opcion);
             }
         });
-
+        adapterTiempo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int opcion = RecyclerTiempo.getChildAdapterPosition(view);
+                verificar_Tiempo(opcion);
+            }
+        });
+        adapterDifilcutad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int opcion = RecyclerDificultad.getChildAdapterPosition(view);
+                verificar_Difilcutad(opcion);
+            }
+        });
 
         RecyclerMenu.setAdapter(adapterMenu);
         RecyclerTiempo.setAdapter(adapterTiempo);
         RecyclerDificultad.setAdapter(adapterDifilcutad);
         relleno();
     }
+
     public void relleno(){
-        AdapterListaRecetas adapterReceta = new AdapterListaRecetas(NombreReceta);// cambiar adapter y eleccion
+        AdapterListaRecetas adapterReceta = new AdapterListaRecetas(NombreReceta);// cambiar eleccion
         RecyclerListaRecetas.setAdapter(adapterReceta);
+    }
+    public void verificar_menu(int opcion){
+        Toast.makeText(this,opcion+" ",Toast.LENGTH_LONG).show();
+        switch(opcion) {
+            case 0:
+                if (entrante==false){
+                    entrante=true;
+                }else{
+                    entrante=false;
+                }
+                break;
+            case 1:
+                if (primero==false){
+                    primero=true;
+                }else{
+                    primero=false;
+                }
+                break;
+            case 2:
+                if (segundo==false){
+                    segundo=true;
+                }else{
+                    segundo=false;
+                }
+                break;
+            case 3:
+                if (postre==false){
+                    postre=true;
+                }else{
+                    postre=false;
+                }
+                break;
+        }
+        Buscar();
+    }
+    public void verificar_Tiempo(int opcion){
+        switch(opcion) {
+            case 0:
+                if (Menor15==false){
+                    Menor15=true;
+                }else{
+                    Menor15=false;
+                }
+                Buscar();
+                break;
+            case 1:
+                if (Entre15_30==false){
+                    Entre15_30=true;
+                }else{
+                    Entre15_30=false;
+                }
+                break;
+            case 2:
+                if (Mayor30==false){
+                    Mayor30=true;
+                }else{
+                    Mayor30=false;
+                }
+                break;
+        }
+        Buscar();
+    }
+    public void verificar_Difilcutad(int opcion){
+        switch(opcion) {
+            case 0:
+                if (alta==false){
+                    alta=true;
+                }else{
+                    alta=false;
+                }
+                break;
+            case 1:
+                if (media==false){
+                    media=true;
+                }else{
+                    media=false;
+                }
+                break;
+            case 2:
+                if (baja==false){
+                    baja=true;
+                }else{
+                    baja=false;
+                }
+                break;
+        }
+        Buscar();
     }
     public void TodoElMenuDerecha(){
         NombreMenu.add("ENTRANTE");
@@ -131,14 +249,99 @@ public class Visualizar_Recetas extends AppCompatActivity {
         bd.close();
         admin.close();
     }
+    public void filtro(){
+        if (ContenidoBuscar.length()>0){
+            Filtro=" and";
+        }else{
+            Filtro=" where";
+        }
+
+        if (entrante==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tipo='ENTRANTE'";
+            }else{
+                Filtro+=" tipo='ENTRANTE'";
+            }
+        }
+        if (primero==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tipo='PRIMERO'";
+            }else{
+                Filtro+=" tipo='PRIMERO'";
+            }
+        }
+        if (segundo==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tipo='SEGUNDO'";
+            }else{
+                Filtro+=" tipo='SEGUNDO'";
+            }
+        }
+        if (postre==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tipo='POSTRE'";
+            }else{
+                Filtro+=" tipo='POSTRE'";
+            }
+        }
+
+        if (Menor15==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tiempo<=15";
+            }else{
+                Filtro+=" tiempo<=15";
+            }
+        }
+       if (Entre15_30==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tiempo BETWEEN 15 and 30";
+            }else{
+                Filtro+=" tiempo BETWEEN 15 and 30";
+            }
+        }
+        if (Mayor30==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or tiempo>=30";
+            }else{
+                Filtro+=" tiempo>=30";
+            }
+        }
+
+        if (alta==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or dificultad='ALTA'";
+            }else{
+                Filtro+=" dificultad='ALTA'";
+            }
+        }
+        if (media==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or dificultad='MEDIA'";
+            }else{
+                Filtro+=" dificultad='MEDIA'";
+            }
+        }
+        if (baja==true){
+            if(!Filtro.equals(" where")&&!Filtro.equals(" and")){
+                Filtro+=" or dificultad='BAJA'";
+            }else{
+                Filtro+=" dificultad='BAJA'";
+            }
+        }
+        if(Filtro.equals(" where")||Filtro.equals(" and")){
+            Filtro="";
+        }
+    }
     public void Buscar(){
         LimpiarArrays();
+        filtro();
         boolean bucle=false;
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor fila = bd.rawQuery("select id,nombre from receta where"+ContenidoBuscar, null);
-      //  Cursor fila = bd.rawQuery("select id,nombre from receta where nombre = 'Menu1'", null);
+       // Cursor fila = bd.rawQuery("select id,nombre from receta where"+ContenidoBuscar, null);
+       Cursor fila = bd.rawQuery("select id,nombre from receta "+ContenidoBuscar+Filtro, null);
+        //Cursor fila = bd.rawQuery("select id,nombre from receta where tiempo<=15", null);
         do{
             if (fila.moveToNext()){
                 IDs.add(fila.getInt(0));
@@ -155,7 +358,7 @@ public class Visualizar_Recetas extends AppCompatActivity {
         IDs.clear();
         NombreReceta.clear();
     }
-    public void INSERTARTEMPORAL(View View){
+    public void INSERTARTEMPORAL(View View){//igual se borrara
         int vueltas =0;
         boolean bucle=false;
         String Nombre="Menu";
@@ -166,13 +369,13 @@ public class Visualizar_Recetas extends AppCompatActivity {
         do{
             vueltas+=1;
             NombreCompleto=Nombre+vueltas;
-            if (Tiempo==5){
+            if (vueltas==5){
                 Dificultad="ALTA";
                 Tipo="PRIMERO";
-            }else if (Tiempo==10){
+            }else if (vueltas==10){
                  Dificultad="MEDIA";
                 Tipo="SEGUNDO";
-            } if (Tiempo==15){
+            } if (vueltas==15){
                 Dificultad="BAJA";
                 Tipo="POSTRE";
             }

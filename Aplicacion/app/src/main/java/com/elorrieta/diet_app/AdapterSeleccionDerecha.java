@@ -27,13 +27,14 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_seleccion_derecho,null,false);
+        view.setOnClickListener(this);
         return new ViewHolderDatos(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
         holder.asignarDatos(listaDatos.get(position));
-        holder.setOnClickListeners();
+      //  holder.setOnClickListeners();
     }
 
     @Override
@@ -53,7 +54,6 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     }
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         TextView dato;
         Context context;
         public ViewHolderDatos(@NonNull View itemView) {
@@ -61,7 +61,6 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
             dato = (TextView) itemView.findViewById(R.id.idSeleccion);
             context = itemView.getContext();
         }
-
         public void asignarDatos(String datos) {
             dato.setText(datos);
         }
@@ -83,7 +82,6 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
                         dato.setTextColor(Color.parseColor("#0a7d12"));
                         //dato.setBackgroundColor(context.getResources().getColor(R.color.verde_claro));
                     }
-
                     break;
             }
         }
