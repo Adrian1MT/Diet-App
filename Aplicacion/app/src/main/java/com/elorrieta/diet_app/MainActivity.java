@@ -9,6 +9,8 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -22,13 +24,12 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView oRecyclerView;
     ArrayList<Menu> menuArrayList;
     View view;
-
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        comprobarBBDD();
         Imagen= (ImageView)findViewById(R.id.imageView);
         Imagen.setImageResource(R.drawable.icono);
 
@@ -123,5 +124,29 @@ public class MainActivity extends AppCompatActivity {
     public void ListaCompra(View poView){
         Intent oIntent = new Intent(this, ListaCompra.class);
         startActivity(oIntent);
+    }
+    public void comprobarBBDD(){
+        ArrayList<Integer> IDs = new ArrayList<Integer>();
+        IDs.add(1);
+        boolean bucle=false;
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select id from receta", null);
+        do{
+            if (fila.moveToNext()){
+                IDs.add(fila.getInt(0));
+            }else{
+                bucle=true;
+            }
+        }while (bucle==false);
+        bd.close();
+        admin.close();
+        if (IDs.size()<2){
+            insercion();
+        }
+    }
+    public void insercion(){
+        BBDD admin = new BBDD(this,"administracion", null,1);
+        admin.rellenar(admin);
     }
 }

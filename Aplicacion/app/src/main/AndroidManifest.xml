@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DietApp">
+        <activity android:name=".detallesReceta"></activity>
         <activity android:name=".DietaSemanal" />
         <activity android:name=".ListaCompra" />
         <activity android:name=".Dietario" />
