@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSeleccionDerecha.ViewHolderDatos> implements View.OnClickListener{
-
+    ViewHolderDatos holder;
     ArrayList<String> listaDatos;
     private View.OnClickListener listener;
 
@@ -34,6 +34,7 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
         holder.asignarDatos(listaDatos.get(position));
+        this.holder = holder;
       //  holder.setOnClickListeners();
     }
 
@@ -50,6 +51,7 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     public void onClick(View view) {
         if(listener != null){
             listener.onClick(view);
+            //holder.onClick(view);
         }
     }
 
@@ -64,7 +66,18 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
         public void asignarDatos(String datos) {
             dato.setText(datos);
         }
+        public void ppp(TextView dato) {
+            int colorText = dato.getCurrentTextColor();
+            String hexColorText = "#" + Integer.toHexString(colorText).substring(2);
 
+            if(hexColorText.equals("#0a7d12")){
+                dato.setTextColor(context.getResources().getColor(R.color.black));
+                //dato.setBackgroundColor(context.getResources().getColor(R.color.white));
+            } else{
+                dato.setTextColor(Color.parseColor("#0a7d12"));
+                //dato.setBackgroundColor(context.getResources().getColor(R.color.verde_claro));
+            }
+        }
         public void setOnClickListeners() {
             dato.setOnClickListener(this);
         }
