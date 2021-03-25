@@ -128,6 +128,12 @@ public class Visualizar_Recetas extends AppCompatActivity {
 
     public void relleno(){
         AdapterListaRecetas adapterReceta = new AdapterListaRecetas(NombreReceta);// cambiar eleccion
+        adapterReceta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                detallesReceta(NombreReceta.get(RecyclerListaRecetas.getChildAdapterPosition(view)));
+            }
+        });
         RecyclerListaRecetas.setAdapter(adapterReceta);
     }
     public void verificar_menu(int opcion){
@@ -358,6 +364,87 @@ public class Visualizar_Recetas extends AppCompatActivity {
         IDs.clear();
         NombreReceta.clear();
     }
+
+    public void detallesReceta(String nombreReceta){
+        Intent i = new Intent(this, detallesReceta.class);
+        i.putExtra("nombre", nombreReceta);
+        startActivity(i);
+        finish();
+    }
+
+    public void recetas3(View View){
+        BBDD admin = new BBDD(this,"administracion", null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        ContentValues registro = new ContentValues();
+        registro.put("id", 1);
+        registro.put("nombre", "Arroz con tomate");
+        registro.put("tiempo", "10");
+        registro.put("dificultad", "ALTA");
+        registro.put("tipo", "PRIMERO");
+        registro.put("elaboracion", "Ponte a hacer arroz y echale tomate ostia");
+        registro.put("origen", "Marte");
+        bd.insert("receta",null, registro);
+
+        ContentValues registro2 = new ContentValues();
+        registro2.put("id", 1);
+        registro2.put("numComensales", 4);
+        bd.insert("nComensales",null, registro2);
+
+        ContentValues registro3 = new ContentValues();
+        registro3.put("id", 1);
+        registro3.put("numComensales", 4);
+        registro3.put("cantidad", 100);
+        registro3.put("nomIngrediente", "Arroz");
+        bd.insert("tiene",null, registro3);
+
+        ContentValues registro4 = new ContentValues();
+        registro4.put("id", 1);
+        registro4.put("numComensales", 4);
+        registro4.put("cantidad", 50);
+        registro4.put("nomIngrediente", "Tomate");
+        bd.insert("tiene",null, registro4);
+
+        ContentValues registro5 = new ContentValues();
+        registro5.put("unidad", "gramos");
+        registro5.put("nomIngrediente", "Arroz");
+        bd.insert("ingrediente",null, registro5);
+
+        ContentValues registro6 = new ContentValues();
+        registro6.put("unidad", "gramos");
+        registro6.put("nomIngrediente", "Tomate");
+        bd.insert("ingrediente",null, registro6);
+
+        ContentValues registro7 = new ContentValues();
+        registro7.put("id", 2);
+        registro7.put("nombre", "Huevo frito");
+        registro7.put("tiempo", "30");
+        registro7.put("dificultad", "BAJA");
+        registro7.put("tipo", "SEGUNDO");
+        registro7.put("elaboracion", "Rompe un huevo y frielo inutil");
+        registro7.put("origen", "Luna");
+        bd.insert("receta",null, registro7);
+
+        ContentValues registro8 = new ContentValues();
+        registro8.put("id", 2);
+        registro8.put("numComensales", 1);
+        bd.insert("nComensales",null, registro8);
+
+        ContentValues registro9 = new ContentValues();
+        registro9.put("id", 2);
+        registro9.put("numComensales", 1);
+        registro9.put("cantidad", 1);
+        registro9.put("nomIngrediente", "Huevo");
+        bd.insert("tiene",null, registro9);
+
+        ContentValues registro10 = new ContentValues();
+        registro10.put("unidad", "huevo");
+        registro10.put("nomIngrediente", "Huevo");
+        bd.insert("ingrediente",null, registro10);
+
+        bd.close();
+        admin.close();
+    }
+
     public void INSERTARTEMPORAL(View View){//igual se borrara
         int vueltas =0;
         boolean bucle=false;
