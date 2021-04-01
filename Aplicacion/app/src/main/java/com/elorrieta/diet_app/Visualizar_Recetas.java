@@ -345,9 +345,7 @@ public class Visualizar_Recetas extends AppCompatActivity {
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-       // Cursor fila = bd.rawQuery("select id,nombre from receta where"+ContenidoBuscar, null);
        Cursor fila = bd.rawQuery("select id,nombre from receta "+ContenidoBuscar+Filtro, null);
-        //Cursor fila = bd.rawQuery("select id,nombre from receta where tiempo<=15", null);
         do{
             if (fila.moveToNext()){
                 IDs.add(fila.getInt(0));
@@ -370,7 +368,6 @@ public class Visualizar_Recetas extends AppCompatActivity {
         Intent i = new Intent(this, detallesReceta.class);
         i.putExtra("nombre", nombreReceta);
         startActivity(i);
-        finish();
     }
 
     public void recetas3(View View){
@@ -444,43 +441,5 @@ public class Visualizar_Recetas extends AppCompatActivity {
 
         bd.close();
         admin.close();
-    }
-
-    public void INSERTARTEMPORAL(View View){//igual se borrara
-        int vueltas =0;
-        boolean bucle=false;
-        String Nombre="Menu";
-        int Tiempo =12;
-        String Dificultad="ALTA";
-        String Tipo="ENTRANTE";
-        String NombreCompleto;
-        do{
-            vueltas+=1;
-            NombreCompleto=Nombre+vueltas;
-            if (vueltas==5){
-                Dificultad="ALTA";
-                Tipo="PRIMERO";
-            }else if (vueltas==10){
-                 Dificultad="MEDIA";
-                Tipo="SEGUNDO";
-            } if (vueltas==15){
-                Dificultad="BAJA";
-                Tipo="POSTRE";
-            }
-            Tiempo +=vueltas;
-        BBDD admin = new BBDD(this,"administracion", null,1);
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        ContentValues registro = new ContentValues();
-        registro.put("nombre",NombreCompleto);
-        registro.put("tiempo",Tiempo);
-        registro.put("dificultad",Dificultad);
-        registro.put("tipo",Tipo);
-        bd.insert("receta",null,registro);
-        if (vueltas==20){
-                bucle=true;
-                bd.close();
-                admin.close();
-            }
-        }while (bucle==false);
     }
 }
