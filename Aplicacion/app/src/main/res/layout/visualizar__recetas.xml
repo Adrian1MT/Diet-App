@@ -110,6 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="281dp"
         android:layout_marginEnd="134dp"
+        android:onClick="recetas3"
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/idtiempo"
         app:layout_constraintTop_toTopOf="parent" />
