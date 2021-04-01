@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSeleccionDerecha.ViewHolderDatos> implements View.OnClickListener{
-
+    ViewHolderDatos holder;
     ArrayList<String> listaDatos;
     private View.OnClickListener listener;
 
@@ -27,14 +27,15 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_seleccion_derecho,null,false);
-       // view.setOnClickListener(this);
+        view.setOnClickListener(this);
         return new ViewHolderDatos(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDatos holder, int position) {
         holder.asignarDatos(listaDatos.get(position));
-        holder.setOnClickListeners();
+        this.holder = holder;
+      //  holder.setOnClickListeners();
     }
 
     @Override
@@ -50,11 +51,11 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
     public void onClick(View view) {
         if(listener != null){
             listener.onClick(view);
+            //holder.onClick(view);
         }
     }
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         TextView dato;
         Context context;
         public ViewHolderDatos(@NonNull View itemView) {
@@ -62,11 +63,21 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
             dato = (TextView) itemView.findViewById(R.id.idSeleccion);
             context = itemView.getContext();
         }
-
         public void asignarDatos(String datos) {
             dato.setText(datos);
         }
+        public void ppp(TextView dato) {
+            int colorText = dato.getCurrentTextColor();
+            String hexColorText = "#" + Integer.toHexString(colorText).substring(2);
 
+            if(hexColorText.equals("#0a7d12")){
+                dato.setTextColor(context.getResources().getColor(R.color.black));
+                //dato.setBackgroundColor(context.getResources().getColor(R.color.white));
+            } else{
+                dato.setTextColor(Color.parseColor("#0a7d12"));
+                //dato.setBackgroundColor(context.getResources().getColor(R.color.verde_claro));
+            }
+        }
         public void setOnClickListeners() {
             dato.setOnClickListener(this);
         }
@@ -84,7 +95,6 @@ public class AdapterSeleccionDerecha extends RecyclerView.Adapter<AdapterSelecci
                         dato.setTextColor(Color.parseColor("#0a7d12"));
                         //dato.setBackgroundColor(context.getResources().getColor(R.color.verde_claro));
                     }
-
                     break;
             }
         }
