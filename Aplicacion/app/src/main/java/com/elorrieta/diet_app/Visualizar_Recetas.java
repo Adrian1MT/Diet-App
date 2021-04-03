@@ -5,16 +5,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -48,6 +47,9 @@ public class Visualizar_Recetas extends AppCompatActivity {
 
     String ContenidoBuscar="";
     String Filtro="";
+
+    String vengoDe="";
+    int soyElBoton;
 
     EditText Texto;
     @Override
@@ -124,6 +126,10 @@ public class Visualizar_Recetas extends AppCompatActivity {
         RecyclerTiempo.setAdapter(adapterTiempo);
         RecyclerDificultad.setAdapter(adapterDifilcutad);
         relleno();
+
+        //Recojo los valores de la pantalla y el botón de la dieta que busca receta
+        vengoDe=getIntent().getStringExtra("activity");
+        soyElBoton=getIntent().getIntExtra("button",0);
     }
 
     public void relleno(){
@@ -131,7 +137,15 @@ public class Visualizar_Recetas extends AppCompatActivity {
         adapterReceta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                detallesReceta(NombreReceta.get(RecyclerListaRecetas.getChildAdapterPosition(view)));
+                if(vengoDe == null) {
+                    detallesReceta(NombreReceta.get(RecyclerListaRecetas.getChildAdapterPosition(view)));
+                } else {
+                    try {
+                        volverAdieta(NombreReceta.get(RecyclerListaRecetas.getChildAdapterPosition(view)),vengoDe,soyElBoton);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         RecyclerListaRecetas.setAdapter(adapterReceta);
@@ -345,7 +359,9 @@ public class Visualizar_Recetas extends AppCompatActivity {
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
+       // Cursor fila = bd.rawQuery("select id,nombre from receta where"+ContenidoBuscar, null);
        Cursor fila = bd.rawQuery("select id,nombre from receta "+ContenidoBuscar+Filtro, null);
+        //Cursor fila = bd.rawQuery("select id,nombre from receta where tiempo<=15", null);
         do{
             if (fila.moveToNext()){
                 IDs.add(fila.getInt(0));
@@ -368,6 +384,18 @@ public class Visualizar_Recetas extends AppCompatActivity {
         Intent i = new Intent(this, detallesReceta.class);
         i.putExtra("nombre", nombreReceta);
         startActivity(i);
+        finish();
+    }
+
+    public void volverAdieta(String nombreReceta, String activity, int boton) throws ClassNotFoundException {
+
+        if(activity.contentEquals("DietaDiaria")) {
+            Intent respReceta = new Intent();
+            respReceta.putExtra("btn", boton);
+            respReceta.putExtra("nomReceta", nombreReceta);
+            setResult(2, respReceta);
+            finish();
+        }
     }
 
     public void recetas3(View View){
@@ -441,5 +469,43 @@ public class Visualizar_Recetas extends AppCompatActivity {
 
         bd.close();
         admin.close();
+    }
+
+    public void INSERTARTEMPORAL(View View){//igual se borrara
+        int vueltas =0;
+        boolean bucle=false;
+        String Nombre="Menu";
+        int Tiempo =12;
+        String Dificultad="ALTA";
+        String Tipo="ENTRANTE";
+        String NombreCompleto;
+        do{
+            vueltas+=1;
+            NombreCompleto=Nombre+vueltas;
+            if (vueltas==5){
+                Dificultad="ALTA";
+                Tipo="PRIMERO";
+            }else if (vueltas==10){
+                 Dificultad="MEDIA";
+                Tipo="SEGUNDO";
+            } if (vueltas==15){
+                Dificultad="BAJA";
+                Tipo="POSTRE";
+            }
+            Tiempo +=vueltas;
+        BBDD admin = new BBDD(this,"administracion", null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        ContentValues registro = new ContentValues();
+        registro.put("nombre",NombreCompleto);
+        registro.put("tiempo",Tiempo);
+        registro.put("dificultad",Dificultad);
+        registro.put("tipo",Tipo);
+        bd.insert("receta",null,registro);
+        if (vueltas==20){
+                bucle=true;
+                bd.close();
+                admin.close();
+            }
+        }while (bucle==false);
     }
 }
