@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class detallesReceta extends AppCompatActivity {
         foto = (ImageView)findViewById(R.id.foto);
         nomReceta = (TextView)findViewById(R.id.nomReceta);
         elaboracion = (TextView)findViewById(R.id.elaboracion);
+        elaboracion.setMovementMethod(new ScrollingMovementMethod());
         tipo = (TextView)findViewById(R.id.tipo);
         tiempo = (TextView)findViewById(R.id.tiempo);
         dificultad = (TextView)findViewById(R.id.dificultad);
