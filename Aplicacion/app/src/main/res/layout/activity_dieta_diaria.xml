@@ -309,4 +309,39 @@
         </TableRow>
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/btnLimpiarMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="60dp"
+        android:onClick="limpiarMenu"
+        android:text="Limpiar Menú"
+        app:backgroundTint="@color/verde_medio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnLimpiarDieta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
+        android:onClick="limpiarDieta"
+        android:text="Limpiar Dieta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLimpiarMenu" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="60dp"
+        android:onClick="guardarDieta"
+        android:text="Guardar Dieta"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLimpiarDieta" />
 </androidx.constraintlayout.widget.ConstraintLayout>
