@@ -5,13 +5,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -52,6 +54,7 @@ public class Visualizar_Recetas extends AppCompatActivity {
     int soyElBoton;
 
     EditText Texto;
+    Integer Id=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,8 +133,27 @@ public class Visualizar_Recetas extends AppCompatActivity {
         //Recojo los valores de la pantalla y el botón de la dieta que busca receta
         vengoDe=getIntent().getStringExtra("activity");
         soyElBoton=getIntent().getIntExtra("button",0);
-    }
 
+
+       /* RecyclerListaRecetas.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mensaje();
+                return false;
+            }
+        });*/
+    }
+    public void mensaje(){
+        AlertDialog.Builder msj = new AlertDialog.Builder(this);
+        msj.setTitle(Html.fromHtml("<b>+Nombre+</b>"));
+        msj.setMessage("ggggg");
+        msj.setNeutralButton("R.string.Entendido", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });;
+        AlertDialog mostrarDialogo =msj.create();
+        mostrarDialogo.show();
+    }
     public void relleno(){
         AdapterListaRecetas adapterReceta = new AdapterListaRecetas(NombreReceta);// cambiar eleccion
         adapterReceta.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +406,6 @@ public class Visualizar_Recetas extends AppCompatActivity {
         Intent i = new Intent(this, detallesReceta.class);
         i.putExtra("nombre", nombreReceta);
         startActivity(i);
-        finish();
     }
 
     public void volverAdieta(String nombreReceta, String activity, int boton) throws ClassNotFoundException {

@@ -23,10 +23,12 @@ public class detallesReceta extends AppCompatActivity {
     TextView tiempo;
     TextView dificultad;
     TextView comensales;
-    ImageView foto;
+    ImageView foto, fmenu,fdificultad,ftiempo,fcomensal;
     RecyclerView recycler;
 
     ArrayList<String> listaIngredientes = new ArrayList<String>();
+    ArrayList<String> cantidad = new ArrayList<String>();
+    ArrayList<String> categoria = new ArrayList<String>();
     ArrayList<String> listaUnidades = new ArrayList<String>();
 
     @Override
@@ -37,6 +39,11 @@ public class detallesReceta extends AppCompatActivity {
         nombre = extras.getString("nombre");
 
         foto = (ImageView)findViewById(R.id.foto);
+        fmenu = (ImageView)findViewById(R.id.Fmenu);
+        fdificultad = (ImageView)findViewById(R.id.Fdificultad);
+        ftiempo = (ImageView)findViewById(R.id.Ftiempo);
+        fcomensal = (ImageView)findViewById(R.id.Fcomensal);
+
         nomReceta = (TextView)findViewById(R.id.nomReceta);
         elaboracion = (TextView)findViewById(R.id.elaboracion);
         elaboracion.setMovementMethod(new ScrollingMovementMethod());
@@ -51,41 +58,44 @@ public class detallesReceta extends AppCompatActivity {
         listaUnidades = new ArrayList<String>();
 
         foto.setImageResource(R.drawable.icono);
+        fmenu.setImageResource(R.drawable.menu);
+        fdificultad.setImageResource(R.drawable.dificultad);
+        ftiempo.setImageResource(R.drawable.tiempo);
+        fcomensal.setImageResource(R.drawable.comensal);
 
         BBDD agenda = new BBDD(this, "administracion", null, 1);
         SQLiteDatabase bd = agenda.getWritableDatabase();
         Cursor c = bd.rawQuery("select nombre, elaboracion, tipo, tiempo, dificultad, id from receta where nombre='"+ nombre +"'", null);
         Cursor d = bd.rawQuery("select numComensales from receta join nComensales on receta.id = nComensales.id where receta.nombre='"+ nombre +"'", null);
-
+        int longitud = 0;
+        int vueltas=0;
         if (c != null) {
             if (c.moveToFirst()) {
                 c.moveToFirst();
                 do {
                     nomReceta.setText(c.getString(0));
                     elaboracion.setText(c.getString(1));
-                    tipo.setText("Tipo: " + c.getString(2));
-                    tiempo.setText("Tiempo: " + c.getInt(3) + " minutos");
+                    tipo.setText( c.getString(2));
+                    tiempo.setText( c.getInt(3) + " minutos");
                     dificultad.setText("Dificultad: " + c.getString(4));
 
                     if (d != null) {
                         if (d.moveToFirst()) {
                             d.moveToFirst();
                             do {
-                                comensales.setText("Comensales: " + d.getString(0));
-                                Cursor e = bd.rawQuery("select cantidad from tiene join nComensales on tiene.id = nComensales.id where tiene.id="+ c.getInt(5) + " and nComensales.numComensales=" + d.getInt(0), null);
-                                Cursor f = bd.rawQuery("select unidad, tiene.nomIngrediente from ingrediente join tiene on ingrediente.nomIngrediente = tiene.nomIngrediente where tiene.id="+ c.getInt(5) + " and tiene.numComensales=" + d.getInt(0), null);
-
+                                comensales.setText(d.getString(0));
+                                Cursor f = bd.rawQuery("select unidad, tiene.nomIngrediente ,tiene.cantidad from ingrediente " +
+                                        "join tiene on ingrediente.nomIngrediente = tiene.nomIngrediente " +
+                                        "where tiene.id="+ c.getInt(5) + " and tiene.numComensales=" + d.getInt(0), null);
                                 if (f != null) {
                                     if (f.moveToFirst()) {
                                         f.moveToFirst();
-                                        e.moveToFirst();
                                         do {
                                             listaIngredientes.add(f.getString(1));
-                                            listaUnidades.add(e.getString(0) + "  " + f.getString(0));
-                                        } while (f.moveToNext() && e.moveToNext());
+                                            listaUnidades.add(f.getString(2) + "  " + f.getString(0));
+                                        } while (f.moveToNext());
                                     }
                                 }
-
                                 AdapterIngredientes adapter = new AdapterIngredientes(listaIngredientes, listaUnidades);
                                 recycler.setAdapter(adapter);
                             } while (d.moveToNext());
