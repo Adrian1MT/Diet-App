@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d1e39b"
+    android:background="@drawable/fondo"
     tools:context=".Visualizar_Recetas">
 
     <androidx.recyclerview.widget.RecyclerView

@@ -27,16 +27,18 @@ public class detallesReceta extends AppCompatActivity {
     RecyclerView recycler;
 
     ArrayList<String> listaIngredientes = new ArrayList<String>();
-    ArrayList<String> cantidad = new ArrayList<String>();
-    ArrayList<String> categoria = new ArrayList<String>();
     ArrayList<String> listaUnidades = new ArrayList<String>();
 
+    ArrayList<Integer> fotos = new ArrayList<Integer>();
+    Integer posicion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_receta);
         Bundle extras = getIntent().getExtras();
         nombre = extras.getString("nombre");
+
+        rellenarFotos();
 
         foto = (ImageView)findViewById(R.id.foto);
         fmenu = (ImageView)findViewById(R.id.Fmenu);
@@ -67,8 +69,6 @@ public class detallesReceta extends AppCompatActivity {
         SQLiteDatabase bd = agenda.getWritableDatabase();
         Cursor c = bd.rawQuery("select nombre, elaboracion, tipo, tiempo, dificultad, id from receta where nombre='"+ nombre +"'", null);
         Cursor d = bd.rawQuery("select numComensales from receta join nComensales on receta.id = nComensales.id where receta.nombre='"+ nombre +"'", null);
-        int longitud = 0;
-        int vueltas=0;
         if (c != null) {
             if (c.moveToFirst()) {
                 c.moveToFirst();
@@ -76,9 +76,9 @@ public class detallesReceta extends AppCompatActivity {
                     nomReceta.setText(c.getString(0));
                     elaboracion.setText(c.getString(1));
                     tipo.setText( c.getString(2));
-                    tiempo.setText( c.getInt(3) + " minutos");
-                    dificultad.setText("Dificultad: " + c.getString(4));
-
+                    tiempo.setText( c.getInt(3) + " min");
+                    dificultad.setText("Dif: " + c.getString(4));
+                    posicion=c.getInt(5);
                     if (d != null) {
                         if (d.moveToFirst()) {
                             d.moveToFirst();
@@ -101,11 +101,37 @@ public class detallesReceta extends AppCompatActivity {
                             } while (d.moveToNext());
                         }
                     }
-
                 } while (c.moveToNext());
             }
         }
+        if (posicion<fotos.size()){
+            foto.setImageResource(fotos.get(posicion));
+        } else{
+            foto.setImageResource(fotos.get(0));
+        }
 
-
+    }
+    public void rellenarFotos(){
+        fotos.add(R.drawable.icono);
+        fotos.add(R.drawable.f_1);
+        fotos.add(R.drawable.f_2);
+        fotos.add(R.drawable.f_3);
+        fotos.add(R.drawable.f_4);
+        fotos.add(R.drawable.f_5);
+        fotos.add(R.drawable.f_6);
+        fotos.add(R.drawable.f_7);
+        fotos.add(R.drawable.f_8);
+        fotos.add(R.drawable.f_9);
+        fotos.add(R.drawable.f_10);
+        fotos.add(R.drawable.f_11);
+        fotos.add(R.drawable.f_12);
+        fotos.add(R.drawable.f_13);
+        fotos.add(R.drawable.f_14);
+        fotos.add(R.drawable.f_15);
+        fotos.add(R.drawable.f_16);
+        fotos.add(R.drawable.f_17);
+        fotos.add(R.drawable.f_18);
+        fotos.add(R.drawable.f_19);
+        fotos.add(R.drawable.f_20);
     }
 }
