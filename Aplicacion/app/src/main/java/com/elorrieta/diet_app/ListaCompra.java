@@ -14,7 +14,8 @@ public class ListaCompra extends AppCompatActivity {
         setContentView(R.layout.activity_lista_compra);
     }
 
-    public void volver(View poView) {
-        finish();
+    public void almacen(View poView) {
+        Intent oIntent = new Intent(this, Almacen.class);
+        startActivity(oIntent);
     }
 }

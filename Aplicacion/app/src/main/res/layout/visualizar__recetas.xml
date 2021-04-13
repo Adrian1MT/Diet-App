@@ -7,51 +7,164 @@
     android:background="@drawable/fondo"
     tools:context=".Visualizar_Recetas">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/iddificultad"
-        android:layout_width="250dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="24dp"
-        android:background="@color/white"
+    <Button
+        android:id="@+id/btnbaja"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="baja"
+        android:text="BAJA"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnmedia" />
+
+    <Button
+        android:id="@+id/btnmedia"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="media"
+        android:text="MEDIA"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnalta" />
+
+    <Button
+        android:id="@+id/btnalta"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="alta"
+        android:text="ALTA"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/btnmayor"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="mayor"
+        android:text="30 MIN +"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnentre" />
+
+    <Button
+        android:id="@+id/btnmenor"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="menor"
+        android:text="- 15 MIN"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="96dp"
+        android:text="TIEMPO"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnpostre" />
+
+    <Button
+        android:id="@+id/btnentre"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="entre"
+        android:text="15 MIN y 30 MIN"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnmenor" />
+
+    <Button
+        android:id="@+id/btnentrante"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="entrante"
+        android:text="entrante"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/btnpostre"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="postre"
+        android:text="postre"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnsegundo" />
+
+    <Button
+        android:id="@+id/btnprimero"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="primero"
+        android:text="primero"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnentrante" />
+
+    <Button
+        android:id="@+id/btnsegundo"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="44dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="segundo"
+        android:text="segundo"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnprimero" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
         android:text="DIFICULTAD"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/idtiempo"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="272dp"
-        android:layout_marginEnd="24dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
-        android:layout_marginEnd="112dp"
-        android:text="TIEMPO"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnmayor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ListadoReceta"
@@ -70,7 +183,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:text="TIPOS DE MENÚ"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -79,16 +192,6 @@
         app:layout_constraintHorizontal_bias="0.887"
         app:layout_constraintStart_toEndOf="@+id/idBuscador"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/idmenu"
-        android:layout_width="250dp"
-        android:layout_height="175dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="24dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <EditText
         android:id="@+id/idBuscador"
