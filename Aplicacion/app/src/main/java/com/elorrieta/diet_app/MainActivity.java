@@ -1,6 +1,5 @@
 package com.elorrieta.diet_app;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,11 +10,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         menuArrayList.add(new Menu("Dietario"));
         menuArrayList.add(new Menu("Lista de la compra"));
 
-        oRecyclerView = (RecyclerView) findViewById(R.id.Recycler);
+        oRecyclerView = (RecyclerView) findViewById(R.id.RecyclerCargarDieta);
 
         MenuAdapter ma = new MenuAdapter(menuArrayList, escuchador);
         oRecyclerView.setAdapter(ma);

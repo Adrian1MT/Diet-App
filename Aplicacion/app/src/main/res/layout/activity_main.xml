@@ -31,7 +31,7 @@
         app:srcCompat="@drawable/nombre" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Recycler"
+        android:id="@+id/RecyclerCargarDieta"
         android:layout_width="623dp"
         android:layout_height="337dp"
         android:layout_marginStart="250dp"
