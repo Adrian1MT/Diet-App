@@ -61,7 +61,7 @@ public class Dietario extends AppCompatActivity {
 
         rvCargarDietas = (RecyclerView) findViewById(R.id.reciclerLista);
 
-        MenuAdapterCargar mcd = new MenuAdapterCargar(menuCargarDieta, escuchador);
+        MenuAdapterCargar mcd = new MenuAdapterCargar(menuCargarDieta, escuchador2);
         rvCargarDietas.setAdapter(mcd);
 
         // establecemos el Layout Manager.
@@ -88,6 +88,20 @@ public class Dietario extends AppCompatActivity {
         bd.close();
         admin.close();
     }
+    // inicializarmos el adapter de cargar dietas con nuestros datos.
+    OnItemClickListener escuchador2 = new OnItemClickListener() {
+        @Override
+        public void onItemClick(Menu item) {
+            vista = new View(Dietario.super.getApplicationContext());
+            if (item.getItem().contentEquals("01 / 1 / 2021")) {
+                dietaDiaria(vista);
+            } else if (item.getItem().contentEquals("02 / 1 / 2021") || item.getItem().contentEquals("03 / 1 / 2021")) {
+                dietaFinDe(vista);
+            } else {
+                dietaSemanal(vista);
+            }
+        }
+    };
 
     // inicializarmos el adapter con nuestros datos.
     OnItemClickListener escuchador = new OnItemClickListener() {
