@@ -26,6 +26,7 @@ public class AdapterIngredientes extends RecyclerView.Adapter<AdapterIngrediente
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingrediente,null,false);
         view.setOnClickListener(this);
+       // view.setOnLongClickListener((View.OnLongClickListener) this);
         return new ViewHolderDatos(view);
     }
 
@@ -39,9 +40,9 @@ public class AdapterIngredientes extends RecyclerView.Adapter<AdapterIngrediente
         return listaDatos1.size();
     }
 
-    public void setOnClickListener(View.OnClickListener listener){
-        this.listener = listener;
-    }
+    /*public void setOnLongClickListener(View.OnLongClickListener listener){
+        this.listener = (View.OnClickListener) listener;
+    }*/
 
     @Override
     public void onClick(View view) {

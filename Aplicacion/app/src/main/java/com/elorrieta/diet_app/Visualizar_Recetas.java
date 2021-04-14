@@ -5,15 +5,18 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,13 +25,10 @@ import com.elorrieta.diet_app.ui.main.AdapterListaRecetas;
 import java.util.ArrayList;
 
 public class Visualizar_Recetas extends AppCompatActivity {
-    RecyclerView RecyclerMenu;
-    RecyclerView RecyclerTiempo;
-    RecyclerView RecyclerDificultad;
+
+    Button ENTRANTE, PRIMERO, SEGUNDO, POSTRE, MENOR, ENTRE, MAYOR, ALTA, MEDIA, BAJA;
+
     RecyclerView RecyclerListaRecetas;
-    ArrayList<String> NombreMenu = new ArrayList<String>();
-    ArrayList<String> NombreTiempo = new ArrayList<String>();
-    ArrayList<String> NombreDificultad = new ArrayList<String>();
     ArrayList<Integer> IDs = new ArrayList<Integer>();
     ArrayList<String> NombreReceta = new ArrayList<String>();
 
@@ -52,29 +52,30 @@ public class Visualizar_Recetas extends AppCompatActivity {
     int soyElBoton;
 
     EditText Texto;
+    Integer Id=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.visualizar__recetas);
 
-        RecyclerMenu = (RecyclerView)findViewById(R.id.idmenu);
-        RecyclerTiempo = (RecyclerView)findViewById(R.id.idtiempo);
-        RecyclerDificultad = (RecyclerView)findViewById(R.id.iddificultad);
+        ENTRANTE= (Button)findViewById(R.id.btnentrante);
+        PRIMERO= (Button)findViewById(R.id.btnprimero);
+        SEGUNDO= (Button)findViewById(R.id.btnsegundo);
+        POSTRE= (Button)findViewById(R.id.btnpostre);
+
+        MENOR= (Button)findViewById(R.id.btnmenor);
+        ENTRE= (Button)findViewById(R.id.btnentre);
+        MAYOR= (Button)findViewById(R.id.btnmayor);
+
+        ALTA= (Button)findViewById(R.id.btnalta);
+        MEDIA= (Button)findViewById(R.id.btnmedia);
+        BAJA= (Button)findViewById(R.id.btnbaja);
 
         RecyclerListaRecetas = (RecyclerView)findViewById(R.id.ListadoReceta);
 
-        RecyclerMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RecyclerMenu.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        RecyclerTiempo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RecyclerTiempo.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        RecyclerDificultad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RecyclerDificultad.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
         RecyclerListaRecetas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         RecyclerListaRecetas.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        TodoElMenuDerecha();
+
         Texto= (EditText)findViewById(R.id.idBuscador);
         Texto.addTextChangedListener(new TextWatcher()
         {
@@ -96,42 +97,32 @@ public class Visualizar_Recetas extends AppCompatActivity {
         });
         TodoElListado();
 
-        AdapterSeleccionDerecha adapterMenu = new AdapterSeleccionDerecha(NombreMenu);
-        AdapterSeleccionDerecha adapterTiempo = new AdapterSeleccionDerecha(NombreTiempo);
-        AdapterSeleccionDerecha adapterDifilcutad = new AdapterSeleccionDerecha(NombreDificultad);
-
-        adapterMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int opcion = RecyclerMenu.getChildAdapterPosition(view);
-                verificar_menu(opcion);
-            }
-        });
-        adapterTiempo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int opcion = RecyclerTiempo.getChildAdapterPosition(view);
-                verificar_Tiempo(opcion);
-            }
-        });
-        adapterDifilcutad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int opcion = RecyclerDificultad.getChildAdapterPosition(view);
-                verificar_Difilcutad(opcion);
-            }
-        });
-
-        RecyclerMenu.setAdapter(adapterMenu);
-        RecyclerTiempo.setAdapter(adapterTiempo);
-        RecyclerDificultad.setAdapter(adapterDifilcutad);
         relleno();
 
         //Recojo los valores de la pantalla y el botón de la dieta que busca receta
         vengoDe=getIntent().getStringExtra("activity");
         soyElBoton=getIntent().getIntExtra("button",0);
-    }
 
+
+       /* RecyclerListaRecetas.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mensaje();
+                return false;
+            }
+        });*/
+    }
+    public void mensaje(){
+        AlertDialog.Builder msj = new AlertDialog.Builder(this);
+        msj.setTitle(Html.fromHtml("<b>+Nombre+</b>"));
+        msj.setMessage("ggggg");
+        msj.setNeutralButton("R.string.Entendido", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });;
+        AlertDialog mostrarDialogo =msj.create();
+        mostrarDialogo.show();
+    }
     public void relleno(){
         AdapterListaRecetas adapterReceta = new AdapterListaRecetas(NombreReceta);// cambiar eleccion
         adapterReceta.setOnClickListener(new View.OnClickListener() {
@@ -154,29 +145,37 @@ public class Visualizar_Recetas extends AppCompatActivity {
         switch(opcion) {
             case 0:
                 if (entrante==false){
+                    ENTRANTE.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     entrante=true;
                 }else{
+                    ENTRANTE.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     entrante=false;
                 }
                 break;
             case 1:
                 if (primero==false){
+                    PRIMERO.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     primero=true;
                 }else{
+                    PRIMERO.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     primero=false;
                 }
                 break;
             case 2:
                 if (segundo==false){
+                    SEGUNDO.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     segundo=true;
                 }else{
+                    SEGUNDO.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     segundo=false;
                 }
                 break;
             case 3:
                 if (postre==false){
+                    POSTRE.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     postre=true;
                 }else{
+                    POSTRE.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     postre=false;
                 }
                 break;
@@ -187,23 +186,28 @@ public class Visualizar_Recetas extends AppCompatActivity {
         switch(opcion) {
             case 0:
                 if (Menor15==false){
+                    MENOR.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     Menor15=true;
                 }else{
+                    MENOR.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     Menor15=false;
                 }
-                Buscar();
                 break;
             case 1:
                 if (Entre15_30==false){
+                    ENTRE.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     Entre15_30=true;
                 }else{
+                    ENTRE.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     Entre15_30=false;
                 }
                 break;
             case 2:
                 if (Mayor30==false){
+                    MAYOR.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     Mayor30=true;
                 }else{
+                    MAYOR.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     Mayor30=false;
                 }
                 break;
@@ -214,41 +218,33 @@ public class Visualizar_Recetas extends AppCompatActivity {
         switch(opcion) {
             case 0:
                 if (alta==false){
+                    ALTA.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     alta=true;
                 }else{
+                    ALTA.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     alta=false;
                 }
                 break;
             case 1:
                 if (media==false){
+                    MEDIA.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     media=true;
                 }else{
+                    MEDIA.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     media=false;
                 }
                 break;
             case 2:
                 if (baja==false){
+                    BAJA.setBackgroundColor(getResources().getColor(R.color.verde_oscuro));
                     baja=true;
                 }else{
+                    BAJA.setBackgroundColor(getResources().getColor(R.color.verde_medio));
                     baja=false;
                 }
                 break;
         }
         Buscar();
-    }
-    public void TodoElMenuDerecha(){
-        NombreMenu.add("ENTRANTE");
-        NombreMenu.add("PRIMERO");
-        NombreMenu.add("SEGUNDO");
-        NombreMenu.add("POSTRE");
-
-        NombreTiempo.add("< 15 MIN");
-        NombreTiempo.add("15 MIN > < 30 MIN");
-        NombreTiempo.add("30 MIN <");
-
-        NombreDificultad.add("ALTA");
-        NombreDificultad.add("MEDIA");
-        NombreDificultad.add("BAJA");
     }
     public void TodoElListado(){
         LimpiarArrays();
@@ -383,7 +379,6 @@ public class Visualizar_Recetas extends AppCompatActivity {
         Intent i = new Intent(this, detallesReceta.class);
         i.putExtra("nombre", nombreReceta);
         startActivity(i);
-        finish();
     }
 
     public void volverAdieta(String nombreReceta, String activity, int boton) throws ClassNotFoundException {
@@ -397,7 +392,50 @@ public class Visualizar_Recetas extends AppCompatActivity {
         }
     }
 
-    public void recetas3(View View){
+    public void entrante(View view) {
+        int opcion = 0;
+        verificar_menu(opcion);
+    }
+    public void primero(View view) {
+        int opcion = 1;
+        verificar_menu(opcion);
+    }
+    public void segundo(View view) {
+        int opcion = 2;
+        verificar_menu(opcion);
+    }
+    public void postre(View view) {
+        int opcion = 3;
+        verificar_menu(opcion);
+    }
+
+    public void menor(View view) {
+        int opcion = 0;
+        verificar_Tiempo(opcion);
+    }
+    public void entre(View view) {
+        int opcion = 1;
+        verificar_Tiempo(opcion);
+    }
+    public void mayor(View view) {
+        int opcion = 2;
+        verificar_Tiempo(opcion);
+    }
+
+    public void alta(View view) {
+        int opcion = 0;
+        verificar_Difilcutad(opcion);
+    }
+    public void media(View view) {
+        int opcion = 1;
+        verificar_Difilcutad(opcion);
+    }
+    public void baja(View view) {
+        int opcion = 2;
+        verificar_Difilcutad(opcion);
+    }
+
+   /* public void recetas3(View View){
         BBDD admin = new BBDD(this,"administracion", null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         ContentValues registro = new ContentValues();
@@ -506,5 +544,5 @@ public class Visualizar_Recetas extends AppCompatActivity {
                 admin.close();
             }
         }while (bucle==false);
-    }
+    }*/
 }
