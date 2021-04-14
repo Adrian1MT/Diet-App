@@ -34,6 +34,7 @@ public class BBDD extends SQLiteOpenHelper {
         Comensales(bd);
         tiene(bd);
         ingrediente(bd);
+        almacen(bd);
     }
 
     public void receta(SQLiteDatabase bd){
@@ -444,4 +445,11 @@ public class BBDD extends SQLiteOpenHelper {
 
 
     }
+    public void almacen(SQLiteDatabase bd){
+        bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('ARMARIO')");
+        bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('DESPENSA')");
+        bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('NEVERA')");
+        bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('CONGELADOR')");
+    }
+
 }
