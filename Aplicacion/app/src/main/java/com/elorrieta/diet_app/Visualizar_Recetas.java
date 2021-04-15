@@ -142,7 +142,6 @@ public class Visualizar_Recetas extends AppCompatActivity {
         RecyclerListaRecetas.setAdapter(adapterReceta);
     }
     public void verificar_menu(int opcion){
-        Toast.makeText(this,opcion+" ",Toast.LENGTH_LONG).show();
         switch(opcion) {
             case 0:
                 if (entrante==false){

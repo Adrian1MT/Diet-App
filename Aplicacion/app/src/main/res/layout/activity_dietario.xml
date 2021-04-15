@@ -4,62 +4,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dietario">
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:onClick="volver"
-        android:text="Volver"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.592" />
+    tools:context=".Dietario"
+    tools:layout_editor_absoluteY="89dp">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="427dp"
-        android:layout_height="59dp"
-        android:text="Pantalla de Elegir Dieta"
-        android:textSize="34dp"
-        android:textStyle="bold"
+        android:id="@+id/cargarDieta"
+        android:layout_width="454dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="100dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:shadowColor="#8BC34A"
+        android:text="→ Cargar"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="80dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121" />
+
+    <TextView
+        android:id="@+id/introducirDieta"
+        android:layout_width="454dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="150dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:shadowColor="#8BC34A"
+        android:text="Introducir →"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="80dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerCargarDieta"
+        android:layout_width="425dp"
+        android:layout_height="420dp"
+        android:layout_marginStart="500dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintTop_toBottomOf="@+id/introducirDieta" />
 
     <Button
-        android:id="@+id/btnDD"
+        android:id="@+id/btnDiaria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:onClick="dietaDiaria"
-        android:text="DIETA DIARIA"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:onClick="elegirDietaDiaria"
+        android:text="Dieta Diaria"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cargarDieta" />
 
     <Button
-        android:id="@+id/btnDF"
+        android:id="@+id/btnFinDe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:onClick="dietaFinDe"
-        android:text="DIETA FIN DE SEMANA"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/btnDD" />
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="75dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:onClick="elegirDietaFinDe"
+        android:text="Dieta FinDe"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDiaria" />
 
     <Button
-        android:id="@+id/btnDS"
+        android:id="@+id/btnSemanal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="dietaSemanal"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="75dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:onClick="elegirDietaSemanal"
         android:text="Dieta Semanal"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/btnDF"
-        app:layout_constraintVertical_bias="0.3" />
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFinDe" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reciclerLista"
+        android:layout_width="250dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/cargarDieta"
+        app:layout_constraintTop_toBottomOf="@+id/cargarDieta" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.elorrieta.diet_app;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,9 +14,11 @@ public class BBDD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table dieta(nomDieta varchar(10) primary key)");
-        db.execSQL("create table contiene(cantidad integer, nomDieta varchar(10), id integer, foreign key(nomDieta) references dieta(nomDieta), foreign key(id) references receta(id), primary key(id, nomDieta))");
-        db.execSQL("create table receta(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10), elaboracion varchar(150), foto varchar(50), tiempo integer, dificultad varchar(10), tipo varchar(10), origen varchar(10))");
+        db.execSQL("create table dieta(nomDieta varchar(20) primary key)");
+        db.execSQL("create table fecha(dia TEXT, nomDieta varchar(20), foreign key(nomDieta) references dieta(nomDieta), primary key(nomDieta, dia))");
+        db.execSQL("create table menu(tipoComida varchar(10) primary key)");
+        db.execSQL("create table contiene(diaSemana varchar(10), nomDieta varchar(20), dia TEXT, tipoComida varchar(10), id integer, foreign key(nomDieta) references fecha(nomDieta), foreign key(dia) references fecha(dia), foreign key(tipoComida) references menu(tipoComida), foreign key(id) references receta(id), primary key(nomDieta, dia, tipoComida, id))");
+        db.execSQL("create table receta(id integer primary key autoincrement, nombre varchar(10), elaboracion varchar(150), foto varchar(50), tiempo integer, dificultad varchar(10), tipo varchar(10), origen varchar(10))");
         db.execSQL("create table nComensales(numComensales integer, id integer, primary key(numComensales, id), foreign key(id) references receta(id))");
         db.execSQL("create table tiene(numComensales integer, nomIngrediente varchar(10), id integer, cantidad integer, foreign key(numComensales,id) references nComensales(numComensales,id), foreign key(nomIngrediente) references ingrediente(nomIngrediente), primary key(nomIngrediente, numComensales, id))");
         db.execSQL("create table ingrediente(nomIngrediente varchar(10) primary key, unidad varchar(10), foto varchar(50), precio float)");
@@ -34,7 +37,13 @@ public class BBDD extends SQLiteOpenHelper {
         Comensales(bd);
         tiene(bd);
         ingrediente(bd);
+
         almacen(bd);
+
+        dieta(bd);
+        menu(bd);
+        fecha(bd);
+        contiene(bd);
     }
 
     public void receta(SQLiteDatabase bd){
@@ -445,11 +454,63 @@ public class BBDD extends SQLiteOpenHelper {
 
 
     }
+
     public void almacen(SQLiteDatabase bd){
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('ARMARIO')");
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('DESPENSA')");
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('NEVERA')");
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('CONGELADOR')");
+    }
+
+
+    public void dieta(SQLiteDatabase bd){
+        bd.execSQL("INSERT INTO dieta(nomDieta) VALUES ('Dieta Diaria')");
+        bd.execSQL("INSERT INTO dieta(nomDieta) VALUES ('Dieta FinDe')");
+        bd.execSQL("INSERT INTO dieta(nomDieta) VALUES ('Dieta Semanal')");
+    }
+    public void menu(SQLiteDatabase bd){
+        bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Desayuno')");
+        bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Almuerzo')");
+        bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Comida')");
+        bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Merienda')");
+        bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Cena')");
+    }
+    public void fecha(SQLiteDatabase bd){
+        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('01 / 1 / 2021', 'Dieta Diaria')");
+
+        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('02 / 1 / 2021', 'Dieta FinDe')");
+        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('03 / 1 / 2021', 'Dieta FinDe')");
+    }
+    public void contiene(SQLiteDatabase bd){
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Desayuno', 13)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Desayuno', 3)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Almuerzo', 19)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Comida', 4)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Comida', 11)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Comida', 14)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Merienda', 2)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Cena', 7)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Viernes', 'Dieta Diaria', '01 / 1 / 2021', 'Cena', 16)");
+
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Desayuno', 13)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Desayuno', 3)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Almuerzo', 19)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Comida', 4)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Comida', 11)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Comida', 14)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Merienda', 2)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Cena', 7)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Sábado', 'Dieta FinDe', '02 / 1 / 2021', 'Cena', 16)");
+
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Desayuno', 13)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Desayuno', 3)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Almuerzo', 19)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Comida', 4)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Comida', 11)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Comida', 14)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Merienda', 2)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Cena', 7)");
+        bd.execSQL("INSERT INTO contiene(diaSemana, nomDieta, dia, tipoComida, id) VALUES ('Domingo', 'Dieta FinDe', '03 / 1 / 2021', 'Cena', 16)");
     }
 
 }
