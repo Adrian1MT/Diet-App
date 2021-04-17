@@ -192,8 +192,8 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
     }
 
     public void guardarDieta(View poView) {
-        // SACAMOS EL DIA DE LA SEMANA, a partir de la fecha
-        diaSemana = diaDeLaSemana(anio, mes, diaDelMes);
+//        // SACAMOS EL DIA DE LA SEMANA, a partir de la fecha
+//        diaSemana = diaDeLaSemana(anio, mes, diaDelMes);
 
 
         BBDD admin = new BBDD(this,"administracion", null,1);
@@ -224,27 +224,27 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
 
             for (int i = 0; i < desayuno.length; i++) {
                 if (desayuno[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (diaSemana, nomDieta, dia, tipoComida, id) VALUES ('" + diaSemana + "' , 'Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Desayuno'," + desayuno[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Desayuno'," + desayuno[i] + " )");
                 }
             }
             for (int i = 0; i < almuerzo.length; i++) {
                 if (almuerzo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (diaSemana, nomDieta, dia, tipoComida, id) VALUES ('" + diaSemana + "' , 'Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Almuerzo'," + almuerzo[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Almuerzo'," + almuerzo[i] + " )");
                 }
             }
             for (int i = 0; i < comida.length; i++) {
                 if (comida[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (diaSemana, nomDieta, dia, tipoComida, id) VALUES ('" + diaSemana + "' , 'Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Comida'," + comida[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Comida'," + comida[i] + " )");
                 }
             }
             for (int i = 0; i < merienda.length; i++) {
                 if (merienda[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (diaSemana, nomDieta, dia, tipoComida, id) VALUES ('" + diaSemana + "' , 'Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Merienda'," + merienda[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Merienda'," + merienda[i] + " )");
                 }
             }
             for (int i = 0; i < cena.length; i++) {
                 if (cena[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (diaSemana, nomDieta, dia, tipoComida, id) VALUES ('" + diaSemana + "' , 'Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Cena'," + cena[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Cena'," + cena[i] + " )");
                 }
             }
             dietaDiaria.close();
@@ -284,38 +284,38 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    // SACAMOS EL DIA DE LA SEMANA, a partir de la fecha
-    public String diaDeLaSemana(int anio, int mes, int diaDelMes) {
-        String diaDeLaSemana = "";
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar fecha = Calendar.getInstance();
-        fecha.set(anio, mes, diaDelMes);
-        int dia = fecha.get(Calendar.DAY_OF_WEEK);
-        switch (dia) {
-            case 1:
-                diaDeLaSemana = "Domingo";
-                break;
-            case 2:
-                diaDeLaSemana = "Lunes";
-                break;
-            case 3:
-                diaDeLaSemana = "Martes";
-                break;
-            case 4:
-                diaDeLaSemana = "Miércoles";
-                break;
-            case 5:
-                diaDeLaSemana = "Jueves";
-                break;
-            case 6:
-                diaDeLaSemana = "Viernes";
-                break;
-            case 7:
-                diaDeLaSemana = "Sábado";
-                break;
-        }
-        return diaDeLaSemana;
-    }
+//    // SACAMOS EL DIA DE LA SEMANA, a partir de la fecha
+//    public String diaDeLaSemana(int anio, int mes, int diaDelMes) {
+//        String diaDeLaSemana = "";
+//        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+//        Calendar fecha = Calendar.getInstance();
+//        fecha.set(anio, mes, diaDelMes);
+//        int dia = fecha.get(Calendar.DAY_OF_WEEK);
+//        switch (dia) {
+//            case 1:
+//                diaDeLaSemana = "Domingo";
+//                break;
+//            case 2:
+//                diaDeLaSemana = "Lunes";
+//                break;
+//            case 3:
+//                diaDeLaSemana = "Martes";
+//                break;
+//            case 4:
+//                diaDeLaSemana = "Miércoles";
+//                break;
+//            case 5:
+//                diaDeLaSemana = "Jueves";
+//                break;
+//            case 6:
+//                diaDeLaSemana = "Viernes";
+//                break;
+//            case 7:
+//                diaDeLaSemana = "Sábado";
+//                break;
+//        }
+//        return diaDeLaSemana;
+//    }
 
     //OBTIENE LA ID DE LA RECETA, en fonción del nombre
     public int recuperarIdReceta(String nombre) {

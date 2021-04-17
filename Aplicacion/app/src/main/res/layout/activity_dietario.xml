@@ -8,15 +8,15 @@
     tools:layout_editor_absoluteY="89dp">
 
     <TextView
-        android:id="@+id/cargarDieta"
+        android:id="@+id/verGuardada"
         android:layout_width="454dp"
         android:layout_height="87dp"
         android:layout_marginStart="100dp"
         android:fontFamily="@font/toms_handwritten_new"
         android:shadowColor="#8BC34A"
-        android:text="→ Cargar"
+        android:text="→ Ver guardada"
         android:textColor="@color/verde_oscuro"
-        android:textSize="80dp"
+        android:textSize="60dp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,15 +26,15 @@
         app:layout_constraintVertical_bias="0.121" />
 
     <TextView
-        android:id="@+id/introducirDieta"
+        android:id="@+id/crearNueva"
         android:layout_width="454dp"
         android:layout_height="87dp"
         android:layout_marginStart="150dp"
         android:fontFamily="@font/toms_handwritten_new"
         android:shadowColor="#8BC34A"
-        android:text="Introducir →"
+        android:text="Crear nueva →"
         android:textColor="@color/verde_oscuro"
-        android:textSize="80dp"
+        android:textSize="60dp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/introducirDieta" />
+        app:layout_constraintTop_toBottomOf="@+id/crearNueva" />
 
     <Button
         android:id="@+id/btnDiaria"
@@ -67,7 +67,7 @@
         android:text="Dieta Diaria"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cargarDieta" />
+        app:layout_constraintTop_toBottomOf="@+id/verGuardada" />
 
     <Button
         android:id="@+id/btnFinDe"
@@ -100,7 +100,7 @@
         android:layout_width="250dp"
         android:layout_height="420dp"
         android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/cargarDieta"
-        app:layout_constraintTop_toBottomOf="@+id/cargarDieta" />
+        app:layout_constraintEnd_toEndOf="@+id/verGuardada"
+        app:layout_constraintTop_toBottomOf="@+id/verGuardada" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
