@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +55,7 @@ public class MenuAdapterCargar extends RecyclerView.Adapter<MenuAdapterCargar.My
 
     @Override
     public int getItemCount() {
-        return listaItem.size();
+            return listaItem.size();
     }
 
     // A este metodo se le llama cuando necesitamos crear una nueva linea para el RecyclerView.
