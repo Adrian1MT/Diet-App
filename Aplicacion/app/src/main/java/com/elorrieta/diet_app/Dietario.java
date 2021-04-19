@@ -20,13 +20,14 @@ public class Dietario extends AppCompatActivity {
     RecyclerView rvIntroducirDietas;
     RecyclerView rvCargarDietas;
     ArrayList<Menu> menuArrayList;
-    ArrayList<Menu> menuCargarDieta;
+    ArrayList<Menu> menuCargarDietaDiaria, menuCargarDietaFinDe, menuCargarDietaSemanal;
 
-    View vista;
+    View vistaCrear, vistaVer;
     boolean elegirDietaDiariaPulsado = false;
     boolean elegirDietaFinDePulsado = false;
     boolean elegirDietaSemanalPulsado = false;
     Button btnDiaria, btnFinDe, btnSemanal;
+    MenuAdapterCargar mcdd, mcdf, mcds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +57,16 @@ public class Dietario extends AppCompatActivity {
         rvIntroducirDietas.setVisibility(View.VISIBLE);
 
         // Llenamos el ArrayList de cargar dietas guardadas.
-        menuCargarDieta = new ArrayList<Menu>();
+        menuCargarDietaDiaria = new ArrayList<Menu>();
+        menuCargarDietaFinDe = new ArrayList<Menu>();
+        menuCargarDietaSemanal = new ArrayList<Menu>();
         cargarDietas();
 
         rvCargarDietas = (RecyclerView) findViewById(R.id.reciclerLista);
 
-        MenuAdapterCargar mcd = new MenuAdapterCargar(menuCargarDieta, escuchador2);
-        rvCargarDietas.setAdapter(mcd);
+        mcdd = new MenuAdapterCargar(menuCargarDietaDiaria, escuchador2);
+        mcdf = new MenuAdapterCargar(menuCargarDietaFinDe, escuchador2);
+        mcds = new MenuAdapterCargar(menuCargarDietaSemanal, escuchador2);
 
         // establecemos el Layout Manager.
         LinearLayoutManager llmCargar = new LinearLayoutManager(this);
@@ -77,10 +81,18 @@ public class Dietario extends AppCompatActivity {
         BBDD admin = new BBDD(this, "administracion",
                 null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor fila = bd.rawQuery("select distinct dia from fecha", null);
+        Cursor fila = bd.rawQuery("select dia, nomDieta from fecha", null);
         do {
             if (fila.moveToNext()) {
-                menuCargarDieta.add(new Menu(fila.getString(0)));
+                //En Diaria carga todas las dietas
+                menuCargarDietaDiaria.add(new Menu(fila.getString(0)));
+
+                if (fila.getString(1).contentEquals("Dieta FinDe")) {
+                    menuCargarDietaFinDe.add(new Menu(fila.getString(0)));
+                }
+                if (fila.getString(1).contentEquals("Dieta Semanal")) {
+                    menuCargarDietaSemanal.add(new Menu(fila.getString(0)));
+                }
             } else {
                 bucle = true;
             }
@@ -88,17 +100,20 @@ public class Dietario extends AppCompatActivity {
         bd.close();
         admin.close();
     }
+
     // inicializarmos el adapter de cargar dietas con nuestros datos.
     OnItemClickListener escuchador2 = new OnItemClickListener() {
         @Override
         public void onItemClick(Menu item) {
-            vista = new View(Dietario.super.getApplicationContext());
-            if (item.getItem().contentEquals("01 / 1 / 2021")) {
-                dietaDiaria(vista);
-            } else if (item.getItem().contentEquals("02 / 1 / 2021") || item.getItem().contentEquals("03 / 1 / 2021")) {
-                dietaFinDe(vista);
+            vistaVer = new View(Dietario.super.getApplicationContext());
+            String origen = "ver";
+            String fecha = item.getItem().toString();
+            if (rvCargarDietas.getAdapter() == mcdd) {
+                dietaDiaria(vistaVer, origen, fecha);
+            } else if (rvCargarDietas.getAdapter() == mcdf) {
+                dietaFinDe(vistaVer, origen, fecha);
             } else {
-                dietaSemanal(vista);
+                dietaSemanal(vistaVer, origen, fecha);
             }
         }
     };
@@ -107,13 +122,14 @@ public class Dietario extends AppCompatActivity {
     OnItemClickListener escuchador = new OnItemClickListener() {
         @Override
         public void onItemClick(Menu item) {
-            vista = new View(Dietario.super.getApplicationContext());
+            String origen = "crear";
+            vistaCrear = new View(Dietario.super.getApplicationContext());
             if (item.getItem().contentEquals("Dieta Diaria")) {
-                dietaDiaria(vista);
+                dietaDiaria(vistaCrear, origen, "");
             } else if (item.getItem().contentEquals("Dieta FinDe")) {
-                dietaFinDe(vista);
+                dietaFinDe(vistaCrear, origen, "");
             } else {
-                dietaSemanal(vista);
+                dietaSemanal(vistaCrear, origen, "");
             }
         }
     };
@@ -122,6 +138,7 @@ public class Dietario extends AppCompatActivity {
         elegirDietaDiariaPulsado = !elegirDietaDiariaPulsado;
         if (elegirDietaDiariaPulsado) {
             findViewById(R.id.btnDiaria).setBackgroundColor(0xffff8800);
+            rvCargarDietas.setAdapter(mcdd);
             rvCargarDietas.setVisibility(View.VISIBLE);
 
             btnFinDe.setEnabled(false);
@@ -142,6 +159,7 @@ public class Dietario extends AppCompatActivity {
         elegirDietaFinDePulsado = !elegirDietaFinDePulsado;
         if (elegirDietaFinDePulsado) {
             findViewById(R.id.btnFinDe).setBackgroundColor(0xffff8800);
+            rvCargarDietas.setAdapter(mcdf);
             rvCargarDietas.setVisibility(View.VISIBLE);
 
             btnDiaria.setEnabled(false);
@@ -162,6 +180,7 @@ public class Dietario extends AppCompatActivity {
         elegirDietaSemanalPulsado = !elegirDietaSemanalPulsado;
         if (elegirDietaSemanalPulsado) {
             findViewById(R.id.btnSemanal).setBackgroundColor(0xffff8800);
+            rvCargarDietas.setAdapter(mcds);
             rvCargarDietas.setVisibility(View.VISIBLE);
 
             btnDiaria.setEnabled(false);
@@ -178,18 +197,24 @@ public class Dietario extends AppCompatActivity {
         }
     }
 
-    public void dietaDiaria(View poView) {
+    public void dietaDiaria(View poView, String origen, String fecha) {
         Intent oIntent = new Intent(this, DietaDiaria.class);
+        oIntent.putExtra("origen", origen);
+        oIntent.putExtra("fecha", fecha);
         startActivity(oIntent);
     }
 
-    public void dietaFinDe(View poView) {
+    public void dietaFinDe(View poView, String origen, String fecha) {
         Intent oIntent = new Intent(this, DietaFinDe.class);
+        oIntent.putExtra("origen", origen);
+        oIntent.putExtra("fecha", fecha);
         startActivity(oIntent);
     }
 
-    public void dietaSemanal(View poView) {
+    public void dietaSemanal(View poView, String origen, String fecha) {
         Intent oIntent = new Intent(this, DietaSemanal.class);
+        oIntent.putExtra("origen", origen);
+        oIntent.putExtra("fecha", fecha);
         startActivity(oIntent);
     }
 }
