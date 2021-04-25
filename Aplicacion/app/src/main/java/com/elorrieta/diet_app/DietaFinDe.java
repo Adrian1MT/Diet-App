@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.elorrieta.diet_app.ui.main.dialog.DatePickerFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -36,7 +35,8 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
     EditText txtFecha;
     String fechaSabado = "";
     String fechaDomingo = "";
-    TextView txtDia;
+    TextView txtdiaSabado;
+    TextView txtdiaDomingo;
     String origen = "", fecha = "";
 
     //Arrays y variables para guardar los datos de la dieta
@@ -84,7 +84,8 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
         btnMeriendaDomingo = (Button) findViewById(R.id.btn35);
         btnCenaDomingo = (Button) findViewById(R.id.btn43);
 
-        txtDia = (TextView) findViewById(R.id.txtDiaFinDe);
+        txtdiaSabado= (TextView) findViewById(R.id.txtDiaFinDeSabado);
+        txtdiaDomingo = (TextView) findViewById(R.id.txtDiaFinDeDomingo);
         btnLimpiarMenu = (Button) findViewById(R.id.btnLimpiarMenuFinDe);
         btnLimpiarDieta = (Button) findViewById(R.id.btnLimpiarDietaFinDe);
         btnGuardar = (Button) findViewById(R.id.btnGuardarFinDe);
@@ -116,10 +117,6 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
             btnMeriendaDomingo.setClickable(false);
             btnCenaDomingo.setClickable(false);
 
-            txtDia.setVisibility(View.VISIBLE);
-            txtDia.setText(fecha);
-            btnEliminarDieta.setVisibility(View.VISIBLE);
-
             String[] fechaArray = fecha.split(" / ");
             diaDelMes = Integer.parseInt(fechaArray[0].trim());
             mes = Integer.parseInt(fechaArray[1].trim());
@@ -133,6 +130,12 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
                 fechaDomingo = fecha;
                 fechaSabado = diaDelMes-1 + " / " + mes + " / " + anio;
             }
+            txtdiaSabado.setVisibility(View.VISIBLE);
+            txtdiaSabado.setText(fechaSabado);
+            txtdiaDomingo.setVisibility(View.VISIBLE);
+            txtdiaDomingo.setText(fechaDomingo);
+            btnEliminarDieta.setVisibility(View.VISIBLE);
+
             cargarDietaSabado(fechaSabado);
             cargarDietaDomingo(fechaDomingo);
         }
@@ -158,7 +161,7 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    //OBTIENE LA ID DE LA RECETA, en fonción del nombre
+    //OBTIENE LA ID DE LA RECETA, en función del nombre
     public int recuperarIdReceta(String nombre) {
         int recetaId=-1;
         BBDD recuperarId = new BBDD(this, "administracion", null, 1);
@@ -512,10 +515,10 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
 
     public void guardarDieta(View poView) {
         BBDD admin = new BBDD(this,"administracion", null,1);
-        SQLiteDatabase dietaDiaria = admin.getWritableDatabase();
+        SQLiteDatabase dietaFinDe = admin.getWritableDatabase();
 
         // Guardamos en una lista todas las fechas existentes en la BBDD
-        Cursor a = dietaDiaria.rawQuery("select dia from fecha", null);
+        Cursor a = dietaFinDe.rawQuery("select dia from fecha", null);
         if (a != null) {
             if (a.moveToFirst()) {
                 a.moveToFirst();
@@ -545,61 +548,61 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
             Toast.makeText(this,
                     "Dieta FinDe con fecha " + fechaSabado + " ó " + fechaDomingo + " ya existe en la BBDD!", Toast.LENGTH_LONG).show();
         } else {
-            dietaDiaria.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaSabado + "', 'Dieta FinDe')");
-            dietaDiaria.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaDomingo + "', 'Dieta FinDe')");
+            dietaFinDe.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaSabado + "', 'Dieta FinDe')");
+            dietaFinDe.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaDomingo + "', 'Dieta FinDe')");
 
             for (int i = 0; i < desayunoSabado.length; i++) {
                 if (desayunoSabado[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Desayuno'," + desayunoSabado[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Desayuno'," + desayunoSabado[i] + " )");
                 }
             }
             for (int i = 0; i < almuerzoSabado.length; i++) {
                 if (almuerzoSabado[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Almuerzo'," + almuerzoSabado[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Almuerzo'," + almuerzoSabado[i] + " )");
                 }
             }
             for (int i = 0; i < comidaSabado.length; i++) {
                 if (comidaSabado[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Comida'," + comidaSabado[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Comida'," + comidaSabado[i] + " )");
                 }
             }
             for (int i = 0; i < meriendaSabado.length; i++) {
                 if (meriendaSabado[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Merienda'," + meriendaSabado[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Merienda'," + meriendaSabado[i] + " )");
                 }
             }
             for (int i = 0; i < cenaSabado.length; i++) {
                 if (cenaSabado[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Cena'," + cenaSabado[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaSabado + "', 'Cena'," + cenaSabado[i] + " )");
                 }
             }
 
             for (int i = 0; i < desayunoDomingo.length; i++) {
                 if (desayunoDomingo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Desayuno'," + desayunoDomingo[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Desayuno'," + desayunoDomingo[i] + " )");
                 }
             }
             for (int i = 0; i < almuerzoDomingo.length; i++) {
                 if (almuerzoDomingo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Almuerzo'," + almuerzoDomingo[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Almuerzo'," + almuerzoDomingo[i] + " )");
                 }
             }
             for (int i = 0; i < comidaDomingo.length; i++) {
                 if (comidaDomingo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Comida'," + comidaDomingo[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Comida'," + comidaDomingo[i] + " )");
                 }
             }
             for (int i = 0; i < meriendaDomingo.length; i++) {
                 if (meriendaDomingo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Merienda'," + meriendaDomingo[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Merienda'," + meriendaDomingo[i] + " )");
                 }
             }
             for (int i = 0; i < cenaDomingo.length; i++) {
                 if (cenaDomingo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Cena'," + cenaDomingo[i] + " )");
+                    dietaFinDe.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe' , '" + fechaDomingo + "', 'Cena'," + cenaDomingo[i] + " )");
                 }
             }
-            dietaDiaria.close();
+            dietaFinDe.close();
             //Mensaje de éxito y vuelve a la pantalla del dietario
             Toast.makeText(this,
                     "Dieta FinDe con fecha " + fechaSabado + " y " + fechaDomingo + " guardada con éxito!", Toast.LENGTH_LONG).show();
@@ -669,7 +672,8 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
         dietaDiaria.execSQL("DELETE FROM contiene WHERE dia LIKE '" + fechaDomingo +"'");
         dietaDiaria.close();
         limpiarDieta(poView);
-        txtDia.setText("");
+        txtdiaSabado.setText("");
+        txtdiaDomingo.setText("");
         //Mensaje de éxito y vuelve a la pantalla del dietario
         Toast.makeText(this,
                 "Dieta FinDe con fecha " + fechaSabado + " y " + fechaDomingo + " eliminada con éxito!", Toast.LENGTH_LONG).show();

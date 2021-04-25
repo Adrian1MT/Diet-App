@@ -73,6 +73,19 @@
                     app:layout_constraintStart_toEndOf="@+id/btn2"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/txtDiaFinDeSabado"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/toms_handwritten_new"
+                    android:text="Dia"
+                    android:textAlignment="textStart"
+                    android:textSize="30dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn1"
+                    app:layout_constraintEnd_toEndOf="@+id/btn1" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </TableRow>
@@ -421,7 +434,7 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/txtDiaFinDe"
+        android:id="@+id/txtDiaFinDeDomingo"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
@@ -443,7 +456,7 @@
         android:text="Limpiar Menú"
         app:backgroundTint="@color/verde_medio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtDiaFinDe"
+        app:layout_constraintStart_toEndOf="@+id/txtDiaFinDeDomingo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button

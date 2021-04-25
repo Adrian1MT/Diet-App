@@ -397,6 +397,13 @@ public class Visualizar_Recetas extends AppCompatActivity {
             setResult(2, respRecetaFinDe);
             finish();
         }
+        if(activity.contentEquals("DietaSemanal")) {
+            Intent respRecetaSemanal = new Intent();
+            respRecetaSemanal.putExtra("btn", boton);
+            respRecetaSemanal.putExtra("nomReceta", nombreReceta);
+            setResult(2, respRecetaSemanal);
+            finish();
+        }
     }
 
     public void entrante(View view) {
