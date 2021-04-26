@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo"
     tools:context="DietaSemanal">
 
     <TextView
@@ -49,7 +50,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
-        android:background="@null"
+        android:background="@color/white"
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
