@@ -36,7 +36,6 @@ import static java.security.AccessController.getContext;
 
 public class DietaDiaria extends AppCompatActivity implements View.OnClickListener {
     String receta = "", textoBoton = "";
-    String dia = "";
     int soyElBoton, id;
     Button boton, btnDesayuno, btnAlmuerzo, btnComida, btnMerienda, btnCena;
     Button btnLimpiarDieta, btnLimpiarMenu;
@@ -169,7 +168,6 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
             Intent oIntent = new Intent(this, Visualizar_Recetas.class);
 
             String NameOriginActivity = this.getLocalClassName().toString();
-            String[] txtView = (poView.toString()).split("/");
             int OriginButtonId = poView.getId();
 
             oIntent.putExtra("activity", NameOriginActivity);
@@ -203,7 +201,7 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
                 (Button) findViewById(R.id.btn34),
                 (Button) findViewById(R.id.btn42)};
         //Los recorre y los limpia
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < BtnArray.length; i++) {
             boton = BtnArray[i];
             boton.setTextSize(14);
             boton.setText("Menú");
@@ -307,7 +305,6 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
         //Pongo el título manualmente
         alert.setTitle("¡CUIDADO!");
         alert.show();
-
     }
 
     public void borrarDieta(View poView){
@@ -414,39 +411,6 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
 
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
-
-//    // SACAMOS EL DIA DE LA SEMANA, a partir de la fecha
-//    public String diaDeLaSemana(int anio, int mes, int diaDelMes) {
-//        String diaDeLaSemana = "";
-//        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-//        Calendar fecha = Calendar.getInstance();
-//        fecha.set(anio, mes, diaDelMes);
-//        int dia = fecha.get(Calendar.DAY_OF_WEEK);
-//        switch (dia) {
-//            case 1:
-//                diaDeLaSemana = "Domingo";
-//                break;
-//            case 2:
-//                diaDeLaSemana = "Lunes";
-//                break;
-//            case 3:
-//                diaDeLaSemana = "Martes";
-//                break;
-//            case 4:
-//                diaDeLaSemana = "Miércoles";
-//                break;
-//            case 5:
-//                diaDeLaSemana = "Jueves";
-//                break;
-//            case 6:
-//                diaDeLaSemana = "Viernes";
-//                break;
-//            case 7:
-//                diaDeLaSemana = "Sábado";
-//                break;
-//        }
-//        return diaDeLaSemana;
-//    }
 
     //OBTIENE LA ID DE LA RECETA, en fonción del nombre
     public int recuperarIdReceta(String nombre) {

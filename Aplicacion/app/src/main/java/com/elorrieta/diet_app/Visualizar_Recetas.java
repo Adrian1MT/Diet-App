@@ -384,10 +384,24 @@ public class Visualizar_Recetas extends AppCompatActivity {
     public void volverAdieta(String nombreReceta, String activity, int boton) throws ClassNotFoundException {
 
         if(activity.contentEquals("DietaDiaria")) {
-            Intent respReceta = new Intent();
-            respReceta.putExtra("btn", boton);
-            respReceta.putExtra("nomReceta", nombreReceta);
-            setResult(2, respReceta);
+            Intent respRecetaDiaria = new Intent();
+            respRecetaDiaria.putExtra("btn", boton);
+            respRecetaDiaria.putExtra("nomReceta", nombreReceta);
+            setResult(2, respRecetaDiaria);
+            finish();
+        }
+        if(activity.contentEquals("DietaFinDe")) {
+            Intent respRecetaFinDe = new Intent();
+            respRecetaFinDe.putExtra("btn", boton);
+            respRecetaFinDe.putExtra("nomReceta", nombreReceta);
+            setResult(2, respRecetaFinDe);
+            finish();
+        }
+        if(activity.contentEquals("DietaSemanal")) {
+            Intent respRecetaSemanal = new Intent();
+            respRecetaSemanal.putExtra("btn", boton);
+            respRecetaSemanal.putExtra("nomReceta", nombreReceta);
+            setResult(2, respRecetaSemanal);
             finish();
         }
     }
