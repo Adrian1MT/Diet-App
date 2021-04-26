@@ -1,7 +1,6 @@
 package com.elorrieta.diet_app;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -22,7 +21,7 @@ public class BBDD extends SQLiteOpenHelper {
         db.execSQL("create table nComensales(numComensales integer, id integer, primary key(numComensales, id), foreign key(id) references receta(id))");
         db.execSQL("create table tiene(numComensales integer, nomIngrediente varchar(10), id integer, cantidad integer, foreign key(numComensales,id) references nComensales(numComensales,id), foreign key(nomIngrediente) references ingrediente(nomIngrediente), primary key(nomIngrediente, numComensales, id))");
         db.execSQL("create table ingrediente(nomIngrediente varchar(10) primary key, unidad varchar(10), foto varchar(50), precio float)");
-        db.execSQL("create table hay(nomAlmacen varchar(20), nomIngrediente varchar(10), cantidad integer, foreign key(nomIngrediente) references ingrediente(nomIngrediente), foreign key(nomAlmacen) references almacen(nomAlmacen), primary key(nomAlmacen, nomIngrediente))");
+        db.execSQL("create table hay(nomAlmacen varchar(20), nomIngrediente varchar(10), cantidad integer, unidad varchar(10), foreign key(nomIngrediente) references ingrediente(nomIngrediente), foreign key(nomAlmacen) references almacen(nomAlmacen), primary key(nomAlmacen, nomIngrediente))");
         db.execSQL("create table almacen(nomAlmacen varchar(20) primary key)");
     }
 
@@ -456,12 +455,11 @@ public class BBDD extends SQLiteOpenHelper {
     }
 
     public void almacen(SQLiteDatabase bd){
-        bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('ARMARIO')");
+        bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('ESPECIERO')");
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('DESPENSA')");
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('NEVERA')");
         bd.execSQL("INSERT INTO almacen(nomAlmacen) VALUES ('CONGELADOR')");
     }
-
 
     public void dieta(SQLiteDatabase bd){
         bd.execSQL("INSERT INTO dieta(nomDieta) VALUES ('Dieta Diaria')");

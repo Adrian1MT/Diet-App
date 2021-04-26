@@ -4,7 +4,145 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo"
     tools:context=".Almacen">
+
+    <Spinner
+        android:id="@+id/spinnerAlmacen2"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="284dp"
+        android:background="@color/white"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinneringrediente"
+        android:layout_width="224dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="260dp"
+        android:background="@color/white"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinneringrediente2"
+        android:layout_width="224dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="260dp"
+        android:background="@color/white"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Tienetext"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="196dp"
+        android:background="@color/white"
+        android:clickable="false"
+        android:enabled="false"
+        android:textAlignment="center"
+        android:textColor="?attr/colorPrimaryVariant"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/unidadtext"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/white"
+        android:clickable="false"
+        android:enabled="false"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/unidadtext2"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="132dp"
+        android:background="@color/white"
+        android:clickable="false"
+        android:enabled="false"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BmasMenos"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="192dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:onClick="TextoBoton"
+        android:text="+"
+        android:textSize="24sp"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/TexCantidad"
+        app:layout_constraintStart_toEndOf="@+id/Tienetext"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/TexCantidad"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="84dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/texCantidad2"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="196dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView10"
@@ -13,6 +151,7 @@
         android:layout_marginStart="156dp"
         android:layout_marginTop="16dp"
         android:text="NEVERA"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +164,40 @@
         android:layout_marginStart="128dp"
         android:layout_marginTop="332dp"
         android:text="CONGELADOR"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyDespensa"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="348dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/RecyNevera" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyEspeciero"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/RecyCongelador" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="540dp"
+        android:layout_marginTop="332dp"
+        android:text="ESPECIERO"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,45 +207,33 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="588dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="548dp"
+        android:layout_marginTop="12dp"
         android:text="DESPENSA"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="350dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginBottom="350dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recyclerView2" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/RecyNevera"
         android:layout_width="350dp"
         android:layout_height="250dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="350dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="350dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recyclerView3" />
-
     <Spinner
         android:id="@+id/spinnerAlmacen"
-        android:layout_width="323dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="88dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="284dp"
+        android:background="@color/white"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,30 +244,42 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="44dp"
         android:text="SELECCIONE SU ALMACEN"
+        android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView3"
+        android:id="@+id/RecyCongelador"
         android:layout_width="350dp"
         android:layout_height="250dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="32dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView8"
+    <Button
+        android:id="@+id/btnaplicar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="580dp"
-        android:layout_marginTop="332dp"
-        android:text="ESPECIEROS"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="Actualizar"
+        android:text="aplicar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnNuevo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="556dp"
+        android:onClick="Nuevo"
+        android:text="Nuevo ingrediente"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
