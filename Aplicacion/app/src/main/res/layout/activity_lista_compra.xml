@@ -4,28 +4,152 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListaCompra">
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="almacen"
-        android:text="almacen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+    android:background="@drawable/fondo"
+    tools:context=".listaCompra">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="476dp"
-        android:layout_height="75dp"
-        android:text="Pantalla de Lista de la Compra"
-        android:textSize="34dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/txtListaRecetas"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:shadowColor="#8BC34A"
+        android:text="Necesitamos:"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="50dp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtListaAlmacen"
+        android:layout_width="172dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:shadowColor="#8BC34A"
+        android:text="Tenemos:"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="50dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toStartOf="@+id/txtListaCompra"
+        app:layout_constraintStart_toEndOf="@+id/txtListaRecetas"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtListaCompra"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="100dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:shadowColor="#8BC34A"
+        android:text="Compraremos:"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="50dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reciclerListaRecetas"
+        android:layout_width="250dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/txtListaRecetas"
+        app:layout_constraintTop_toBottomOf="@+id/txtListaRecetas">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txtOrigen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:hint="Fecha Origen"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/reciclerListaRecetas"
+        app:layout_constraintTop_toBottomOf="@+id/reciclerListaRecetas" />
+
+    <TextView
+        android:id="@+id/txtFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:hint="Fecha Fin"
+        android:textAlignment="textEnd"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/reciclerListaRecetas"
+        app:layout_constraintTop_toBottomOf="@+id/reciclerListaRecetas" />
+
+    <TextView
+        android:id="@+id/txtMenos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="100sp"
+        app:layout_constraintBottom_toBottomOf="@+id/reciclerListaRecetas"
+        app:layout_constraintEnd_toStartOf="@+id/reciclerListaAlmacen"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/reciclerListaRecetas"
+        app:layout_constraintTop_toTopOf="@+id/reciclerListaRecetas"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reciclerListaAlmacen"
+        android:layout_width="250dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/reciclerListaCompra"
+        app:layout_constraintStart_toEndOf="@+id/reciclerListaRecetas"
+        app:layout_constraintTop_toBottomOf="@+id/txtListaAlmacen" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reciclerListaCompra"
+        android:layout_width="250dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/txtListaCompra"
+        app:layout_constraintTop_toBottomOf="@+id/txtListaCompra" />
+
+    <TextView
+        android:id="@+id/txtIgual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="="
+        android:textColor="@color/verde_oscuro"
+        android:textSize="100sp"
+        app:layout_constraintBottom_toBottomOf="@+id/reciclerListaAlmacen"
+        app:layout_constraintEnd_toStartOf="@+id/reciclerListaCompra"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/reciclerListaAlmacen"
+        app:layout_constraintTop_toTopOf="@+id/reciclerListaAlmacen"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Compartir"
+        app:layout_constraintEnd_toEndOf="@+id/reciclerListaCompra"
+        app:layout_constraintTop_toBottomOf="@+id/reciclerListaCompra" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Crear Pdf"
+        app:layout_constraintStart_toStartOf="@+id/reciclerListaCompra"
+        app:layout_constraintTop_toBottomOf="@+id/reciclerListaCompra" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

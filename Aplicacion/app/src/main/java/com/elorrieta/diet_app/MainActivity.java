@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ListaCompra(View poView){
-        Intent oIntent = new Intent(this, ListaCompra.class);
+        Intent oIntent = new Intent(this, FiltroListaCompraAlmacen.class);
         startActivity(oIntent);
     }
     public void comprobarBBDD(){

@@ -62,7 +62,7 @@ public class Dietario extends AppCompatActivity {
         menuCargarDietaSemanal = new ArrayList<Menu>();
         cargarDietas();
 
-        rvCargarDietas = (RecyclerView) findViewById(R.id.reciclerLista);
+        rvCargarDietas = (RecyclerView) findViewById(R.id.reciclerListaRecetas);
 
         mcdd = new MenuAdapterCargar(menuCargarDietaDiaria, escuchador2);
         mcdf = new MenuAdapterCargar(menuCargarDietaFinDe, escuchador2);
