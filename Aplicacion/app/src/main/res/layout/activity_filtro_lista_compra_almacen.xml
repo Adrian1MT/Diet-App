@@ -7,6 +7,36 @@
     android:background="@drawable/fondo"
     tools:context=".FiltroListaCompraAlmacen">
 
+    <EditText
+        android:id="@+id/txtFechaFin"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Elegir Fecha Fin"
+        android:inputType="date"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/btnLista"
+        app:layout_constraintTop_toTopOf="@+id/txtFechaOrigen" />
+
+    <EditText
+        android:id="@+id/txtFechaOrigen"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Elegir Fecha Origen"
+        android:inputType="date"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/btnLista"
+        app:layout_constraintStart_toStartOf="@+id/btnLista"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.726" />
+
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
@@ -34,29 +64,4 @@
         app:layout_constraintStart_toEndOf="@+id/button3"
         app:layout_constraintTop_toTopOf="@+id/button3" />
 
-    <TextView
-        android:id="@+id/txtFechaFin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:hint="Elija Fecha Fin"
-        android:textAlignment="textEnd"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLista"
-        app:layout_constraintEnd_toEndOf="@+id/btnLista"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.765" />
-
-    <TextView
-        android:id="@+id/txtFechaOrigen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:hint="Elija Fecha Origen"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLista"
-        app:layout_constraintStart_toStartOf="@+id/btnLista"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.765" />
 </androidx.constraintlayout.widget.ConstraintLayout>
