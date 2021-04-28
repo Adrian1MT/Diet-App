@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -49,7 +51,7 @@ public class Almacen extends AppCompatActivity {
     ArrayList<String> ListaIngredientes = new ArrayList<String>();
     ArrayList<String> ListaIngredientesNUEVO = new ArrayList<String>();
 
-    TextView textunidad, textCantidad, Texttiene;
+    TextView textunidad, textCantidad, Texttiene,TextAdvertencia;
     TextView textunidadNEW, textCantidadNEW;
 
     Boolean Nuevo=false;
@@ -78,6 +80,8 @@ public class Almacen extends AppCompatActivity {
         textunidad=findViewById(R.id.unidadtext);
         textCantidad=findViewById(R.id.TexCantidad);
         Texttiene=findViewById(R.id.Tienetext);
+
+        TextAdvertencia=findViewById(R.id.MensajeAdvertencia);
 
         textunidadNEW=findViewById(R.id.unidadtext2);
         textunidadNEW.setVisibility(View.INVISIBLE);
@@ -172,6 +176,8 @@ public class Almacen extends AppCompatActivity {
             BtnSumRest.setVisibility(View.INVISIBLE);
             Almacenes.setVisibility(View.INVISIBLE);
             Ingredientes.setVisibility(View.INVISIBLE);
+
+            TextAdvertencia.setVisibility(View.INVISIBLE);
         }else{
             Nuevo=false;
             BTNnuevo.setBackgroundColor(getResources().getColor(R.color.verde_medio));
@@ -187,6 +193,7 @@ public class Almacen extends AppCompatActivity {
             BtnSumRest.setVisibility(View.VISIBLE);
             Almacenes.setVisibility(View.VISIBLE);
             Ingredientes.setVisibility(View.VISIBLE);
+            ingrediente();
         }
     }
     public void TextoBoton(View view){
@@ -291,6 +298,26 @@ public class Almacen extends AppCompatActivity {
 
         Ingredientes.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,Ingrediente));
         Ingredientes.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,ListaIngredientes));
+
+        int numero=ListaIngredientes.size();
+
+        if (numero>0){
+            Ingredientes.setVisibility(View.VISIBLE);
+            textunidad.setVisibility(View.VISIBLE);
+            textCantidad.setVisibility(View.VISIBLE);
+            Texttiene.setVisibility(View.VISIBLE);
+            BtnSumRest.setVisibility(View.VISIBLE);
+
+            TextAdvertencia.setVisibility(View.INVISIBLE);
+        }else{
+            Ingredientes.setVisibility(View.INVISIBLE);
+            textunidad.setVisibility(View.INVISIBLE);
+            textCantidad.setVisibility(View.INVISIBLE);
+            Texttiene.setVisibility(View.INVISIBLE);
+            BtnSumRest.setVisibility(View.INVISIBLE);
+
+            TextAdvertencia.setVisibility(View.VISIBLE);
+        };
     }
     public void ingredientenew(){
         ListaIngredientesNUEVO.clear();
@@ -334,6 +361,15 @@ public class Almacen extends AppCompatActivity {
         bd.close();
         admin.close();
         AdapterIngredientes adapter = new AdapterIngredientes(ESingrediente, ESCantidad);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Ingrediente=ESingrediente.get(Especiero.getChildAdapterPosition(view));
+                Ingrediente=Ingrediente.substring(3);
+                String almacen="ESPECIERO";
+                eliminarIngrediente(Ingrediente,almacen);
+            }
+        });
         Especiero.setAdapter(adapter);
     }
     public void Nevera(){
@@ -355,6 +391,15 @@ public class Almacen extends AppCompatActivity {
         bd.close();
         admin.close();
         AdapterIngredientes adapter = new AdapterIngredientes(NEingrediente, NECantidad);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Ingrediente=NEingrediente.get(Nevera.getChildAdapterPosition(view));
+                Ingrediente=Ingrediente.substring(3);
+                String almacen="NEVERA";
+                eliminarIngrediente(Ingrediente,almacen);
+            }
+        });
         Nevera.setAdapter(adapter);
     }
     public void Congelador(){
@@ -376,6 +421,15 @@ public class Almacen extends AppCompatActivity {
         bd.close();
         admin.close();
         AdapterIngredientes adapter = new AdapterIngredientes(COingrediente, COCantidad);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Ingrediente=COingrediente.get(Congelador.getChildAdapterPosition(view));
+                Ingrediente=Ingrediente.substring(3);
+                String almacen="CONGELADOR";
+                eliminarIngrediente(Ingrediente,almacen);
+            }
+        });
         Congelador.setAdapter(adapter);
     }
     public void Despensa(){
@@ -397,6 +451,15 @@ public class Almacen extends AppCompatActivity {
         bd.close();
         admin.close();
         AdapterIngredientes adapter = new AdapterIngredientes(DEingrediente, DECantidad);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Ingrediente=DEingrediente.get(Despensa.getChildAdapterPosition(view));
+                Ingrediente=Ingrediente.substring(3);
+                String almacen="DESPENSA";
+                eliminarIngrediente(Ingrediente,almacen);
+            }
+        });
         Despensa.setAdapter(adapter);
     }
 
@@ -445,4 +508,46 @@ public class Almacen extends AppCompatActivity {
         textunidadNEW.setText(unidad);
 
     }
+
+    public void eliminarIngrediente(String ingrediente, String almacen) {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("De verdad quieres eliminar el ingrediente "+ingrediente+" situado en "+almacen+"?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        borrarIngrediente(ingrediente,almacen);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Acción para el botón 'NO'
+                        dialog.cancel();
+                    }
+                });
+        //Crea la caja de dialogo
+        AlertDialog alert = builder.create();
+        //Pongo el título manualmente
+        alert.setTitle("¡CUIDADO!");
+        alert.show();
+    }
+    public void borrarIngrediente(String ingrediente,String almacen){
+        int eliminacion=0;
+        BBDD admin = new BBDD(this,"administracion",
+                null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        eliminacion=bd.delete("hay","nomIngrediente='"+ingrediente+"' and nomAlmacen='"+almacen+"'", null);
+        bd.close();
+        admin.close();
+        if (eliminacion==0){
+            Toast.makeText(this,"No se ha podido eliminar correctamente",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this,"El ingrediente "+ingrediente+" se ha podido eliminar de "+almacen,Toast.LENGTH_SHORT).show();
+        }
+        cargarAlmacen();
+        ingrediente();
+        ingredientenew();
+    }
+
 }
