@@ -282,4 +282,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/MensajeAdvertencia"
+        android:layout_width="468dp"
+        android:layout_height="157dp"
+        android:layout_marginTop="252dp"
+        android:layout_marginEnd="16dp"
+        android:text="NO HAY INGREDIENTES ALMACENADOS EN ESTE ALMACEN, POR FAVOR INSERTE INGREDIENTES."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

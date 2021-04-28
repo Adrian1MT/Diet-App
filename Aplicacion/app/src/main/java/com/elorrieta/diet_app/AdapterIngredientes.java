@@ -51,6 +51,10 @@ public class AdapterIngredientes extends RecyclerView.Adapter<AdapterIngrediente
         }
     }
 
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
 
         TextView dato1;
