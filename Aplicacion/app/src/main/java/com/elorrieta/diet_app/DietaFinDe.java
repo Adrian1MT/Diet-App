@@ -121,14 +121,20 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
             diaDelMes = Integer.parseInt(fechaArray[0].trim());
             mes = Integer.parseInt(fechaArray[1].trim());
             anio = Integer.parseInt(fechaArray[2].trim());
-            String dia = diaDeLaSemana(anio, mes, diaDelMes);
+            String dia = diaDeLaSemana(anio, mes - 1, diaDelMes);
             if(dia.contentEquals("Sábado")){
                 fechaSabado = fecha;
-                fechaDomingo = diaDelMes+1 + " / " + mes + " / " + anio;
+                Calendar fechaElegida = Calendar.getInstance();
+                fechaElegida.set(anio, mes, diaDelMes);
+                fechaElegida.add(Calendar.DAY_OF_YEAR, 1);
+                fechaDomingo = fechaElegida.get(fechaElegida.DAY_OF_MONTH) + " / " + fechaElegida.get(fechaElegida.MONTH) + " / " + fechaElegida.get(fechaElegida.YEAR);
             }
             if(dia.contentEquals("Domingo")){
                 fechaDomingo = fecha;
-                fechaSabado = diaDelMes-1 + " / " + mes + " / " + anio;
+                Calendar fechaElegida = Calendar.getInstance();
+                fechaElegida.set(anio, mes, diaDelMes);
+                fechaElegida.add(Calendar.DAY_OF_YEAR, - 1);
+                fechaSabado = fechaElegida.get(fechaElegida.DAY_OF_MONTH) + " / " + fechaElegida.get(fechaElegida.MONTH) + " / " + fechaElegida.get(fechaElegida.YEAR);
             }
             txtdiaSabado.setVisibility(View.VISIBLE);
             txtdiaSabado.setText(fechaSabado);
@@ -477,14 +483,7 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
     // SACAMOS EL DIA DE LA SEMANA, a partir de la fecha
     public String diaDeLaSemana(int anio, int mes, int diaDelMes) {
         String diaSemana = "";
-        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Calendar fecha = Calendar.getInstance();
-        diaDelMes = diaDelMes - 2;
-        //Para el caso de fin de semana a primeros de mes
-        if(diaDelMes == 0){
-            diaDelMes = 30;
-            mes = mes - 1;
-        }
         fecha.set(anio, mes, diaDelMes);
         int dia = fecha.get(Calendar.DAY_OF_WEEK);
         switch (dia) {
@@ -533,14 +532,21 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
         diaDelMes = Integer.parseInt(fecha[0].trim());
         mes = Integer.parseInt(fecha[1].trim());
         anio = Integer.parseInt(fecha[2].trim());
-        String dia = diaDeLaSemana(anio, mes, diaDelMes);
+        String dia = diaDeLaSemana(anio, mes - 1, diaDelMes);
+
         if(dia.contentEquals("Sábado")){
             fechaSabado = diaElegido;
-            fechaDomingo = diaDelMes+1 + " / " + mes + " / " + anio;
+            Calendar fechaElegida = Calendar.getInstance();
+            fechaElegida.set(anio, mes, diaDelMes);
+            fechaElegida.add(Calendar.DAY_OF_YEAR, 1);
+            fechaDomingo = fechaElegida.get(fechaElegida.DAY_OF_MONTH) + " / " + fechaElegida.get(fechaElegida.MONTH) + " / " + fechaElegida.get(fechaElegida.YEAR);
         }
         if(dia.contentEquals("Domingo")){
             fechaDomingo = diaElegido;
-            fechaSabado = diaDelMes-1 + " / " + mes + " / " + anio;
+            Calendar fechaElegida = Calendar.getInstance();
+            fechaElegida.set(anio, mes, diaDelMes);
+            fechaElegida.add(Calendar.DAY_OF_YEAR, -1);
+            fechaSabado = fechaElegida.get(fechaElegida.DAY_OF_MONTH) + " / " + fechaElegida.get(fechaElegida.MONTH) + " / " + fechaElegida.get(fechaElegida.YEAR);
         }
 
         if(listaFechas.contains(fechaSabado) || listaFechas.contains(fechaDomingo)) {

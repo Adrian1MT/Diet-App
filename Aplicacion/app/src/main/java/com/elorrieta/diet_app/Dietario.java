@@ -202,6 +202,7 @@ public class Dietario extends AppCompatActivity {
         oIntent.putExtra("origen", origen);
         oIntent.putExtra("fecha", fecha);
         startActivity(oIntent);
+        finish();
     }
 
     public void dietaFinDe(View poView, String origen, String fecha) {
@@ -209,6 +210,7 @@ public class Dietario extends AppCompatActivity {
         oIntent.putExtra("origen", origen);
         oIntent.putExtra("fecha", fecha);
         startActivity(oIntent);
+        finish();
     }
 
     public void dietaSemanal(View poView, String origen, String fecha) {
@@ -216,5 +218,6 @@ public class Dietario extends AppCompatActivity {
         oIntent.putExtra("origen", origen);
         oIntent.putExtra("fecha", fecha);
         startActivity(oIntent);
+        finish();
     }
 }
