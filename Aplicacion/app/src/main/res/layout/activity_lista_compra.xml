@@ -54,7 +54,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reciclerListaRecetas"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="420dp"
         android:layout_marginTop="30dp"
         android:background="@color/white"
@@ -101,7 +101,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reciclerListaAlmacen"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="420dp"
         android:layout_marginTop="30dp"
         android:background="@color/white"
@@ -111,7 +111,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reciclerListaCompra"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="420dp"
         android:layout_marginTop="30dp"
         android:background="@color/white"

@@ -22,7 +22,7 @@ public class MenuAdapterDietas extends RecyclerView.Adapter<MenuAdapterDietas.My
         public MyViewHolder(View view) {
             super(view);
             icono = (ImageView) view.findViewById(R.id.icono);
-            item = (TextView) view.findViewById(R.id.item);
+            item = (TextView) view.findViewById(R.id.itemNombreIngrediente);
         }
     }
 

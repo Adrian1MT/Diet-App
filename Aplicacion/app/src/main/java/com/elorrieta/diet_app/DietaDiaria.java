@@ -45,7 +45,8 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
     EditText txtFecha;
     TextView txtDia;
     String origen = "", fecha = "";
-    int anio, mes, diaDelMes;
+    int anio, mes;
+    String dia;
     //Array y variables para guardar los datos de la dieta
     int[] desayuno = new int[2];
     int cuentaPlatosDesayuno;
@@ -401,9 +402,14 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
                 //Asigno los datos locales a globales, para usarlos en otros métodos
                 anio = year;
                 mes = month;
-                diaDelMes = day;
-                // +1 porque Enero es 0
-                final String selectedDate = day + " / " + (month + 1) + " / " + year;
+                // para días del 1 al 9, le añado un 0 delante (para la gestión de fechas)
+                if (day<10){
+                    dia = "0" + String.valueOf(day);
+                } else {
+                    dia = String.valueOf(day);
+                }
+                // +1 en el mes porque Enero es 0
+                final String selectedDate = dia + " / " + (month + 1) + " / " + year;
                 txtFecha.setText(selectedDate);
                 findViewById(R.id.btnGuardar).setEnabled(true);
             }

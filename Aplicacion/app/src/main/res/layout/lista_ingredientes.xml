@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    tools:layout_editor_absoluteY="89dp">
+
+    <TextView
+        android:id="@+id/itemNombreIngrediente"
+        android:layout_width="175dp"
+        android:layout_height="25dp"
+        android:fontFamily="sans-serif"
+        android:text="Nombre Ingrediente"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="25px"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="100dp"
+        tools:layout_conversion_absoluteWidth="500dp" />
+
+    <TextView
+        android:id="@+id/itemCantidad"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:fontFamily="sans-serif"
+        android:text="Cantidad"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="25px"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/itemNombreIngrediente"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="100dp"
+        tools:layout_conversion_absoluteWidth="500dp" />
+
+    <TextView
+        android:id="@+id/itemUnidad"
+        android:layout_width="75dp"
+        android:layout_height="25dp"
+        android:fontFamily="sans-serif"
+        android:text="Unidad"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="25px"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/itemCantidad"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="100dp"
+        tools:layout_conversion_absoluteWidth="500dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

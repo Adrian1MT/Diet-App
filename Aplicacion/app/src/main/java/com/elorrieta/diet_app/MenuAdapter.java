@@ -1,13 +1,11 @@
 package com.elorrieta.diet_app;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -24,7 +22,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
         public MyViewHolder(View view) {
             super(view);
             icono = (ImageView) view.findViewById(R.id.icono);
-            item = (TextView) view.findViewById(R.id.item);
+            item = (TextView) view.findViewById(R.id.itemNombreIngrediente);
         }
     }
 

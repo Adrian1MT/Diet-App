@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +22,7 @@ public class MenuAdapterCargar extends RecyclerView.Adapter<MenuAdapterCargar.My
         public MyViewHolder(View view) {
             super(view);
             icono = (ImageView) view.findViewById(R.id.icono);
-            item = (TextView) view.findViewById(R.id.item);
+            item = (TextView) view.findViewById(R.id.itemNombreIngrediente);
         }
     }
 
