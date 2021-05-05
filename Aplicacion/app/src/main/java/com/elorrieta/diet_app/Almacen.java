@@ -204,18 +204,18 @@ public class Almacen extends AppCompatActivity {
         }
     }
     public void Actualizar(View view){
-        int resultado=0;
-        int tiene=0;
-        int insertado=0;
+        float resultado=0;
+        float tiene=0;
+        float insertado=0;
         BBDD admin = new BBDD(this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         if(Nuevo==false){
         try {
-            tiene=Integer.parseInt(Texttiene.getText().toString());
+            tiene=Float.parseFloat(Texttiene.getText().toString());
             if (textCantidad.length()==0){
                 insertado=0;
             }else{
-                insertado=Integer.parseInt(textCantidad.getText().toString());
+                insertado=Float.parseFloat(textCantidad.getText().toString());
             }
         } catch(NumberFormatException nfe) {
             Toast.makeText(this,"Error de insercion de cantidad",Toast.LENGTH_SHORT).show();
@@ -230,7 +230,6 @@ public class Almacen extends AppCompatActivity {
                 resultado=0;
             }
         }
-       // Toast.makeText(this,tiene+" "+insertado,Toast.LENGTH_SHORT).show();
        ContentValues registro = new ContentValues();
        registro.put("cantidad",resultado);
         bd.update("hay",registro,"nomIngrediente='"+Ingrediente+"' and nomAlmacen='"+almacen+"'", null);
@@ -242,7 +241,7 @@ public class Almacen extends AppCompatActivity {
                 if (textCantidadNEW.length()==0){
                     insertado=0;
                 }else{
-                    insertado=Integer.parseInt(textCantidadNEW.getText().toString());
+                    insertado=Float.parseFloat(textCantidadNEW.getText().toString());
                 }
             } catch(NumberFormatException nfe) {
                 Toast.makeText(this,"Error de insercion de cantidad",Toast.LENGTH_SHORT).show();
@@ -298,7 +297,7 @@ public class Almacen extends AppCompatActivity {
 
         Ingredientes.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,Ingrediente));
         Ingredientes.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,ListaIngredientes));
-
+        if(Nuevo==false){
         int numero=ListaIngredientes.size();
 
         if (numero>0){
@@ -318,6 +317,7 @@ public class Almacen extends AppCompatActivity {
 
             TextAdvertencia.setVisibility(View.VISIBLE);
         };
+        }
     }
     public void ingredientenew(){
         ListaIngredientesNUEVO.clear();

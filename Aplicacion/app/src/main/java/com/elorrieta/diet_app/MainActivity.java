@@ -7,14 +7,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
 
 public class MainActivity extends AppCompatActivity {
     ImageView Imagen, Titulo;
@@ -26,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String fechahoy=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        String horahoy=DateFormat.getTimeInstance().format(new Date());
         comprobarBBDD();
+        //comprobarDietas(fechahoy,horahoy);
         Imagen= (ImageView)findViewById(R.id.imageView);
         Imagen.setImageResource(R.drawable.icono);
 
@@ -141,6 +149,95 @@ public class MainActivity extends AppCompatActivity {
         if (IDs.size()<2){
             insercion();
         }
+    }
+    public void comprobarDietas(String fechahoy, String horahoy){
+        ArrayList<String> ingredientes = new ArrayList<String>();
+        ArrayList<Integer> cantidad = new ArrayList<Integer>();
+
+        boolean bucle=false;
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
+                "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id where dia>='29/1/2021' " +
+                "and dia<='30/4/2021' ) GROUP BY nomIngrediente;", null);
+        do{
+            if (fila.moveToNext()){
+                ingredientes.add(fila.getString(0));
+                cantidad.add(fila.getInt(1));
+            }else{
+                bucle=true;
+            }
+        }while (bucle==false);
+        bd.close();
+        admin.close();
+        int numero=ingredientes.size();
+        if (numero>0){
+            comprobarAlmacen(ingredientes,cantidad);
+        }
+    }
+    public void comprobarAlmacen(ArrayList<String> ingredientes, ArrayList<Integer> cantidad){
+       // Toast.makeText(this,"Hay "+ingredientes.size()+" ingredientes y cantidades "+cantidad.size() ,Toast.LENGTH_SHORT).show();
+        ArrayList<String> IngreAlmacen = new ArrayList<String>();
+        ArrayList<Integer> CantiAlmacen = new ArrayList<Integer>();
+        int numero=0;
+        do{
+        boolean bucle=false;
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select nomIngrediente, sum(cantidad)cantidad from hay " +
+                "where nomIngrediente='"+ingredientes.get(numero).toString()+"'" +
+                "GROUP BY nomIngrediente", null);
+        do{
+            //En caso del que el cursor este vacio
+            if (fila.getCount()==0){
+                IngreAlmacen.add("Nada");
+                CantiAlmacen.add(0);
+            }
+            if (fila.moveToNext()){
+                    IngreAlmacen.add(fila.getString(0));
+                    CantiAlmacen.add(fila.getInt(1));
+            }else{
+                bucle=true;
+            }
+        }while (bucle==false);
+        bd.close();
+        admin.close();
+            numero=numero+1;
+        }while (numero<ingredientes.size());
+      //  Toast.makeText(this,"Hay "+IngreAlmacen.size()+" ingredientes y cantidades "+CantiAlmacen.size() ,Toast.LENGTH_SHORT).show();
+        int comprobar=IngreAlmacen.size();
+        if (comprobar>0){
+            restarAlmacen(ingredientes,cantidad,CantiAlmacen);
+        }
+    }
+    public void restarAlmacen(ArrayList<String> ingredientes, ArrayList<Integer> cantidad,ArrayList<Integer> CantAlmacen){
+        ArrayList<Integer> resultados = new ArrayList<Integer>();
+
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+
+        int numero=0;
+        int cantidadtotal,cantidadAlmacen, resultado;
+        do{
+            cantidadtotal=cantidad.get(numero);
+            cantidadAlmacen=CantAlmacen.get(numero);
+            resultado=cantidadAlmacen-cantidadtotal;
+            if(resultado<0){
+                resultado=0;
+            }
+            resultados.add(resultado);
+            numero=numero+1;
+        }while (numero<ingredientes.size());
+        numero=0;
+        do{
+        ContentValues registro = new ContentValues();
+        registro.put("cantidad",resultados.get(numero));
+        bd.update("hay",registro,"nomIngrediente='"+ingredientes.get(numero).toString()+"'", null);
+        numero=numero+1;
+        }while (numero<resultados.size());
+        // Toast.makeText(this,"Hay "+resultados.size()+" cantidades ",Toast.LENGTH_SHORT).show();
+        bd.close();
+        admin.close();
     }
     public void insercion(){
         BBDD admin = new BBDD(this,"administracion", null,1);
