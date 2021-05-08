@@ -1,12 +1,7 @@
 package com.elorrieta.diet_app;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,20 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.elorrieta.diet_app.ui.main.dialog.DatePickerFragment;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
-import static java.security.AccessController.getContext;
 
 public class DietaDiaria extends AppCompatActivity implements View.OnClickListener {
     String receta = "", textoBoton = "";
@@ -44,7 +30,7 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
     boolean limpiarMenuPulsado = false;
     EditText txtFecha;
     TextView txtDia;
-    String origen = "", fecha = "";
+    String origen = "", fecha = "", fechaAAAAMMDD = "";
     int anio, mes;
     String dia;
     //Array y variables para guardar los datos de la dieta
@@ -347,39 +333,40 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
         if(listaFechas.contains(txtFecha.getText().toString())) {
             //Mensaje de error
             Toast.makeText(this,
-                    "Dieta Diaria con fecha " + txtFecha.getText().toString() + " ya existe en la BBDD!", Toast.LENGTH_LONG).show();
+                    "Dieta Diaria con fecha " + fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(txtFecha.getText().toString())) + " ya existe en la BBDD!", Toast.LENGTH_LONG).show();
         } else {
-            dietaDiaria.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + txtFecha.getText().toString() + "', 'Dieta Diaria')");
+            fechaAAAAMMDD = fecha_AAAA_MM_DD(txtFecha.getText().toString());
+            dietaDiaria.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaAAAAMMDD + "', 'Dieta Diaria')");
 
             for (int i = 0; i < desayuno.length; i++) {
                 if (desayuno[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Desayuno'," + desayuno[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + fechaAAAAMMDD + "', 'Desayuno'," + desayuno[i] + " )");
                 }
             }
             for (int i = 0; i < almuerzo.length; i++) {
                 if (almuerzo[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Almuerzo'," + almuerzo[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + fechaAAAAMMDD + "', 'Almuerzo'," + almuerzo[i] + " )");
                 }
             }
             for (int i = 0; i < comida.length; i++) {
                 if (comida[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Comida'," + comida[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + fechaAAAAMMDD + "', 'Comida'," + comida[i] + " )");
                 }
             }
             for (int i = 0; i < merienda.length; i++) {
                 if (merienda[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Merienda'," + merienda[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + fechaAAAAMMDD + "', 'Merienda'," + merienda[i] + " )");
                 }
             }
             for (int i = 0; i < cena.length; i++) {
                 if (cena[i] != 0) {
-                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + txtFecha.getText().toString() + "', 'Cena'," + cena[i] + " )");
+                    dietaDiaria.execSQL("INSERT INTO contiene (nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria' , '" + fechaAAAAMMDD + "', 'Cena'," + cena[i] + " )");
                 }
             }
             dietaDiaria.close();
             //Mensaje de éxito y vuelve a la pantalla del dietario
             Toast.makeText(this,
-                    "Dieta Diaria con fecha " + txtFecha.getText().toString() + " guardada con éxito!", Toast.LENGTH_LONG).show();
+                    "Dieta Diaria con fecha " + fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(txtFecha.getText().toString())) + " guardada con éxito!", Toast.LENGTH_LONG).show();
             Intent oIntento = new Intent(this, Dietario.class);
             startActivity(oIntento);
             finish();
@@ -410,7 +397,7 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
                 }
                 // +1 en el mes porque Enero es 0
                 final String selectedDate = dia + " / " + (month + 1) + " / " + year;
-                txtFecha.setText(selectedDate);
+                txtFecha.setText(fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(selectedDate)));
                 findViewById(R.id.btnGuardar).setEnabled(true);
             }
         });
@@ -505,4 +492,53 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    public String fecha_AAAA_MM_DD(String fechaDD_MM_AAA) {
+        String fecha_AAAA_MM_DD = "";
+
+        String[] fechaArray = fechaDD_MM_AAA.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[0].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[2].trim());
+        fecha_AAAA_MM_DD = anio + " / " + mes + " / " + dia;
+
+        return fecha_AAAA_MM_DD;
+    }
+
+    public String fecha_DD_MM_AAAA(String fechaAAAA_MM_DD) {
+        String fecha_DD_MM_AAAA = "";
+
+        String[] fechaArray = fechaAAAA_MM_DD.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[2].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[0].trim());
+        fecha_DD_MM_AAAA = dia + " / " + mes + " / " + anio;
+
+        return fecha_DD_MM_AAAA;
+    }
 }

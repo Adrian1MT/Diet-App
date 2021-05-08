@@ -1,7 +1,5 @@
 package com.elorrieta.diet_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -16,9 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.elorrieta.diet_app.ui.main.dialog.DatePickerFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -26,6 +25,7 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
     String receta = "", textoBoton = "";
     int soyElBoton, id;
     int anio, mes, diaDelMes;
+    String diaS;
 
     Button boton,
             btnDesayunoLunes, btnAlmuerzoLunes, btnComidaLunes, btnMeriendaLunes, btnCenaLunes,
@@ -237,7 +237,7 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
             calcularDias(fecha);
 
             txtdiaLunes.setVisibility(View.VISIBLE);
-            txtdiaLunes.setText(fechaLunes);
+            txtdiaLunes.setText(fecha_DD_MM_AAAA(fechaLunes));
 
             btnEliminarDieta.setVisibility(View.VISIBLE);
 
@@ -1300,7 +1300,7 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
                 listaFechas.contains(fechaDomingo)) {
             //Mensaje de error
             Toast.makeText(this,
-                    "Dieta Semanal con fecha de lunes " + fechaLunes + " a " + fechaDomingo + " ya existe en la BBDD!", Toast.LENGTH_LONG).show();
+                    "Alguna dieta con fecha de lunes " + fecha_DD_MM_AAAA(fechaLunes) + " a " + fecha_DD_MM_AAAA(fechaDomingo) + " ya existe en la BBDD!.", Toast.LENGTH_LONG).show();
         } else {
             dietaSemanal.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaLunes + "', 'Dieta Semanal')");
             dietaSemanal.execSQL("INSERT INTO fecha (dia, nomDieta) VALUES ('" + fechaMartes + "', 'Dieta Semanal')");
@@ -1494,7 +1494,7 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
             dietaSemanal.close();
             //Mensaje de éxito y vuelve a la pantalla del dietario
             Toast.makeText(this,
-                    "Dieta Semanal con fecha de lunes " + fechaLunes + " a domingo  " + fechaDomingo + " guardada con éxito!", Toast.LENGTH_LONG).show();
+                    "Dieta Semanal con fecha de lunes " + fecha_DD_MM_AAAA(fechaLunes) + " a domingo  " + fecha_DD_MM_AAAA(fechaDomingo) + " guardada con éxito!", Toast.LENGTH_LONG).show();
             Intent oIntento = new Intent(this, Dietario.class);
             startActivity(oIntento);
             finish();
@@ -1547,7 +1547,7 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
         txtdiaLunes.setText("");
         //Mensaje de éxito y vuelve a la pantalla del dietario
         Toast.makeText(this,
-                "Dieta Semanal con fecha del lunes " + fechaLunes + " al domingo " + fechaDomingo + " eliminada con éxito!", Toast.LENGTH_LONG).show();
+                "Dieta Semanal con fecha del lunes " + fecha_DD_MM_AAAA(fechaLunes) + " al domingo " + fecha_DD_MM_AAAA(fechaDomingo) + " eliminada con éxito!", Toast.LENGTH_LONG).show();
         Intent oIntento = new Intent(this, Dietario.class);
         startActivity(oIntento);
         finish();
@@ -1557,18 +1557,25 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
         date.add(Calendar.DAY_OF_YEAR, diasDiferencia);
 
         fechaLunes = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaLunes = fecha_AAAA_MM_DD(fechaLunes);
         date.add(Calendar.DAY_OF_YEAR, 1);
         fechaMartes = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaMartes = fecha_AAAA_MM_DD(fechaMartes);
         date.add(Calendar.DAY_OF_YEAR, 1);
         fechaMiercoles = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaMiercoles = fecha_AAAA_MM_DD(fechaMiercoles);
         date.add(Calendar.DAY_OF_YEAR, 1);
         fechaJueves = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaJueves = fecha_AAAA_MM_DD(fechaJueves);
         date.add(Calendar.DAY_OF_YEAR, 1);
         fechaViernes = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaViernes = fecha_AAAA_MM_DD(fechaViernes);
         date.add(Calendar.DAY_OF_YEAR, 1);
         fechaSabado = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaSabado = fecha_AAAA_MM_DD(fechaSabado);
         date.add(Calendar.DAY_OF_YEAR, 1);
         fechaDomingo = date.get(Calendar.DAY_OF_MONTH) + " / " + (date.get(Calendar.MONTH) + 1) + " / " + date.get(Calendar.YEAR);
+        fechaDomingo = fecha_AAAA_MM_DD(fechaDomingo);
     }
 
     @Override
@@ -1587,15 +1594,70 @@ public class DietaSemanal extends AppCompatActivity implements View.OnClickListe
                 //Asigno los datos locales a globales, para usarlos en otros métodos
                 anio = year;
                 mes = month;
-                diaDelMes = day;
-                // +1 porque Enero es 0
-                final String selectedDate = day + " / " + (month + 1) + " / " + year;
-                txtFecha.setText(selectedDate);
+                // para días del 1 al 9, le añado un 0 delante (para la gestión de fechas)
+                if (day<10){
+                    diaS = "0" + String.valueOf(day);
+                } else {
+                    diaS = String.valueOf(day);
+                }
+                // +1 en el mes porque Enero es 0
+                final String selectedDate = diaS + " / " + (month + 1) + " / " + year;
+                txtFecha.setText(fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(selectedDate)));
                 findViewById(R.id.btnGuardarSemanal).setEnabled(true);
             }
         });
 
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public String fecha_AAAA_MM_DD(String fechaDD_MM_AAA) {
+        String fecha_AAAA_MM_DD = "";
+
+        String[] fechaArray = fechaDD_MM_AAA.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[0].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[2].trim());
+        fecha_AAAA_MM_DD = anio + " / " + mes + " / " + dia;
+
+        return fecha_AAAA_MM_DD;
+    }
+
+    public String fecha_DD_MM_AAAA(String fechaAAAA_MM_DD) {
+        String fecha_DD_MM_AAAA = "";
+
+        String[] fechaArray = fechaAAAA_MM_DD.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[2].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[0].trim());
+        fecha_DD_MM_AAAA = dia + " / " + mes + " / " + anio;
+
+        return fecha_DD_MM_AAAA;
     }
 
     public void cargarDietaLunes(String fecha) {

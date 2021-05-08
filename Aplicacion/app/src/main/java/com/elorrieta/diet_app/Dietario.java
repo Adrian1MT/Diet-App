@@ -1,10 +1,5 @@
 package com.elorrieta.diet_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,13 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
-import static android.graphics.Color.*;
+import static android.graphics.Color.LTGRAY;
 
 public class Dietario extends AppCompatActivity {
     RecyclerView rvIntroducirDietas;
     RecyclerView rvCargarDietas;
+    String fecha, fechaDieta;
     ArrayList<Menu> menuArrayList;
     ArrayList<Menu> menuCargarDietaDiaria, menuCargarDietaFinDe, menuCargarDietaSemanal;
 
@@ -85,13 +86,17 @@ public class Dietario extends AppCompatActivity {
         do {
             if (fila.moveToNext()) {
                 //En Diaria carga todas las dietas
-                menuCargarDietaDiaria.add(new Menu(fila.getString(0)));
+                fecha = fila.getString(0);
+                if (!fecha.isEmpty()) {
+                    fechaDieta = fecha_DD_MM_AAAA(fecha);
+                    menuCargarDietaDiaria.add(new Menu(fechaDieta));
 
-                if (fila.getString(1).contentEquals("Dieta FinDe")) {
-                    menuCargarDietaFinDe.add(new Menu(fila.getString(0)));
-                }
-                if (fila.getString(1).contentEquals("Dieta Semanal")) {
-                    menuCargarDietaSemanal.add(new Menu(fila.getString(0)));
+                    if (fila.getString(1).contentEquals("Dieta FinDe")) {
+                        menuCargarDietaFinDe.add(new Menu(fechaDieta));
+                    }
+                    if (fila.getString(1).contentEquals("Dieta Semanal")) {
+                        menuCargarDietaSemanal.add(new Menu(fechaDieta));
+                    }
                 }
             } else {
                 bucle = true;
@@ -195,6 +200,31 @@ public class Dietario extends AppCompatActivity {
             findViewById(R.id.btnFinDe).setBackgroundColor(0xFF4CAF50);
             rvCargarDietas.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public String fecha_DD_MM_AAAA(String fechaAAAA_MM_DD) {
+        String fecha_DD_MM_AAAA = "";
+
+        String[] fechaArray = fechaAAAA_MM_DD.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[2].trim());
+        String diaM;
+        if (diaDelMes < 10) {
+            diaM = "0" + diaDelMes;
+        } else {
+            diaM = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio < 10) {
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[0].trim());
+        fecha_DD_MM_AAAA = diaM + " / " + mes + " / " + anio;
+
+        return fecha_DD_MM_AAAA;
     }
 
     public void dietaDiaria(View poView, String origen, String fecha) {

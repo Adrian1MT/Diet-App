@@ -1,13 +1,13 @@
 package com.elorrieta.diet_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.elorrieta.diet_app.ui.main.dialog.DatePickerFragment;
 
@@ -39,7 +39,7 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
         }
 
         selectedDate = dia + " / " + (Integer.parseInt(String.valueOf(now.get(now.MONTH))) + 1) + " / " + now.get(now.YEAR);
-        txtFechaOrigen.setText(selectedDate);
+        txtFechaOrigen.setText(fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(selectedDate)));
         fechaOrigen = txtFechaOrigen.getText().toString();
     }
 
@@ -67,7 +67,7 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
                 }
                 // +1 porque Enero es 0
                 final String selectedDate = dia + " / " + (month + 1) + " / " + year;
-                txtFechaFin.setText(selectedDate);
+                txtFechaFin.setText(fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(selectedDate)));
                 fechaFin = txtFechaFin.getText().toString();
             }
         });
@@ -85,6 +85,56 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
         oIntent.putExtra("fechaOrigen", fechaOrigen);
         oIntent.putExtra("fechaFin", fechaFin);
         startActivity(oIntent);
+    }
+
+    public String fecha_AAAA_MM_DD(String fechaDD_MM_AAA) {
+        String fecha_AAAA_MM_DD = "";
+
+        String[] fechaArray = fechaDD_MM_AAA.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[0].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[2].trim());
+        fecha_AAAA_MM_DD = anio + " / " + mes + " / " + dia;
+
+        return fecha_AAAA_MM_DD;
+    }
+
+    public String fecha_DD_MM_AAAA(String fechaDD_MM_AAA) {
+        String fecha_DD_MM_AAAA = "";
+
+        String[] fechaArray = fechaDD_MM_AAA.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[2].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[0].trim());
+        fecha_DD_MM_AAAA = dia + " / " + mes + " / " + anio;
+
+        return fecha_DD_MM_AAAA;
     }
 
 }

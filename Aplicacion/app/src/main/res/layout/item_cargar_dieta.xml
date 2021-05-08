@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/itemNombreIngrediente"
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/toms_handwritten_new"

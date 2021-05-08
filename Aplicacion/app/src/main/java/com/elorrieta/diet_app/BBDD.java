@@ -474,53 +474,30 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Cena')");
     }
     public void fecha(SQLiteDatabase bd){
-        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('01 / 1 / 2021', 'Dieta Diaria')");
+        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('2021 / 05 / 07', 'Dieta Diaria')");
+        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('2021 / 06 / 07', 'Dieta Diaria')");
 
-        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('02 / 1 / 2021', 'Dieta FinDe')");
-        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('03 / 1 / 2021', 'Dieta FinDe')");
-
-        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('04 / 1 / 2021', 'Dieta Semanal')");
     }
+
     public void contiene(SQLiteDatabase bd){
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Desayuno', 13)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Desayuno', 3)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Almuerzo', 19)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Comida', 4)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Comida', 11)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Comida', 14)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Merienda', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Cena', 7)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '01 / 1 / 2021', 'Cena', 16)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Desayuno', 13)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Desayuno', 3)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Almuerzo', 19)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 4)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 11)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 14)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Merienda', 2)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Cena', 7)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Cena', 16)");
 
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Desayuno', 13)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Desayuno', 3)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Almuerzo', 19)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Comida', 4)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Comida', 11)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Comida', 14)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Merienda', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Cena', 7)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '02 / 1 / 2021', 'Cena', 16)");
-
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Desayuno', 13)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Desayuno', 3)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Almuerzo', 19)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Comida', 4)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Comida', 11)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Comida', 14)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Merienda', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Cena', 7)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta FinDe', '03 / 1 / 2021', 'Cena', 16)");
-
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Desayuno', 13)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Desayuno', 3)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Almuerzo', 19)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Comida', 4)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Comida', 11)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Comida', 14)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Merienda', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Cena', 7)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Semanal', '04 / 1 / 2021', 'Cena', 16)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Desayuno', 1)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Desayuno', 5)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Almuerzo', 20)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 2)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 8)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 4)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Merienda', 2)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Cena', 3)");
+        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Cena', 11)");
     }
-
 }

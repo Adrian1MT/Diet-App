@@ -1,24 +1,25 @@
 package com.elorrieta.diet_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+
 
 public class listaCompra extends AppCompatActivity {
     RecyclerView rvNecesitamos, rvTenemos;
     ArrayList<String> menuArrayListNecesitamos1, menuArrayListNecesitamos2, menuArrayListNecesitamos3;
     ArrayList<String> almacenTodos1, almacenTodos2, almacenTodos3;
     ArrayList<String> menuArrayListTenemos1, menuArrayListTenemos2, menuArrayListTenemos3;
-    String origen, fin;
+    String origen, fin, fechaOrigen, fechaFin;
     TextView txtFechaOrigen, txtFechaFin;
 
     @Override
@@ -80,6 +81,10 @@ public class listaCompra extends AppCompatActivity {
 
     //Carga los ingredientes de todas las recetas comprendidas entre dos fechas
     public void cargarNecesitamos() {
+
+        fechaOrigen = fecha_AAAA_MM_DD(origen);
+        fechaFin = fecha_AAAA_MM_DD(fin);
+
         boolean bucle = false;
         BBDD admin = new BBDD(this, "administracion",
                 null, 1);
@@ -87,7 +92,7 @@ public class listaCompra extends AppCompatActivity {
         Cursor fila = bd.rawQuery("select ing.nomIngrediente, sum(cantidad)cantidad, unidad " +
                 "from ingrediente as ing join tiene as ti on ti.nomIngrediente=ing.nomIngrediente " +
                 "left join receta as re on re.id=ti.id where nombre in " +
-                "(select nombre from contiene as con left join receta as re on re.id=con.id where dia > '" + origen + "' and dia < '" + fin + "') " +
+                "(select nombre from contiene as con left join receta as re on re.id=con.id where dia > '" + fechaOrigen + "' and dia <= '" + fechaFin + "') " +
                 "GROUP BY ing.nomIngrediente", null);
         do {
             if (fila.moveToNext()) {
@@ -139,6 +144,56 @@ public class listaCompra extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public String fecha_AAAA_MM_DD(String fechaDD_MM_AAAA) {
+        String fecha_AAAA_MM_DD = "";
+
+        String[] fechaArray = fechaDD_MM_AAAA.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[0].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[2].trim());
+        fecha_AAAA_MM_DD = anio + " / " + mes + " / " + dia;
+
+        return fecha_AAAA_MM_DD;
+    }
+
+    public String fecha_DD_MM_AAAA(String fechaAAAA_MM_DD) {
+        String fecha_DD_MM_AAAA = "";
+
+        String[] fechaArray = fechaAAAA_MM_DD.split(" / ");
+        int diaDelMes, mesDelAnio, anio;
+        diaDelMes = Integer.parseInt(fechaArray[2].trim());
+        String dia;
+        if (diaDelMes<10){
+            dia = "0" + diaDelMes;
+        } else {
+            dia = String.valueOf(diaDelMes);
+        }
+        mesDelAnio = Integer.parseInt(fechaArray[1].trim());
+        String mes;
+        if (mesDelAnio<10){
+            mes = "0" + mesDelAnio;
+        } else {
+            mes = String.valueOf(mesDelAnio);
+        }
+        anio = Integer.parseInt(fechaArray[0].trim());
+        fecha_DD_MM_AAAA = dia + " / " + mes + " / " + anio;
+
+        return fecha_DD_MM_AAAA;
     }
 
 }

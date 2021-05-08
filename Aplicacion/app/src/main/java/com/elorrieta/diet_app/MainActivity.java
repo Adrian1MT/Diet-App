@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         menuArrayList = new ArrayList<Menu>();
         menuArrayList.add(new Menu("Recetas"));
         menuArrayList.add(new Menu("Dietario"));
-        menuArrayList.add(new Menu("Lista de la compra"));
+        menuArrayList.add(new Menu("Almacen / Compra"));
 
         oRecyclerView = (RecyclerView) findViewById(R.id.RecyclerCargarDieta);
 
