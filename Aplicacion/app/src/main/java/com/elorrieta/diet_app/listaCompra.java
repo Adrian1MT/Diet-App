@@ -15,10 +15,13 @@ import java.util.ArrayList;
 
 
 public class listaCompra extends AppCompatActivity {
-    RecyclerView rvNecesitamos, rvTenemos;
-    ArrayList<String> menuArrayListNecesitamos1, menuArrayListNecesitamos2, menuArrayListNecesitamos3;
-    ArrayList<String> almacenTodos1, almacenTodos2, almacenTodos3;
-    ArrayList<String> menuArrayListTenemos1, menuArrayListTenemos2, menuArrayListTenemos3;
+    RecyclerView rvNecesitamos, rvTenemos, rvCompramos;
+    ArrayList<Ingrediente> menuArrList_Necesitamos;
+    ArrayList<Ingrediente> almacenTodos;
+    ArrayList<Ingrediente> menuArrList_Tenemos;
+    ArrayList<Ingrediente> menuArrList_Compra;
+    ArrayList<Ingrediente> menuActualizacion_Almacen;
+    ArrayList<Ingrediente> menuInsercion_Almacen;
     String origen, fin, fechaOrigen, fechaFin;
     TextView txtFechaOrigen, txtFechaFin;
 
@@ -41,13 +44,11 @@ public class listaCompra extends AppCompatActivity {
         //ReciclerViews
 
         // Llenamos el ArrayList de ingredientes que NECESITAMOS.
-        menuArrayListNecesitamos1 = new ArrayList<String>();
-        menuArrayListNecesitamos2 = new ArrayList<String>();
-        menuArrayListNecesitamos3 = new ArrayList<String>();
+        menuArrList_Necesitamos = new ArrayList<Ingrediente>();
         cargarNecesitamos();
         rvNecesitamos = (RecyclerView) findViewById(R.id.reciclerListaRecetas);
 
-        AdapterListaCompra aN = new AdapterListaCompra(menuArrayListNecesitamos1, menuArrayListNecesitamos2, menuArrayListNecesitamos3);
+        AdapterListaCompra aN = new AdapterListaCompra(menuArrList_Necesitamos);
         rvNecesitamos.setAdapter(aN);
 
         // establecemos el Layout Manager.
@@ -58,17 +59,14 @@ public class listaCompra extends AppCompatActivity {
         rvNecesitamos.setVisibility(View.VISIBLE);
 
         // Llenamos el ArrayList de ingredientes que TENEMOS.
-        almacenTodos1 = new ArrayList<String>();
-        almacenTodos2 = new ArrayList<String>();
-        almacenTodos3 = new ArrayList<String>();
-        menuArrayListTenemos1 = new ArrayList<String>();
-        menuArrayListTenemos2 = new ArrayList<String>();
-        menuArrayListTenemos3 = new ArrayList<String>();
+        almacenTodos = new ArrayList<Ingrediente>();
+        menuArrList_Tenemos = new ArrayList<Ingrediente>();
+
         cargarTenemosTodos();
         cargarTenemosNecesitados();
         rvTenemos = (RecyclerView) findViewById(R.id.reciclerListaAlmacen);
 
-        AdapterListaCompra aT = new AdapterListaCompra(menuArrayListTenemos1, menuArrayListTenemos2, menuArrayListTenemos3);
+        AdapterListaCompra aT = new AdapterListaCompra(menuArrList_Tenemos);
         rvTenemos.setAdapter(aT);
 
         // establecemos el Layout Manager.
@@ -77,6 +75,24 @@ public class listaCompra extends AppCompatActivity {
         rvTenemos.setLayoutManager(llmTenemos);
         rvTenemos.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvTenemos.setVisibility(View.VISIBLE);
+
+        // Llenamos el ArrayList de ingredientes que COMPRAMOS.
+        menuArrList_Compra = new ArrayList<Ingrediente>();
+        //Creamos los Arrays para los ingredientes del almacen
+        menuActualizacion_Almacen = new ArrayList<Ingrediente>();
+        menuInsercion_Almacen = new ArrayList<Ingrediente>();
+        cargarCompramos();
+        rvCompramos = (RecyclerView) findViewById(R.id.reciclerListaCompra);
+
+        AdapterListaCompra aC = new AdapterListaCompra(menuArrList_Compra);
+        rvCompramos.setAdapter(aC);
+
+        // establecemos el Layout Manager.
+        LinearLayoutManager llmCompramos = new LinearLayoutManager(this);
+        llmCompramos.setOrientation(LinearLayoutManager.VERTICAL);
+        rvCompramos.setLayoutManager(llmCompramos);
+        rvCompramos.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        rvCompramos.setVisibility(View.VISIBLE);
     }
 
     //Carga los ingredientes de todas las recetas comprendidas entre dos fechas
@@ -97,9 +113,8 @@ public class listaCompra extends AppCompatActivity {
         do {
             if (fila.moveToNext()) {
                 if (fila != null) {
-                    menuArrayListNecesitamos1.add(fila.getString(0));
-                    menuArrayListNecesitamos2.add(fila.getString(1));
-                    menuArrayListNecesitamos3.add(fila.getString(2));
+                    Ingrediente ingrediente = new Ingrediente(fila.getString(0), fila.getFloat(1), fila.getString(2));
+                    menuArrList_Necesitamos.add(ingrediente);
                 }
             } else {
                 bucle = true;
@@ -121,9 +136,8 @@ public class listaCompra extends AppCompatActivity {
         do {
             if (fila.moveToNext()) {
                 if (fila != null) {
-                    almacenTodos1.add(fila.getString(0));
-                    almacenTodos2.add(fila.getString(1));
-                    almacenTodos3.add(fila.getString(2));
+                    Ingrediente ingrediente = new Ingrediente(fila.getString(0), fila.getFloat(1), fila.getString(2));
+                    almacenTodos.add(ingrediente);
                 }
             } else {
                 bucle = true;
@@ -135,13 +149,50 @@ public class listaCompra extends AppCompatActivity {
 
     //Llena los arrayList de TENEMOS sólo con los ingredientes existentes en NECESITAMOS.
     public void cargarTenemosNecesitados() {
-        for(int i = 0; i < almacenTodos1.size(); i++) {
-            for(int j = 0; j < menuArrayListNecesitamos1.size(); j++) {
-                if(almacenTodos1.get(i).contentEquals(menuArrayListNecesitamos1.get(j))){
-                    menuArrayListTenemos1.add(almacenTodos1.get(i));
-                    menuArrayListTenemos2.add(almacenTodos2.get(i));
-                    menuArrayListTenemos3.add(almacenTodos3.get(i));
+        for (int i = 0; i < almacenTodos.size(); i++) {
+            for (int j = 0; j < menuArrList_Necesitamos.size(); j++) {
+                if (almacenTodos.get(i).nombre.contentEquals(menuArrList_Necesitamos.get(j).nombre)) {
+                    menuArrList_Tenemos.add(almacenTodos.get(i));
                 }
+            }
+        }
+    }
+
+    //Llena los arrayList de COMPRAMOS y guarda la actualización para el almacén con los ingredientes restando las cantidades de NECESITAMOS menos TENEMOS.
+    public void cargarCompramos() {
+        float resultado;
+        boolean encontrado;
+        for (int i = 0; i < menuArrList_Necesitamos.size(); i++) { //Ingredientes que ya teníamos en el almacén
+            resultado = 0;
+            encontrado = false;
+            for (int j = 0; j < menuArrList_Tenemos.size() && !encontrado; j++) {
+                if (menuArrList_Tenemos.get(j).getNombre().contentEquals(menuArrList_Necesitamos.get(i).getNombre())) { //Rastrea los ingredientes con el mismo nombre
+                    resultado = (menuArrList_Necesitamos.get(i).getCantidad() - menuArrList_Tenemos.get(j).getCantidad());
+                    if (resultado > 0) { //resta positiva
+                        //Lista de la compra
+                        Ingrediente ingrediente = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), resultado, menuArrList_Necesitamos.get(i).getUnidad());
+                        menuArrList_Compra.add(ingrediente);
+                        //Almacen
+                        Ingrediente ingredienteAlm = new Ingrediente(menuArrList_Tenemos.get(j).getNombre(), menuArrList_Tenemos.get(j).cantidad, menuArrList_Tenemos.get(j).getUnidad());
+                        menuActualizacion_Almacen.add(ingredienteAlm);
+                        encontrado = true;
+                    } else { //resta negativa
+                        //Lista de la compra
+                        //-->NO necesitamos comprar porque hay existencias en el almacén
+                        //Almacén
+                        Ingrediente ingrediente = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), resultado * (-1), menuArrList_Necesitamos.get(i).getUnidad());
+                        menuActualizacion_Almacen.add(ingrediente);
+                        encontrado = true;
+                    }
+                }
+            }
+            if (!encontrado) {
+                //Lista de la compra
+                Ingrediente ingrediente = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), menuArrList_Necesitamos.get(i).getCantidad(), menuArrList_Necesitamos.get(i).getUnidad());
+                menuArrList_Compra.add(ingrediente);
+                //Almacen, estos ingredientes son nuevos, habrá que insertarlos
+                Ingrediente ingredienteAlm = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), menuArrList_Necesitamos.get(i).cantidad, menuArrList_Necesitamos.get(i).getUnidad());
+                menuInsercion_Almacen.add(ingredienteAlm);
             }
         }
     }
@@ -153,14 +204,14 @@ public class listaCompra extends AppCompatActivity {
         int diaDelMes, mesDelAnio, anio;
         diaDelMes = Integer.parseInt(fechaArray[0].trim());
         String dia;
-        if (diaDelMes<10){
+        if (diaDelMes < 10) {
             dia = "0" + diaDelMes;
         } else {
             dia = String.valueOf(diaDelMes);
         }
         mesDelAnio = Integer.parseInt(fechaArray[1].trim());
         String mes;
-        if (mesDelAnio<10){
+        if (mesDelAnio < 10) {
             mes = "0" + mesDelAnio;
         } else {
             mes = String.valueOf(mesDelAnio);
@@ -178,14 +229,14 @@ public class listaCompra extends AppCompatActivity {
         int diaDelMes, mesDelAnio, anio;
         diaDelMes = Integer.parseInt(fechaArray[2].trim());
         String dia;
-        if (diaDelMes<10){
+        if (diaDelMes < 10) {
             dia = "0" + diaDelMes;
         } else {
             dia = String.valueOf(diaDelMes);
         }
         mesDelAnio = Integer.parseInt(fechaArray[1].trim());
         String mes;
-        if (mesDelAnio<10){
+        if (mesDelAnio < 10) {
             mes = "0" + mesDelAnio;
         } else {
             mes = String.valueOf(mesDelAnio);

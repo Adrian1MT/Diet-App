@@ -19,9 +19,9 @@ public class BBDD extends SQLiteOpenHelper {
         db.execSQL("create table contiene(nomDieta varchar(20), dia TEXT, tipoComida varchar(10), id integer, foreign key(nomDieta) references fecha(nomDieta), foreign key(dia) references fecha(dia), foreign key(tipoComida) references menu(tipoComida), foreign key(id) references receta(id), primary key(nomDieta, dia, tipoComida, id))");
         db.execSQL("create table receta(id integer primary key autoincrement, nombre varchar(10), elaboracion varchar(150), foto varchar(50), tiempo integer, dificultad varchar(10), tipo varchar(10), origen varchar(10))");
         db.execSQL("create table nComensales(numComensales integer, id integer, primary key(numComensales, id), foreign key(id) references receta(id))");
-        db.execSQL("create table tiene(numComensales integer, nomIngrediente varchar(10), id integer, cantidad integer, foreign key(numComensales,id) references nComensales(numComensales,id), foreign key(nomIngrediente) references ingrediente(nomIngrediente), primary key(nomIngrediente, numComensales, id))");
+        db.execSQL("create table tiene(numComensales integer, nomIngrediente varchar(10), id integer, cantidad float, foreign key(numComensales,id) references nComensales(numComensales,id), foreign key(nomIngrediente) references ingrediente(nomIngrediente), primary key(nomIngrediente, numComensales, id))");
         db.execSQL("create table ingrediente(nomIngrediente varchar(10) primary key, unidad varchar(10), foto varchar(50), precio float)");
-        db.execSQL("create table hay(nomAlmacen varchar(20), nomIngrediente varchar(10), cantidad integer, unidad varchar(10), foreign key(nomIngrediente) references ingrediente(nomIngrediente), foreign key(nomAlmacen) references almacen(nomAlmacen), primary key(nomAlmacen, nomIngrediente))");
+        db.execSQL("create table hay(nomAlmacen varchar(20), nomIngrediente varchar(10), cantidad float, unidad varchar(10), foreign key(nomIngrediente) references ingrediente(nomIngrediente), foreign key(nomAlmacen) references almacen(nomAlmacen), primary key(nomAlmacen, nomIngrediente))");
         db.execSQL("create table almacen(nomAlmacen varchar(20) primary key)");
     }
 
@@ -41,8 +41,9 @@ public class BBDD extends SQLiteOpenHelper {
 
         dieta(bd);
         menu(bd);
-        fecha(bd);
-        contiene(bd);
+
+        //fecha(bd);
+        //contiene(bd);
     }
 
     public void receta(SQLiteDatabase bd){
@@ -67,6 +68,7 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO receta (nombre, elaboracion, foto, tiempo, dificultad, tipo, origen) VALUES ('ENSALADA TROPICAL', 'Poner en una picadora el trozo de jengibre, 4 hojas de hierbabuena, el zumo de una lima y aceite como para aliñar una ensalada. Batir hasta que quede todo bien triturado. Cortar toda la fruta en trozos pequeños y disponerla en un bol. Sazonar con la vinagreta y un poco de sal –como si fuese una ensalada tradicional– y remover. Dejar reposar un rato en la nevera tapado con film de cocina. Volver a mezclar un poco, decorar con unas láminas de coco deshidratado y unas hojas de hierbabuena y servir inmediatamente.', 'Enlace', 14, 'BAJA', 'PRIMERO','VEGANA')");
         bd.execSQL("INSERT INTO receta (nombre, elaboracion, foto, tiempo, dificultad, tipo, origen) VALUES ('MELÓN CON JAMÓN 2.0', 'Cortar 3 o 4 rajas normales del melón y quitarles las pipas. Desde la parte interior (donde estaban las pipas), ir sacando láminas en sentido longitudinal con la ayuda de un pelador. Cortar las lonchas de jamón por el medio a lo largo o de modo que sean de tamaño similar a las láminas de melón. Colocar en cada plato el doble de melón que de jamón. Espolvorear con pimienta negra recién molida y añadir un hilito de aceite de oliva por encima.', 'Enlace', 10, 'BAJA', 'ENTRNTE','MEDITERRANEA')");
     }
+
     public void Comensales(SQLiteDatabase bd){
         //numComensales y id = el menu al que pertenece
         bd.execSQL("INSERT INTO nComensales(numComensales, id) VALUES (4, 1)");
@@ -90,6 +92,7 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO nComensales(numComensales, id) VALUES (2, 19)");
         bd.execSQL("INSERT INTO nComensales(numComensales, id) VALUES (6, 20)");
     }
+
     public void tiene(SQLiteDatabase bd){
         //numComensales= el ingrediente - cantidad que corresponde al num de comensales que hay.
         //ejem: 10 alcachofas para 4 comensales = numComensal=4, 5 alcachofas para 2 comensales = numComensal=2
@@ -317,6 +320,7 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO tiene(numComensales, nomIngrediente, id, cantidad) VALUES (6, 'Aceite Oliva virgen', 20, 100)");
 
     }
+
     public void ingrediente(SQLiteDatabase bd){
         bd.execSQL("INSERT INTO ingrediente(nomIngrediente, unidad, foto, precio) VALUES ('Alcachofas', 'ud', 'Falcachofa', 0.00)");
         bd.execSQL("INSERT INTO ingrediente(nomIngrediente, unidad, foto, precio) VALUES ('Pan duro', 'gr', 'F_PanDuro', 0)");
@@ -450,8 +454,6 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO ingrediente(nomIngrediente, unidad, foto, precio) VALUES ('Coco deshidratado', 'ud', 'F_CocoD', 0)");
 
         bd.execSQL("INSERT INTO ingrediente(nomIngrediente, unidad, foto, precio) VALUES ('Melón', 'ud', 'F_Melón', 0)");
-
-
     }
 
     public void almacen(SQLiteDatabase bd){
@@ -466,6 +468,7 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO dieta(nomDieta) VALUES ('Dieta FinDe')");
         bd.execSQL("INSERT INTO dieta(nomDieta) VALUES ('Dieta Semanal')");
     }
+
     public void menu(SQLiteDatabase bd){
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Desayuno')");
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Almuerzo')");
@@ -473,31 +476,32 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Merienda')");
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Cena')");
     }
-    public void fecha(SQLiteDatabase bd){
-        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('2021 / 05 / 07', 'Dieta Diaria')");
-        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('2021 / 06 / 07', 'Dieta Diaria')");
 
-    }
-
-    public void contiene(SQLiteDatabase bd){
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Desayuno', 13)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Desayuno', 3)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Almuerzo', 19)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 4)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 11)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 14)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Merienda', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Cena', 7)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Cena', 16)");
-
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Desayuno', 1)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Desayuno', 5)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Almuerzo', 20)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 8)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 4)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Merienda', 2)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Cena', 3)");
-        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Cena', 11)");
-    }
+//    public void fecha(SQLiteDatabase bd){
+//        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('2021 / 05 / 07', 'Dieta Diaria')");
+//        bd.execSQL("INSERT INTO fecha(dia, nomDieta) VALUES ('2021 / 06 / 07', 'Dieta Diaria')");
+//
+//    }
+//
+//    public void contiene(SQLiteDatabase bd){
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Desayuno', 13)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Desayuno', 3)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Almuerzo', 19)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 4)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 11)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Comida', 14)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Merienda', 2)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Cena', 7)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 05 / 07', 'Cena', 16)");
+//
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Desayuno', 1)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Desayuno', 5)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Almuerzo', 20)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 2)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 8)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Comida', 4)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Merienda', 2)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Cena', 3)");
+//        bd.execSQL("INSERT INTO contiene(nomDieta, dia, tipoComida, id) VALUES ('Dieta Diaria', '2021 / 06 / 07', 'Cena', 11)");
+//    }
 }
