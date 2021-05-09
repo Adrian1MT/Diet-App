@@ -22,6 +22,10 @@ public class listaCompra extends AppCompatActivity {
     ArrayList<Ingrediente> menuArrList_Compra;
     ArrayList<Ingrediente> menuActualizacion_Almacen;
     ArrayList<Ingrediente> menuInsercion_Almacen;
+    ArrayList<String> congelador = new ArrayList<String>();
+    ArrayList<String> despensa = new ArrayList<String>();
+    ArrayList<String> especiero = new ArrayList<String>();
+    ArrayList<String> nevera = new ArrayList<String>();
     String origen, fin, fechaOrigen, fechaFin;
     TextView txtFechaOrigen, txtFechaFin;
 
@@ -29,6 +33,8 @@ public class listaCompra extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_compra);
+
+        cargarListaAlmacenes();
 
         txtFechaOrigen = (TextView) findViewById(R.id.txtOrigen);
         txtFechaFin = (TextView) findViewById(R.id.txtFin);
@@ -38,8 +44,8 @@ public class listaCompra extends AppCompatActivity {
         fin = getIntent().getStringExtra("fechaFin");
 
         //Se llenan los textBoxes con los datos elegidos de la pantalla anterior
-        txtFechaOrigen.setText(origen);
-        txtFechaFin.setText(fin);
+        txtFechaOrigen.setText(fecha_DD_MM_AAAA(origen));
+        txtFechaFin.setText(fecha_DD_MM_AAAA(fin));
 
         //ReciclerViews
 
@@ -95,11 +101,27 @@ public class listaCompra extends AppCompatActivity {
         rvCompramos.setVisibility(View.VISIBLE);
     }
 
+    //Guardará la fecha final de la compra y
+    //acumula los ingredientes comprados en el almacén
+    public void realizarCompra(View poView) {
+        //Fecha
+        BBDD admin = new BBDD(this, "administracion",
+                null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        bd.execSQL("UPDATE fechaCompra SET fechaUltimaCompra = '" + fin + "' WHERE true");
+        bd.close();
+        admin.close();
+        
+        //Almacén
+        //-->Update
+        //-->Insert
+    }
+
     //Carga los ingredientes de todas las recetas comprendidas entre dos fechas
     public void cargarNecesitamos() {
 
-        fechaOrigen = fecha_AAAA_MM_DD(origen);
-        fechaFin = fecha_AAAA_MM_DD(fin);
+        fechaOrigen = origen;
+        fechaFin = fin;
 
         boolean bucle = false;
         BBDD admin = new BBDD(this, "administracion",
@@ -197,6 +219,7 @@ public class listaCompra extends AppCompatActivity {
         }
     }
 
+    //Formato "AAAA / MM / DD" para las fechas
     public String fecha_AAAA_MM_DD(String fechaDD_MM_AAAA) {
         String fecha_AAAA_MM_DD = "";
 
@@ -222,10 +245,11 @@ public class listaCompra extends AppCompatActivity {
         return fecha_AAAA_MM_DD;
     }
 
-    public String fecha_DD_MM_AAAA(String fechaAAAA_MM_DD) {
+    //Formato "DD / MM / AAAA" para las fechas
+    public String fecha_DD_MM_AAAA(String fechaDD_MM_AAA) {
         String fecha_DD_MM_AAAA = "";
 
-        String[] fechaArray = fechaAAAA_MM_DD.split(" / ");
+        String[] fechaArray = fechaDD_MM_AAA.split(" / ");
         int diaDelMes, mesDelAnio, anio;
         diaDelMes = Integer.parseInt(fechaArray[2].trim());
         String dia;
@@ -247,4 +271,128 @@ public class listaCompra extends AppCompatActivity {
         return fecha_DD_MM_AAAA;
     }
 
+    //Carga la lista total de ingredientes con su almacén por defecto,
+    //para saber dónde se inscribirán por defecto si no existen
+    public void cargarListaAlmacenes() {
+        //Congelador
+        congelador.add("Habas cocidas");
+
+        //Despensa
+        despensa.add("Aceite Oliva virgen");
+        despensa.add("Aceite de girasol");
+        despensa.add("Aceite de sésamo");
+        despensa.add("Aceitunas sin hueso");
+        despensa.add("Agua");
+        despensa.add("Aguacate");
+        despensa.add("Alcachofas");
+        despensa.add("Almendras crudas");
+        despensa.add("Almendras tostadas");
+        despensa.add("Arroz");
+        despensa.add("Azucar blanco");
+        despensa.add("Azúcar glas");
+        despensa.add("Azúcar moreno");
+        despensa.add("Barra Pan blanco");
+        despensa.add("Boniato");
+        despensa.add("Bonito en aceite");
+        despensa.add("Brandy");
+        despensa.add("Cebolla");
+        despensa.add("Cebolleta");
+        despensa.add("Dientes de ajo");
+        despensa.add("Fresas");
+        despensa.add("Harina");
+        despensa.add("Jamón serrano");
+        despensa.add("Kiwis");
+        despensa.add("Leche condensada");
+        despensa.add("Levadura");
+        despensa.add("Licor de cereza");
+        despensa.add("Lima");
+        despensa.add("Limon");
+        despensa.add("Maicena");
+        despensa.add("Mango");
+        despensa.add("Melón");
+        despensa.add("Nabo");
+        despensa.add("Pan duro");
+        despensa.add("Papaya");
+        despensa.add("Parmesano");
+        despensa.add("Patatas");
+        despensa.add("Peras");
+        despensa.add("Piel Limon");
+        despensa.add("Piel naranja");
+        despensa.add("Pimientos del Piquillo");
+        despensa.add("Plátano");
+        despensa.add("Queso curado");
+        despensa.add("Queso de oveja");
+        despensa.add("Queso poco curado");
+        despensa.add("Quinua");
+        despensa.add("Ras al hanut");
+        despensa.add("Rebanada de pan de molde");
+        despensa.add("Sal");
+        despensa.add("Salsa de soja");
+        despensa.add("Sirope de arce");
+        despensa.add("Sésamo");
+        despensa.add("Tomates secos");
+        despensa.add("Vinagre");
+        despensa.add("Vinagre Suave");
+        despensa.add("Vino Blanco");
+
+        //Especiero
+        especiero.add("Anís estrellado");
+        especiero.add("Azafrán en hebras");
+        especiero.add("Canela");
+        especiero.add("Canela molida");
+        especiero.add("Cayena");
+        especiero.add("Clavos de olor");
+        especiero.add("Coco deshidratado");
+        especiero.add("Comino");
+        especiero.add("Cúrcuma");
+        especiero.add("Granos de cardamomo verde");
+        especiero.add("Guindilla picada");
+        especiero.add("Guindilla roja");
+        especiero.add("Hojas de hierbabuena");
+        especiero.add("Hojas de laurel");
+        especiero.add("Hojas de perejil");
+        especiero.add("Hojas de romero picadas");
+        especiero.add("Hojas de tomillo");
+        especiero.add("Jengibre");
+        especiero.add("Nuez moscada");
+        especiero.add("Orégano");
+        especiero.add("Perejil picado");
+        especiero.add("Pimentón picante");
+        especiero.add("Pimienta");
+        especiero.add("Romero");
+        especiero.add("Semillas de cilantro");
+        especiero.add("Tabasco");
+        especiero.add("Tomillo");
+        especiero.add("Vaina de vainilla");
+        especiero.add("Vainas de cardamomo");
+
+        //Nevera
+        nevera.add("Anchoas");
+        nevera.add("Boquerones");
+        nevera.add("Brécol");
+        nevera.add("Calabacines");
+        nevera.add("Calabaza");
+        nevera.add("Carne de cordero");
+        nevera.add("Cebollino picado");
+        nevera.add("Champiñones");
+        nevera.add("Coliflor");
+        nevera.add("Costilla de cerdo");
+        nevera.add("Espinacas");
+        nevera.add("Huevos");
+        nevera.add("Leche entera");
+        nevera.add("Mantequilla");
+        nevera.add("Manzana asada");
+        nevera.add("Membrillos");
+        nevera.add("Mermelada de frutos rojos");
+        nevera.add("Nata líquida");
+        nevera.add("Nata para montar");
+        nevera.add("Perejil");
+        nevera.add("Queso suizo");
+        nevera.add("Remolachas");
+        nevera.add("Sardinas");
+        nevera.add("Setas");
+        nevera.add("Yemas");
+        nevera.add("Yogur natural");
+        nevera.add("Zumo de naranja");
+    }
 }

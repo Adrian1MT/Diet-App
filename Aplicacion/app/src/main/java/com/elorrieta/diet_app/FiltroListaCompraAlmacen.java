@@ -2,27 +2,37 @@ package com.elorrieta.diet_app;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.elorrieta.diet_app.ui.main.dialog.DatePickerFragment;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 
-public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.OnClickListener{
-    String fechaOrigen, fechaFin;
+public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.OnClickListener {
+    String fechaOrigen, fechaFin, fechaCompra;
     int anio, mes;
     String dia;
     TextView txtFechaOrigen, txtFechaFin;
+    Button btnLista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtro_lista_compra_almacen);
+
+        btnLista = (Button) findViewById(R.id.btnLista);
+        btnLista.setEnabled(false);
 
         txtFechaOrigen = (TextView) findViewById(R.id.txtFechaOrigen);
         txtFechaFin = (TextView) findViewById(R.id.txtFechaFin);
@@ -32,7 +42,7 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
         String selectedDate = "";
         Calendar now = Calendar.getInstance();
         String dia;
-        if (now.get(now.DAY_OF_MONTH)<10){
+        if (now.get(now.DAY_OF_MONTH) < 10) {
             dia = "0" + now.get(now.DAY_OF_MONTH);
         } else {
             dia = String.valueOf(now.get(now.DAY_OF_MONTH));
@@ -60,7 +70,7 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
                 anio = year;
                 mes = month;
                 // para días del 1 al 9, le añado un 0 delante (para la gestión de fechas)
-                if (day<10){
+                if (day < 10) {
                     dia = "0" + String.valueOf(day);
                 } else {
                     dia = String.valueOf(day);
@@ -69,6 +79,7 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
                 final String selectedDate = dia + " / " + (month + 1) + " / " + year;
                 txtFechaFin.setText(fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(selectedDate)));
                 fechaFin = txtFechaFin.getText().toString();
+                btnLista.setEnabled(true);
             }
         });
 
@@ -81,27 +92,54 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
     }
 
     public void listaCompra(View poView) {
-        Intent oIntent = new Intent(this, listaCompra.class);
-        oIntent.putExtra("fechaOrigen", fechaOrigen);
-        oIntent.putExtra("fechaFin", fechaFin);
-        startActivity(oIntent);
+        //Hacemos comprobación de que existen dietas en esa franja de fechas
+        //Pasamos la fecha de la última dieta
+        fechaOrigen = fecha_AAAA_MM_DD(fechaOrigen);
+        fechaFin = fecha_AAAA_MM_DD(fechaFin);
+        boolean bucle = false;
+        BBDD admin = new BBDD(this, "administracion",
+                null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select dia from fecha where dia > '" + fechaOrigen + "' and dia <= '" + fechaFin + "' order by 1 asc", null);
+        do {
+            if (fila.moveToNext()) {
+                if (fila != null) {
+                    fechaCompra = fila.getString(0);
+                }
+            } else {
+                bucle = true;
+            }
+        } while (bucle == false);
+        bd.close();
+        admin.close();
+        if (fechaCompra == null) {
+            Toast.makeText(this, "No existen dietas en la franja desde el " + fecha_DD_MM_AAAA(fechaOrigen) + " hasta el " + fecha_DD_MM_AAAA(fechaFin), Toast.LENGTH_LONG).show();
+            fechaOrigen = txtFechaOrigen.getText().toString();
+            txtFechaFin.setText("");
+        } else {
+            Intent oIntent = new Intent(this, listaCompra.class);
+            oIntent.putExtra("fechaOrigen", fechaOrigen);
+            oIntent.putExtra("fechaFin", fechaCompra);
+            startActivity(oIntent);
+            finish();
+        }
     }
 
-    public String fecha_AAAA_MM_DD(String fechaDD_MM_AAA) {
+    public String fecha_AAAA_MM_DD(@NotNull String fechaDD_MM_AAA) {
         String fecha_AAAA_MM_DD = "";
 
         String[] fechaArray = fechaDD_MM_AAA.split(" / ");
         int diaDelMes, mesDelAnio, anio;
         diaDelMes = Integer.parseInt(fechaArray[0].trim());
         String dia;
-        if (diaDelMes<10){
+        if (diaDelMes < 10) {
             dia = "0" + diaDelMes;
         } else {
             dia = String.valueOf(diaDelMes);
         }
         mesDelAnio = Integer.parseInt(fechaArray[1].trim());
         String mes;
-        if (mesDelAnio<10){
+        if (mesDelAnio < 10) {
             mes = "0" + mesDelAnio;
         } else {
             mes = String.valueOf(mesDelAnio);
@@ -119,14 +157,14 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
         int diaDelMes, mesDelAnio, anio;
         diaDelMes = Integer.parseInt(fechaArray[2].trim());
         String dia;
-        if (diaDelMes<10){
+        if (diaDelMes < 10) {
             dia = "0" + diaDelMes;
         } else {
             dia = String.valueOf(diaDelMes);
         }
         mesDelAnio = Integer.parseInt(fechaArray[1].trim());
         String mes;
-        if (mesDelAnio<10){
+        if (mesDelAnio < 10) {
             mes = "0" + mesDelAnio;
         } else {
             mes = String.valueOf(mesDelAnio);

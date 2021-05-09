@@ -23,6 +23,7 @@ public class BBDD extends SQLiteOpenHelper {
         db.execSQL("create table ingrediente(nomIngrediente varchar(10) primary key, unidad varchar(10), foto varchar(50), precio float)");
         db.execSQL("create table hay(nomAlmacen varchar(20), nomIngrediente varchar(10), cantidad float, unidad varchar(10), foreign key(nomIngrediente) references ingrediente(nomIngrediente), foreign key(nomAlmacen) references almacen(nomAlmacen), primary key(nomAlmacen, nomIngrediente))");
         db.execSQL("create table almacen(nomAlmacen varchar(20) primary key)");
+        db.execSQL("create table fechaCompra(fechaUltimaCompra TEXT)");
     }
 
     @Override
@@ -42,6 +43,7 @@ public class BBDD extends SQLiteOpenHelper {
         dieta(bd);
         menu(bd);
 
+        fechaCompra(bd);
         //fecha(bd);
         //contiene(bd);
     }
@@ -475,6 +477,10 @@ public class BBDD extends SQLiteOpenHelper {
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Comida')");
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Merienda')");
         bd.execSQL("INSERT INTO menu(tipoComida) VALUES ('Cena')");
+    }
+
+    public void fechaCompra(SQLiteDatabase bd){
+        bd.execSQL("INSERT INTO fechaCompra(fechaUltimaCompra) VALUES ('2001 / 01 / 01')");
     }
 
 //    public void fecha(SQLiteDatabase bd){
