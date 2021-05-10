@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,7 +27,7 @@ public class listaCompra extends AppCompatActivity {
     ArrayList<String> despensa = new ArrayList<String>();
     ArrayList<String> especiero = new ArrayList<String>();
     ArrayList<String> nevera = new ArrayList<String>();
-    String origen, fin, fechaOrigen, fechaFin;
+    String origen, fin, fechaOrigen, fechaFin, fechaCompraOld = "", nombreAlmacen = "";
     TextView txtFechaOrigen, txtFechaFin;
 
     @Override
@@ -105,16 +106,52 @@ public class listaCompra extends AppCompatActivity {
     //acumula los ingredientes comprados en el almacén
     public void realizarCompra(View poView) {
         //Fecha
+        boolean bucle = false;
         BBDD admin = new BBDD(this, "administracion",
                 null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        bd.execSQL("UPDATE fechaCompra SET fechaUltimaCompra = '" + fin + "' WHERE true");
+        //Consulto la última fecha guardada
+        Cursor fila = bd.rawQuery("select fechaUltimaCompra from fechaCompra", null);
+        do {
+            if (fila.moveToNext()) {
+                if (fila != null) {
+                    fechaCompraOld = fila.getString(0);
+                }
+            } else {
+                bucle = true;
+            }
+        } while (bucle == false);
+        //Actualizo
+        bd.execSQL("UPDATE fechaCompra SET fechaUltimaCompra = '" + fin + "' WHERE fechaUltimaCompra = '" + fechaCompraOld + "'");
         bd.close();
         admin.close();
+
+        Toast.makeText(this, "Fecha de última compra realizada actualizada con éxito a fecha " + fecha_DD_MM_AAAA(fin), Toast.LENGTH_LONG).show();
         
         //Almacén
         //-->Update
-        //-->Insert
+        bucle = false;
+        admin = new BBDD(this, "administracion",
+                null, 1);
+        bd = admin.getWritableDatabase();
+        for (int i = 0; i < menuActualizacion_Almacen.size(); i++) { //Ingredientes que ya teníamos en el almacén
+            bd.execSQL("UPDATE hay SET cantidad = '" + menuActualizacion_Almacen.get(i).getCantidad() + "' WHERE nomIngrediente like '" + menuActualizacion_Almacen.get(i).getNombre() + "'");
+        }
+        //-->Insert. Seleccionamos el almacén que le corresponde al ingrediente y lo insertamos
+        for (int i = 0; i < menuInsercion_Almacen.size(); i++) { //Ingredientes nuevos en el almacén
+            if (congelador.contains(menuInsercion_Almacen.get(i).getNombre())){
+                nombreAlmacen = "CONGELADOR";
+            }else if (nevera.contains(menuInsercion_Almacen.get(i).getNombre())){
+                nombreAlmacen = "NEVERA";
+            }else if (especiero.contains(menuInsercion_Almacen.get(i).getNombre())){
+                nombreAlmacen = "ESPECIERO";
+            }else{
+                nombreAlmacen = "DESPENSA";
+            }
+            bd.execSQL("INSERT INTO hay (nomAlmacen,nomIngrediente,cantidad,unidad) VALUES('" + nombreAlmacen +"','" + menuInsercion_Almacen.get(i).getNombre() + "'," + menuInsercion_Almacen.get(i).getCantidad() + ",'" + menuInsercion_Almacen.get(i).getUnidad() + "')");
+        }
+        bd.close();
+        admin.close();
     }
 
     //Carga los ingredientes de todas las recetas comprendidas entre dos fechas

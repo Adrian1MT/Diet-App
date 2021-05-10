@@ -23,7 +23,7 @@ public class BBDD extends SQLiteOpenHelper {
         db.execSQL("create table ingrediente(nomIngrediente varchar(10) primary key, unidad varchar(10), foto varchar(50), precio float)");
         db.execSQL("create table hay(nomAlmacen varchar(20), nomIngrediente varchar(10), cantidad float, unidad varchar(10), foreign key(nomIngrediente) references ingrediente(nomIngrediente), foreign key(nomAlmacen) references almacen(nomAlmacen), primary key(nomAlmacen, nomIngrediente))");
         db.execSQL("create table almacen(nomAlmacen varchar(20) primary key)");
-        db.execSQL("create table fechaCompra(fechaUltimaCompra TEXT)");
+        db.execSQL("create table fechaCompra(fechaUltimaCompra TEXT primary key)");
     }
 
     @Override
