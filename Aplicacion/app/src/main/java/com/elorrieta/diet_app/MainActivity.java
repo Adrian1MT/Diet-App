@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         comprobarBBDD();
         comprobarActualizacion();
         SetenciaWHere(fechahoy,horahoy);
-        //comprobarDietas(fechahoy,horahoy);
+        comprobarDietas(fechahoy,horahoy);
         Imagen= (ImageView)findViewById(R.id.imageView);
         Imagen.setImageResource(R.drawable.icono);
 
@@ -172,8 +172,16 @@ public class MainActivity extends AppCompatActivity {
     public void SetenciaWHere(String fechahoy, String horahoy){
         //09:00:00 Desayuno, 12:00:00 Almuerzo, 15:00:00 Comida, 18:00:00 Merienda, 22:00:00 Cena
         String ComidaActualizada="";
+
+        int CambiarDia=Integer.parseInt(fechahoy.substring(12,14))-1;
+        String fechaAntesDeHoy=fechahoy.substring(0,12)+CambiarDia;
+
+        int CambiarDia2=Integer.parseInt(fechahoy.substring(12,14))+1;
+        String fechaDespuesDeAntes=fechaAntes.substring(0,12)+CambiarDia2;
+
         int Hhoy=Integer.parseInt(horahoy.substring(0,2));
         int HAntes=Integer.parseInt(horaantes.substring(0,2));
+
         String comido = null;
         if (HAntes<9){
             comido="tipoComida<>''";
@@ -208,13 +216,17 @@ public class MainActivity extends AppCompatActivity {
                     "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id where " +
                     "dia='"+fechaAntes+"' and ("+ComidaActualizada+")" +
                     " ) GROUP BY nomIngrediente;";
-        }
-        if(!fechahoy.equals(fechaAntes)){
-            ComidaActualizada= comido +" and "+ Pcomer;
+        } else if(fechaAntesDeHoy.equals(fechaAntes)){
             sql="select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
-                    "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id where " +
-                    "dia='"+fechaAntes+"' and ("+ComidaActualizada+")" +
-                    " ) GROUP BY nomIngrediente;";
+                    "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id " +
+                    "where  (dia='"+fechaAntes+"' and ("+comido+")) or (dia='"+fechahoy+"' and ("+Pcomer+"))) " +
+                    "GROUP BY nomIngrediente;";
+        }else{
+            sql="select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
+                    "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id " +
+                    "where  (dia BETWEEN '"+fechaDespuesDeAntes+"' and '"+fechaAntesDeHoy+"') or (dia='"+
+                    fechaAntes+"' and ("+comido+")) or (dia='"+fechahoy+"' and ("+Pcomer+"))) " +
+                    "GROUP BY nomIngrediente;";
         }
     }
     public void comprobarDietas(String fechahoy, String horahoy){
@@ -241,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         if (numero>0){
             comprobarAlmacen(ingredientes,cantidad);
         }
+        RegistrarUpdate(fechahoy,horahoy);
     }
     public void comprobarAlmacen(ArrayList<String> ingredientes, ArrayList<Integer> cantidad){
        // Toast.makeText(this,"Hay "+ingredientes.size()+" ingredientes y cantidades "+cantidad.size() ,Toast.LENGTH_SHORT).show();
@@ -302,7 +315,16 @@ public class MainActivity extends AppCompatActivity {
         bd.update("hay",registro,"nomIngrediente='"+ingredientes.get(numero).toString()+"'", null);
         numero=numero+1;
         }while (numero<resultados.size());
-        // Toast.makeText(this,"Hay "+resultados.size()+" cantidades ",Toast.LENGTH_SHORT).show();
+        bd.close();
+        admin.close();
+    }
+    public void RegistrarUpdate(String fechahoy, String horahoy){
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        ContentValues registro = new ContentValues();
+        registro.put("dia",fechahoy);
+        registro.put("hora",horahoy);
+        bd.update("Actualizar",registro,"id=1", null);
         bd.close();
         admin.close();
     }

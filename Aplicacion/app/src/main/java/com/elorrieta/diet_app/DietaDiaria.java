@@ -223,7 +223,7 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
             if (a.moveToFirst()) {
                 a.moveToFirst();
                 do {
-                    if(a.getString(0).contentEquals(fecha)){
+                    if(a.getString(0).contentEquals(fecha_AAAA_MM_DD(fecha))){
                         if(a.getString(1).contentEquals("Desayuno")){
                             des += cargarReceta(a.getInt(2))+"\n----- 0 -----\n";
                         } else if(a.getString(1).contentEquals("Almuerzo")){
