@@ -1,9 +1,5 @@
 package com.elorrieta.diet_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
@@ -12,14 +8,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.DateFormat;
 
 public class MainActivity extends AppCompatActivity {
     ImageView Imagen, Titulo;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         String fechahoy=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         String horahoy=DateFormat.getTimeInstance().format(new Date());
         comprobarBBDD();
@@ -61,6 +63,21 @@ public class MainActivity extends AppCompatActivity {
         oRecyclerView.setLayoutManager(llm);
         oRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         oRecyclerView.setVisibility(View.INVISIBLE);
+    }
+
+ //   @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, (android.view.Menu) menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            lanzarAcercaDe(this.view);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // inicializarmos el adapter con nuestros datos.
@@ -242,5 +259,10 @@ public class MainActivity extends AppCompatActivity {
     public void insercion(){
         BBDD admin = new BBDD(this,"administracion", null,1);
         admin.rellenar(admin);
+    }
+
+    public void lanzarAcercaDe(View view) {
+        Intent i = new Intent(this, AcercaDeActivity.class);
+        startActivity(i);
     }
 }

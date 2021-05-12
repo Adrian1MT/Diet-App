@@ -297,14 +297,14 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
     public void borrarDieta(View poView){
         BBDD admin = new BBDD(this,"administracion", null,1);
         SQLiteDatabase dietaDiaria = admin.getWritableDatabase();
-        dietaDiaria.execSQL("DELETE FROM fecha WHERE dia LIKE '" + txtDia.getText().toString() +"'");
-        dietaDiaria.execSQL("DELETE FROM contiene WHERE dia LIKE '" + txtDia.getText().toString() +"'");
+        dietaDiaria.execSQL("DELETE FROM fecha WHERE dia LIKE '" + fecha_AAAA_MM_DD(fecha) +"'");
+        dietaDiaria.execSQL("DELETE FROM contiene WHERE dia LIKE '" + fecha_AAAA_MM_DD(fecha) +"'");
         dietaDiaria.close();
         limpiarDieta(poView);
         txtDia.setText("");
         //Mensaje de éxito y vuelve a la pantalla del dietario
         Toast.makeText(this,
-                "Dieta Diaria con fecha " + txtDia.getText().toString() + " eliminada con éxito!", Toast.LENGTH_LONG).show();
+                "Dieta Diaria con fecha " + fecha + " eliminada con éxito!", Toast.LENGTH_LONG).show();
         Intent oIntento = new Intent(this, Dietario.class);
         startActivity(oIntento);
         finish();
