@@ -27,16 +27,20 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView oRecyclerView;
     ArrayList<Menu> menuArrayList;
     View view;
+    String fechaAntes="",horaantes="",sql="";
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String fechahoy=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        //String fechahoy=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        String fechahoy=new SimpleDateFormat("yyyy / MM / dd").format(new Date());
         String horahoy=DateFormat.getTimeInstance().format(new Date());
         comprobarBBDD();
-        //comprobarDietas(fechahoy,horahoy);
+        comprobarActualizacion();
+        SetenciaWHere(fechahoy,horahoy);
+        comprobarDietas(fechahoy,horahoy);
         Imagen= (ImageView)findViewById(R.id.imageView);
         Imagen.setImageResource(R.drawable.icono);
 
@@ -167,16 +171,92 @@ public class MainActivity extends AppCompatActivity {
             insercion();
         }
     }
+    public void comprobarActualizacion(){
+        boolean bucle=false;
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("SELECT dia, hora from Actualizar;", null);
+        do{
+            if (fila.moveToNext()){
+                fechaAntes=fila.getString(0);
+                horaantes=fila.getString(1);
+            }else{
+                bucle=true;
+            }
+        }while (bucle==false);
+        bd.close();
+        admin.close();
+    }
+    public void SetenciaWHere(String fechahoy, String horahoy){
+        //09:00:00 Desayuno, 12:00:00 Almuerzo, 15:00:00 Comida, 18:00:00 Merienda, 22:00:00 Cena
+        String ComidaActualizada="";
+
+        int CambiarDia=Integer.parseInt(fechahoy.substring(12,14))-1;
+        String fechaAntesDeHoy=fechahoy.substring(0,12)+CambiarDia;
+
+        int CambiarDia2=Integer.parseInt(fechahoy.substring(12,14))+1;
+        String fechaDespuesDeAntes=fechaAntes.substring(0,12)+CambiarDia2;
+
+        int Hhoy=Integer.parseInt(horahoy.substring(0,2));
+        int HAntes=Integer.parseInt(horaantes.substring(0,2));
+
+        String comido = null;
+        if (HAntes<9){
+            comido="tipoComida<>''";
+        }else if (HAntes>=9){
+            comido="tipoComida<>'Desayuno'";
+        } else if (HAntes>=12){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo'";
+        } else if (HAntes>=15){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida'";
+        } else if (HAntes>=18){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda'";
+        } else if (HAntes>=22){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
+        }
+        String Pcomer = null;
+        if (Hhoy<9){
+            Pcomer="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
+        } else if (Hhoy<12){
+            Pcomer="tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
+        } else if (Hhoy<15){
+            Pcomer="tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
+        } else if (Hhoy<18){
+            Pcomer="tipoComida<>'Merienda' and tipoComida<>'Cena'";
+        } else if (Hhoy<22){
+            Pcomer="tipoComida<>'Cena'";
+        }else if (Hhoy>=22){
+            Pcomer="tipoComida<>''";
+        }
+        if(fechahoy.equals(fechaAntes)){
+            ComidaActualizada= comido +" and "+ Pcomer;
+            sql="select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
+                    "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id where " +
+                    "dia='"+fechaAntes+"' and ("+ComidaActualizada+")" +
+                    " ) GROUP BY nomIngrediente;";
+        } else if(fechaAntesDeHoy.equals(fechaAntes)){
+            sql="select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
+                    "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id " +
+                    "where  (dia='"+fechaAntes+"' and ("+comido+")) or (dia='"+fechahoy+"' and ("+Pcomer+"))) " +
+                    "GROUP BY nomIngrediente;";
+        }else{
+            sql="select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
+                    "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id " +
+                    "where  (dia BETWEEN '"+fechaDespuesDeAntes+"' and '"+fechaAntesDeHoy+"') or (dia='"+
+                    fechaAntes+"' and ("+comido+")) or (dia='"+fechahoy+"' and ("+Pcomer+"))) " +
+                    "GROUP BY nomIngrediente;";
+        }
+    }
     public void comprobarDietas(String fechahoy, String horahoy){
         ArrayList<String> ingredientes = new ArrayList<String>();
         ArrayList<Integer> cantidad = new ArrayList<Integer>();
 
+        SetenciaWHere(fechahoy,horahoy);
+
         boolean bucle=false;
         BBDD admin = new BBDD(this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor fila = bd.rawQuery("select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
-                "where nombre in (select nombre from contiene as con left join receta as re on re.id=con.id where dia>='29/1/2021' " +
-                "and dia<='30/4/2021' ) GROUP BY nomIngrediente;", null);
+        Cursor fila = bd.rawQuery(sql, null);
         do{
             if (fila.moveToNext()){
                 ingredientes.add(fila.getString(0));
@@ -191,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
         if (numero>0){
             comprobarAlmacen(ingredientes,cantidad);
         }
+        RegistrarUpdate(fechahoy,horahoy);
     }
     public void comprobarAlmacen(ArrayList<String> ingredientes, ArrayList<Integer> cantidad){
        // Toast.makeText(this,"Hay "+ingredientes.size()+" ingredientes y cantidades "+cantidad.size() ,Toast.LENGTH_SHORT).show();
@@ -252,7 +333,16 @@ public class MainActivity extends AppCompatActivity {
         bd.update("hay",registro,"nomIngrediente='"+ingredientes.get(numero).toString()+"'", null);
         numero=numero+1;
         }while (numero<resultados.size());
-        // Toast.makeText(this,"Hay "+resultados.size()+" cantidades ",Toast.LENGTH_SHORT).show();
+        bd.close();
+        admin.close();
+    }
+    public void RegistrarUpdate(String fechahoy, String horahoy){
+        BBDD admin = new BBDD(this,"administracion",null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        ContentValues registro = new ContentValues();
+        registro.put("dia",fechahoy);
+        registro.put("hora",horahoy);
+        bd.update("Actualizar",registro,"id=1", null);
         bd.close();
         admin.close();
     }
