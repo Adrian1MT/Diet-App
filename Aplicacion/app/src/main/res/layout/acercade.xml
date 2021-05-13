@@ -3,11 +3,13 @@
     android:id="@+id/TextView01"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/verde_medio"
     android:padding="10dp"
     android:text="-------------------- o 0 o --------------------\n\n
     Esta aplicación ha sido desarrollada por Adrian Martínez y Máximo Hernández \n
     como Proyecto Fin de Grado de DAM del Centro Elorrieta-Errekamari, \n
     con tutoría del profesor José Piñeiro, durante marzo, abril y mayo del 2021. \n\n
-    -------------------- o 0 o --------------------"
+-------------------- o 0 o --------------------"
     android:textAlignment="center"
+    android:textColor="@color/white"
     android:textSize="25sp"></TextView>
