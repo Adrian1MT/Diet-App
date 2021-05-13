@@ -1,16 +1,17 @@
 package com.elorrieta.diet_app;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -110,6 +111,21 @@ public class detallesReceta extends AppCompatActivity {
             foto.setImageResource(fotos.get(0));
         }
 
+    }
+    //Métodos Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.acercade, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.acercade) {
+            Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
     public void rellenarFotos(){
         fotos.add(R.drawable.icono);

@@ -102,6 +102,8 @@
         android:layout_height="420dp"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="@+id/verGuardada"
-        app:layout_constraintTop_toBottomOf="@+id/verGuardada" />
+        app:layout_constraintTop_toBottomOf="@+id/verGuardada">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

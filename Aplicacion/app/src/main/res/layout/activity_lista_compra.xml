@@ -70,6 +70,7 @@
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:textAlignment="textStart"
+        android:textColor="@color/verde_oscuro"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/reciclerListaRecetas"
         app:layout_constraintTop_toBottomOf="@+id/reciclerListaRecetas" />
@@ -81,6 +82,7 @@
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:textAlignment="textEnd"
+        android:textColor="@color/verde_oscuro"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/reciclerListaRecetas"
         app:layout_constraintTop_toBottomOf="@+id/reciclerListaRecetas" />
@@ -135,7 +137,7 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnRealizarCompra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

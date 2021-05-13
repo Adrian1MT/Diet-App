@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -151,6 +152,22 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
             cargarDietaSabado(fechaSabado);
             cargarDietaDomingo(fechaDomingo);
         }
+    }
+
+    //Métodos Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.acercade, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.acercade) {
+            Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

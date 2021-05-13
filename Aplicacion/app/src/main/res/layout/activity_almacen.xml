@@ -46,105 +46,101 @@
 
     <TextView
         android:id="@+id/Tienetext"
-        android:layout_width="55dp"
+        android:layout_width="100dp"
         android:layout_height="55dp"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="196dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:background="@color/white"
         android:clickable="false"
         android:enabled="false"
         android:textAlignment="center"
         android:textColor="?attr/colorPrimaryVariant"
-        android:textSize="36sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/BmasMenos"
+        app:layout_constraintTop_toBottomOf="@+id/spinneringrediente" />
 
     <TextView
         android:id="@+id/unidadtext"
-        android:layout_width="55dp"
+        android:layout_width="130dp"
         android:layout_height="55dp"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/white"
+        android:layout_marginStart="10dp"
         android:clickable="false"
         android:enabled="false"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="36sp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toEndOf="@+id/TexCantidad"
+        app:layout_constraintTop_toTopOf="@+id/TexCantidad" />
 
     <TextView
         android:id="@+id/unidadtext2"
-        android:layout_width="55dp"
+        android:layout_width="130dp"
         android:layout_height="55dp"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="132dp"
-        android:background="@color/white"
+        android:layout_marginStart="10dp"
         android:clickable="false"
         android:enabled="false"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="36sp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/verde_oscuro"
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toEndOf="@+id/texCantidad2"
+        app:layout_constraintTop_toTopOf="@+id/texCantidad2" />
 
     <Button
         android:id="@+id/BmasMenos"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginEnd="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:onClick="TextoBoton"
         android:text="+"
         android:textSize="24sp"
         app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/Tienetext"
         app:layout_constraintEnd_toStartOf="@+id/TexCantidad"
-        app:layout_constraintStart_toEndOf="@+id/Tienetext"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/Tienetext" />
 
     <EditText
         android:id="@+id/TexCantidad"
-        android:layout_width="55dp"
+        android:layout_width="100dp"
         android:layout_height="55dp"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="84dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
+        android:digits="0123456789."
         android:ems="10"
         android:hint="0"
         android:inputType="numberDecimal"
-        android:digits="0123456789."
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/texCantidad2"
+        app:layout_constraintTop_toBottomOf="@+id/texCantidad2" />
 
     <EditText
         android:id="@+id/texCantidad2"
-        android:layout_width="55dp"
+        android:layout_width="100dp"
         android:layout_height="55dp"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="196dp"
+        android:layout_marginStart="10dp"
         android:background="@color/white"
+        android:digits="0123456789."
         android:ems="10"
         android:hint="0"
         android:inputType="numberDecimal"
-        android:digits="0123456789."
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/spinneringrediente"
+        app:layout_constraintTop_toTopOf="@+id/spinneringrediente" />
 
     <TextView
         android:id="@+id/textView10"
@@ -288,14 +284,12 @@
         android:id="@+id/MensajeAdvertencia"
         android:layout_width="468dp"
         android:layout_height="157dp"
-        android:layout_marginTop="252dp"
-        android:layout_marginEnd="16dp"
         android:text="NO HAY INGREDIENTES ALMACENADOS EN ESTE ALMACEN, POR FAVOR INSERTE INGREDIENTES."
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btnNuevo"
+        app:layout_constraintTop_toBottomOf="@+id/RecyDespensa" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/TextView01"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:text="---------- 0 ----------
-    Esta aplicación ha sido desarrollada
-    por Adrian Martínez y Máximo Hernández
-    como Proyecto Fin de Grado de DAM
-    del Centro Elorrieta, con tutoría
-    del profesor José Piñeiro, durante
-    los meses marzo, abril y mayo del 2021.
-    ---------- 0 ----------">
-</TextView>
+    android:padding="10dp"
+    android:text="-------------------- o 0 o --------------------\n\n
+    Esta aplicación ha sido desarrollada por Adrian Martínez y Máximo Hernández \n
+    como Proyecto Fin de Grado de DAM del Centro Elorrieta-Errekamari, \n
+    con tutoría del profesor José Piñeiro, durante marzo, abril y mayo del 2021. \n\n
+    -------------------- o 0 o --------------------"
+    android:textAlignment="center"
+    android:textSize="25sp"></TextView>

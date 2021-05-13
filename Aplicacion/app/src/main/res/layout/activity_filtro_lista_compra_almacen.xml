@@ -8,34 +8,34 @@
     tools:context=".FiltroListaCompraAlmacen">
 
     <EditText
-        android:id="@+id/txtFechaFin"
-        android:layout_width="175dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Elegir Fecha Compra"
-        android:inputType="date"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/btnLista"
-        app:layout_constraintTop_toTopOf="@+id/txtFechaOrigen" />
-
-    <EditText
         android:id="@+id/txtFechaOrigen"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:background="@color/white"
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
-        android:hint="Elegir Fecha Origen"
+        android:hint="Fecha Origen"
         android:inputType="date"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/btnLista"
-        app:layout_constraintStart_toStartOf="@+id/btnLista"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.726" />
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/lblFechaFin"
+        app:layout_constraintEnd_toEndOf="@+id/txtFechaFin"
+        app:layout_constraintStart_toStartOf="@+id/txtFechaFin" />
+
+    <TextView
+        android:id="@+id/lblFechaOrigen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/toms_handwritten_new"
+        android:text="desde hoy:"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtFechaOrigen"
+        app:layout_constraintEnd_toEndOf="@+id/txtFechaOrigen"
+        app:layout_constraintStart_toStartOf="@+id/txtFechaOrigen" />
 
     <Button
         android:id="@+id/button3"
@@ -65,27 +65,33 @@
         app:layout_constraintTop_toTopOf="@+id/button3" />
 
     <TextView
-        android:id="@+id/lblFechaOrigen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="@font/toms_handwritten_new"
-        android:text="desde:"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/txtFechaOrigen"
-        app:layout_constraintStart_toStartOf="@+id/txtFechaOrigen" />
-
-    <TextView
         android:id="@+id/lblFechaFin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/toms_handwritten_new"
         android:text="hasta:"
-        android:textSize="24sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtFechaFin"
+        app:layout_constraintEnd_toEndOf="@+id/txtFechaFin"
         app:layout_constraintStart_toStartOf="@+id/txtFechaFin" />
+
+    <EditText
+        android:id="@+id/txtFechaFin"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Elegir Fecha"
+        android:inputType="date"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLista"
+        app:layout_constraintEnd_toEndOf="@+id/btnLista"
+        app:layout_constraintStart_toStartOf="@+id/btnLista" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

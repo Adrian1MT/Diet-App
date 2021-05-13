@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,8 +21,8 @@ public class Dietario extends AppCompatActivity {
     RecyclerView rvIntroducirDietas;
     RecyclerView rvCargarDietas;
     String fecha, fechaDieta;
-    ArrayList<Menu> menuArrayList;
-    ArrayList<Menu> menuCargarDietaDiaria, menuCargarDietaFinDe, menuCargarDietaSemanal;
+    ArrayList<MenuItem> menuArrayList;
+    ArrayList<MenuItem> menuCargarDietaDiaria, menuCargarDietaFinDe, menuCargarDietaSemanal;
 
     View vistaCrear, vistaVer;
     boolean elegirDietaDiariaPulsado = false;
@@ -40,10 +41,10 @@ public class Dietario extends AppCompatActivity {
         btnSemanal = (Button) findViewById(R.id.btnSemanal);
 
         // Llenamos el ArrayList de introducir dietas.
-        menuArrayList = new ArrayList<Menu>();
-        menuArrayList.add(new Menu("Dieta Diaria"));
-        menuArrayList.add(new Menu("Dieta FinDe"));
-        menuArrayList.add(new Menu("Dieta Semanal"));
+        menuArrayList = new ArrayList<MenuItem>();
+        menuArrayList.add(new MenuItem("Dieta Diaria"));
+        menuArrayList.add(new MenuItem("Dieta FinDe"));
+        menuArrayList.add(new MenuItem("Dieta Semanal"));
 
         rvIntroducirDietas = (RecyclerView) findViewById(R.id.RecyclerCargarDieta);
 
@@ -58,9 +59,9 @@ public class Dietario extends AppCompatActivity {
         rvIntroducirDietas.setVisibility(View.VISIBLE);
 
         // Llenamos el ArrayList de cargar dietas guardadas.
-        menuCargarDietaDiaria = new ArrayList<Menu>();
-        menuCargarDietaFinDe = new ArrayList<Menu>();
-        menuCargarDietaSemanal = new ArrayList<Menu>();
+        menuCargarDietaDiaria = new ArrayList<MenuItem>();
+        menuCargarDietaFinDe = new ArrayList<MenuItem>();
+        menuCargarDietaSemanal = new ArrayList<MenuItem>();
         cargarDietas();
 
         rvCargarDietas = (RecyclerView) findViewById(R.id.reciclerListaRecetas);
@@ -77,6 +78,22 @@ public class Dietario extends AppCompatActivity {
         rvCargarDietas.setVisibility(View.INVISIBLE);
     }
 
+    //Métodos Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.acercade, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.acercade) {
+            Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void cargarDietas() {
         boolean bucle = false;
         BBDD admin = new BBDD(this, "administracion",
@@ -89,13 +106,13 @@ public class Dietario extends AppCompatActivity {
                 fecha = fila.getString(0);
                 if (!fecha.isEmpty()) {
                     fechaDieta = fecha_DD_MM_AAAA(fecha);
-                    menuCargarDietaDiaria.add(new Menu(fechaDieta));
+                    menuCargarDietaDiaria.add(new MenuItem(fechaDieta));
 
                     if (fila.getString(1).contentEquals("Dieta FinDe")) {
-                        menuCargarDietaFinDe.add(new Menu(fechaDieta));
+                        menuCargarDietaFinDe.add(new MenuItem(fechaDieta));
                     }
                     if (fila.getString(1).contentEquals("Dieta Semanal")) {
-                        menuCargarDietaSemanal.add(new Menu(fechaDieta));
+                        menuCargarDietaSemanal.add(new MenuItem(fechaDieta));
                     }
                 }
             } else {
@@ -109,7 +126,7 @@ public class Dietario extends AppCompatActivity {
     // inicializarmos el adapter de cargar dietas con nuestros datos.
     OnItemClickListener escuchador2 = new OnItemClickListener() {
         @Override
-        public void onItemClick(Menu item) {
+        public void onItemClick(MenuItem item) {
             vistaVer = new View(Dietario.super.getApplicationContext());
             String origen = "ver";
             String fecha = item.getItem().toString();
@@ -126,7 +143,7 @@ public class Dietario extends AppCompatActivity {
     // inicializarmos el adapter con nuestros datos.
     OnItemClickListener escuchador = new OnItemClickListener() {
         @Override
-        public void onItemClick(Menu item) {
+        public void onItemClick(MenuItem item) {
             String origen = "crear";
             vistaCrear = new View(Dietario.super.getApplicationContext());
             if (item.getItem().contentEquals("Dieta Diaria")) {

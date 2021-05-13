@@ -1,9 +1,12 @@
 package com.elorrieta.diet_app;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +32,14 @@ public class listaCompra extends AppCompatActivity {
     ArrayList<String> nevera = new ArrayList<String>();
     String origen, fin, fechaOrigen, fechaFin, fechaCompraOld = "", nombreAlmacen = "";
     TextView txtFechaOrigen, txtFechaFin;
+    Button btnCompra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_compra);
 
+        btnCompra = (Button) findViewById(R.id.btnRealizarCompra);
         cargarListaAlmacenes();
 
         txtFechaOrigen = (TextView) findViewById(R.id.txtOrigen);
@@ -102,6 +107,22 @@ public class listaCompra extends AppCompatActivity {
         rvCompramos.setVisibility(View.VISIBLE);
     }
 
+    //Métodos Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.acercade, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.acercade) {
+            Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //Guardará la fecha final de la compra y
     //acumula los ingredientes comprados en el almacén
     public void realizarCompra(View poView) {
@@ -127,7 +148,7 @@ public class listaCompra extends AppCompatActivity {
         admin.close();
 
         Toast.makeText(this, "Fecha de última compra realizada actualizada con éxito a fecha " + fecha_DD_MM_AAAA(fin), Toast.LENGTH_LONG).show();
-        
+
         //Almacén
         //-->Update
         bucle = false;
@@ -139,19 +160,27 @@ public class listaCompra extends AppCompatActivity {
         }
         //-->Insert. Seleccionamos el almacén que le corresponde al ingrediente y lo insertamos
         for (int i = 0; i < menuInsercion_Almacen.size(); i++) { //Ingredientes nuevos en el almacén
-            if (congelador.contains(menuInsercion_Almacen.get(i).getNombre())){
+            if (congelador.contains(menuInsercion_Almacen.get(i).getNombre())) {
                 nombreAlmacen = "CONGELADOR";
-            }else if (nevera.contains(menuInsercion_Almacen.get(i).getNombre())){
+            } else if (nevera.contains(menuInsercion_Almacen.get(i).getNombre())) {
                 nombreAlmacen = "NEVERA";
-            }else if (especiero.contains(menuInsercion_Almacen.get(i).getNombre())){
+            } else if (especiero.contains(menuInsercion_Almacen.get(i).getNombre())) {
                 nombreAlmacen = "ESPECIERO";
-            }else{
+            } else {
                 nombreAlmacen = "DESPENSA";
             }
-            bd.execSQL("INSERT INTO hay (nomAlmacen,nomIngrediente,cantidad,unidad) VALUES('" + nombreAlmacen +"','" + menuInsercion_Almacen.get(i).getNombre() + "'," + menuInsercion_Almacen.get(i).getCantidad() + ",'" + menuInsercion_Almacen.get(i).getUnidad() + "')");
+            bd.execSQL("INSERT INTO hay (nomAlmacen,nomIngrediente,cantidad,unidad) VALUES('" + nombreAlmacen + "','" + menuInsercion_Almacen.get(i).getNombre() + "'," + menuInsercion_Almacen.get(i).getCantidad() + ",'" + menuInsercion_Almacen.get(i).getUnidad() + "')");
         }
         bd.close();
         admin.close();
+
+        //Vaciamos los arrays, para que cada vez que arranque la activity no arrastre valores
+        menuArrList_Necesitamos.clear();
+        almacenTodos.clear();
+        menuArrList_Tenemos.clear();
+        menuArrList_Compra.clear();
+        menuActualizacion_Almacen.clear();
+        menuInsercion_Almacen.clear();
     }
 
     //Carga los ingredientes de todas las recetas comprendidas entre dos fechas
@@ -232,14 +261,14 @@ public class listaCompra extends AppCompatActivity {
                         Ingrediente ingrediente = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), resultado, menuArrList_Necesitamos.get(i).getUnidad());
                         menuArrList_Compra.add(ingrediente);
                         //Almacen
-                        Ingrediente ingredienteAlm = new Ingrediente(menuArrList_Tenemos.get(j).getNombre(), menuArrList_Tenemos.get(j).cantidad, menuArrList_Tenemos.get(j).getUnidad());
+                        Ingrediente ingredienteAlm = new Ingrediente(menuArrList_Tenemos.get(j).getNombre(), menuArrList_Tenemos.get(j).cantidad + resultado, menuArrList_Tenemos.get(j).getUnidad());
                         menuActualizacion_Almacen.add(ingredienteAlm);
                         encontrado = true;
                     } else { //resta negativa
                         //Lista de la compra
                         //-->NO necesitamos comprar porque hay existencias en el almacén
                         //Almacén
-                        Ingrediente ingrediente = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), resultado * (-1), menuArrList_Necesitamos.get(i).getUnidad());
+                        Ingrediente ingrediente = new Ingrediente(menuArrList_Tenemos.get(j).getNombre(), menuArrList_Tenemos.get(j).cantidad, menuArrList_Tenemos.get(j).getUnidad());
                         menuActualizacion_Almacen.add(ingrediente);
                         encontrado = true;
                     }
@@ -253,6 +282,11 @@ public class listaCompra extends AppCompatActivity {
                 Ingrediente ingredienteAlm = new Ingrediente(menuArrList_Necesitamos.get(i).getNombre(), menuArrList_Necesitamos.get(i).cantidad, menuArrList_Necesitamos.get(i).getUnidad());
                 menuInsercion_Almacen.add(ingredienteAlm);
             }
+        }
+
+        //Si la lista de la compra está vacía, deshabilitamos el botón
+        if (menuArrList_Compra.size() == 0) {
+            btnCompra.setEnabled(false);
         }
     }
 

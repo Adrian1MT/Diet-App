@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> {
-    private List<Menu> listaItem;
+    private List<MenuItem> listaItem;
     private final OnItemClickListener listener;
 
     /* Clase ViewHolder */
@@ -27,7 +27,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
     }
 
     //Constructor del Adaptador
-    MenuAdapter(List<Menu> listaItem, OnItemClickListener listener) {
+    MenuAdapter(List<MenuItem> listaItem, OnItemClickListener listener) {
         this.listaItem = listaItem;
         this.listener = listener;
     }
@@ -42,7 +42,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MyViewHolder> 
         } else {
             holder.icono.setImageResource(R.drawable.listado_compra);
         }
-        Menu m = listaItem.get(position);
+        MenuItem m = listaItem.get(position);
         holder.item.setText(m.getItem());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

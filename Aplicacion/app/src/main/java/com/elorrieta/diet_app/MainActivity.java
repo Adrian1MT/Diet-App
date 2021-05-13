@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -25,7 +25,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     ImageView Imagen, Titulo;
     RecyclerView oRecyclerView;
-    ArrayList<Menu> menuArrayList;
+   // ArrayList<Menu> menuArrayList;
+    ArrayList<MenuItem> menuArrayList;
     View view;
     String fechaAntes="",horaantes="",sql="";
     @SuppressLint("ResourceType")
@@ -34,9 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //String fechahoy=new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         String fechahoy=new SimpleDateFormat("yyyy / MM / dd").format(new Date());
-        String horahoy=DateFormat.getTimeInstance().format(new Date());
+        String horahoy= DateFormat.getTimeInstance().format(new Date());
         comprobarBBDD();
         comprobarActualizacion();
         SetenciaWHere(fechahoy,horahoy);
@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         Titulo.setOnClickListener(this::mover_ObjectAnimator);
 
         // Llenamos el ArrayList.
-        menuArrayList = new ArrayList<Menu>();
-        menuArrayList.add(new Menu("Recetas"));
-        menuArrayList.add(new Menu("Dietario"));
-        menuArrayList.add(new Menu("Almacen / Compra"));
+        menuArrayList = new ArrayList<MenuItem>();
+        menuArrayList.add(new MenuItem("Recetas"));
+        menuArrayList.add(new MenuItem("Dietario"));
+        menuArrayList.add(new MenuItem("Almacen / Compra"));
 
         oRecyclerView = (RecyclerView) findViewById(R.id.RecyclerCargarDieta);
 
@@ -69,17 +69,18 @@ public class MainActivity extends AppCompatActivity {
         oRecyclerView.setVisibility(View.INVISIBLE);
     }
 
- //   @Override
+    //Métodos Action Bar
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, (android.view.Menu) menu);
+        getMenuInflater().inflate(R.menu.acercade, menu);
         return true;
     }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            lanzarAcercaDe(this.view);
+        if (id==R.id.acercade) {
+            Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     // inicializarmos el adapter con nuestros datos.
     OnItemClickListener escuchador = new OnItemClickListener() {
         @Override
-        public void onItemClick(Menu item) {
+        public void onItemClick(MenuItem item) {
             view = new View(MainActivity.super.getApplicationContext());
             if(item.getItem().contentEquals("Recetas")){
                 Recetas(view);
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         Intent oIntent = new Intent(this, Visualizar_Recetas.class);
         startActivity(oIntent);
     }
+
     public void Dietario(View poView){
         Intent oIntent = new Intent(this, Dietario.class);
         startActivity(oIntent);
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         Intent oIntent = new Intent(this, FiltroListaCompraAlmacen.class);
         startActivity(oIntent);
     }
+
     public void comprobarBBDD(){
         ArrayList<Integer> IDs = new ArrayList<Integer>();
         IDs.add(1);
@@ -171,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
             insercion();
         }
     }
+
     public void comprobarActualizacion(){
         boolean bucle=false;
         BBDD admin = new BBDD(this,"administracion",null,1);

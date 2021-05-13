@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MenuAdapterDietas extends RecyclerView.Adapter<MenuAdapterDietas.MyViewHolder> {
-    private List<Menu> listaItem;
+    private List<MenuItem> listaItem;
     private final OnItemClickListener listener;
 
     /* Clase ViewHolder */
@@ -27,7 +27,7 @@ public class MenuAdapterDietas extends RecyclerView.Adapter<MenuAdapterDietas.My
     }
 
     //Constructor del Adaptador
-    MenuAdapterDietas(List<Menu> listaItem, OnItemClickListener listener) {
+    MenuAdapterDietas(List<MenuItem> listaItem, OnItemClickListener listener) {
         this.listaItem = listaItem;
         this.listener = listener;
     }
@@ -42,7 +42,7 @@ public class MenuAdapterDietas extends RecyclerView.Adapter<MenuAdapterDietas.My
         } else {
             holder.icono.setImageResource(R.drawable.dieta_semanal);
         }
-        Menu m = listaItem.get(position);
+        MenuItem m = listaItem.get(position);
         holder.item.setText(m.getItem());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

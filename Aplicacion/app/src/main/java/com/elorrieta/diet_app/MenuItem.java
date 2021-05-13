@@ -1,15 +1,15 @@
 package com.elorrieta.diet_app;
 
-public class Menu {
+public class MenuItem {
     private String item;
 
     //Constructor para llenar la lista
-    public Menu() {
+    public MenuItem() {
 
         this.item = item;
     }
 
-    public Menu(String item) {
+    public MenuItem(String item) {
 
         this.item = item;
     }
