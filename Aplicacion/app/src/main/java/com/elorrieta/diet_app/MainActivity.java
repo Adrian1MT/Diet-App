@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -201,23 +202,37 @@ public class MainActivity extends AppCompatActivity {
         int CambiarDia2=Integer.parseInt(fechahoy.substring(12,14))+1;
         String fechaDespuesDeAntes=fechaAntes.substring(0,12)+CambiarDia2;
 
-        int Hhoy=Integer.parseInt(horahoy.substring(0,2));
-        int HAntes=Integer.parseInt(horaantes.substring(0,2));
+        String comversionHoraHoy=horahoy.substring(0,2);
+        int Hhoy =0;
+        int HAntes=0;
+        if(comversionHoraHoy.contains(":")){
+            Hhoy = Integer.parseInt(horahoy.substring(0, 1));
+        }else {
+           Hhoy = Integer.parseInt(horahoy.substring(0, 2));
+        }
+
+        String comversionHoraantes=horaantes.substring(0,2);
+        if(comversionHoraantes.contains(":")){
+            HAntes = Integer.parseInt(horaantes.substring(0, 1));
+        }else {
+            HAntes = Integer.parseInt(horaantes.substring(0, 2));
+        }
 
         String comido = null;
-        if (HAntes<9){
-            comido="tipoComida<>''";
-        }else if (HAntes>=9){
-            comido="tipoComida<>'Desayuno'";
-        } else if (HAntes>=12){
-            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo'";
-        } else if (HAntes>=15){
-            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida'";
+        if (HAntes>=22){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
         } else if (HAntes>=18){
             comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda'";
-        } else if (HAntes>=22){
-            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
+        } else if (HAntes>=15){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida'";
+        } else if (HAntes>=12){
+            comido="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo'";
+        } else if (HAntes>=9){
+            comido="tipoComida<>'Desayuno'";
+        } else if (HAntes<9){
+            comido="tipoComida<>''";
         }
+
         String Pcomer = null;
         if (Hhoy<9){
             Pcomer="tipoComida<>'Desayuno' and tipoComida<>'Almuerzo' and tipoComida<>'Comida' and tipoComida<>'Merienda' and tipoComida<>'Cena'";
@@ -232,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         }else if (Hhoy>=22){
             Pcomer="tipoComida<>''";
         }
+
         if(fechahoy.equals(fechaAntes)){
             ComidaActualizada= comido +" and "+ Pcomer;
             sql="select nomIngrediente, sum(cantidad)cantidad from tiene as ti left join receta as re on re.id=ti.id " +
@@ -250,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
                     fechaAntes+"' and ("+comido+")) or (dia='"+fechahoy+"' and ("+Pcomer+"))) " +
                     "GROUP BY nomIngrediente;";
         }
+
     }
     public void comprobarDietas(String fechahoy, String horahoy){
         ArrayList<String> ingredientes = new ArrayList<String>();
