@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
         int Hhoy=Integer.parseInt(horahoy.substring(0,2));
         int HAntes=Integer.parseInt(horaantes.substring(0,2));
-
+       // Toast.makeText(this,HAntes +" " +Hhoy,Toast.LENGTH_SHORT).show();
         String comido = null;
         if (HAntes<9){
             comido="tipoComida<>''";
