@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,13 +55,16 @@ public class Almacen extends AppCompatActivity {
     TextView textunidad, textCantidad, Texttiene,TextAdvertencia;
     TextView textunidadNEW, textCantidadNEW;
 
-    Boolean Nuevo=false;
-
+    Boolean Nuevo=false, VerVacios=false;
+    CheckBox ChecVacio;
     Button BtnSumRest, BTNnuevo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_almacen);
+        ChecVacio= (CheckBox)findViewById(R.id.CheckVacios);
+
+
         Especiero = (RecyclerView)findViewById(R.id.RecyEspeciero);
         Especiero.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         Especiero.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -153,6 +157,15 @@ public class Almacen extends AppCompatActivity {
         });
         ingredientenew();
     }
+    public void CheckVacio(View view){
+        if(ChecVacio.isChecked()==true){
+            VerVacios=true;
+        }else if (ChecVacio.isChecked()==false){
+            VerVacios=false;
+        }
+        cargarAlmacen();
+    }
+
     public void cargarAlmacen(){
         especiero();
         Nevera();
@@ -346,14 +359,22 @@ public class Almacen extends AppCompatActivity {
         ESingrediente.clear();
         ESCantidad.clear();
         boolean bucle=false;
+        String Cantidad="";
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select nomIngrediente,cantidad,unidad from hay where nomAlmacen='ESPECIERO'", null);
         do{
             if (fila.moveToNext()){
-                ESingrediente.add(" - "+fila.getString(0));
-                ESCantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                Cantidad=fila.getString(1);
+                if(!Cantidad.equals("0") && VerVacios==false){
+                    ESingrediente.add(" - "+fila.getString(0));
+                    ESCantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }else if(VerVacios==true){
+                    ESingrediente.add(" - "+fila.getString(0));
+                    ESCantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }
+
             }else{
                 bucle=true;
             }
@@ -376,14 +397,22 @@ public class Almacen extends AppCompatActivity {
         NEingrediente.clear();
         NECantidad.clear();
         boolean bucle=false;
+        String Cantidad="";
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select nomIngrediente,cantidad,unidad from hay where nomAlmacen='NEVERA'", null);
         do{
             if (fila.moveToNext()){
-                NEingrediente.add(" - "+fila.getString(0));
-                NECantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                Cantidad=fila.getString(1);
+                if(!Cantidad.equals("0") && VerVacios==false){
+                    NEingrediente.add(" - "+fila.getString(0));
+                    NECantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }else if(VerVacios==true){
+                    NEingrediente.add(" - "+fila.getString(0));
+                    NECantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }
+
             }else{
                 bucle=true;
             }
@@ -406,14 +435,22 @@ public class Almacen extends AppCompatActivity {
         COingrediente.clear();
         COCantidad.clear();
         boolean bucle=false;
+        String Cantidad="";
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select nomIngrediente,cantidad,unidad from hay where nomAlmacen='CONGELADOR'", null);
         do{
             if (fila.moveToNext()){
-                COingrediente.add(" - "+fila.getString(0));
-                COCantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                Cantidad=fila.getString(1);
+                if(!Cantidad.equals("0") && VerVacios==false){
+                    COingrediente.add(" - "+fila.getString(0));
+                    COCantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }else if(VerVacios==true){
+                    COingrediente.add(" - "+fila.getString(0));
+                    COCantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }
+
             }else{
                 bucle=true;
             }
@@ -435,6 +472,7 @@ public class Almacen extends AppCompatActivity {
     public void Despensa(){
         DEingrediente.clear();
         DECantidad.clear();
+        String Cantidad="";
         boolean bucle=false;
         BBDD admin = new BBDD(this,"administracion",
                 null,1);
@@ -442,8 +480,15 @@ public class Almacen extends AppCompatActivity {
         Cursor fila = bd.rawQuery("select nomIngrediente,cantidad,unidad from hay where nomAlmacen='DESPENSA'", null);
         do{
             if (fila.moveToNext()){
-                DEingrediente.add(" - "+fila.getString(0));
-                DECantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                Cantidad=fila.getString(1);
+                if(!Cantidad.equals("0") && VerVacios==false){
+                    DEingrediente.add(" - "+fila.getString(0));
+                    DECantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }else if(VerVacios==true){
+                    DEingrediente.add(" - "+fila.getString(0));
+                    DECantidad.add(fila.getString(1) + " "+ fila.getString(2));
+                }
+
             }else{
                 bucle=true;
             }
