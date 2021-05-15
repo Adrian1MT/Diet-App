@@ -10,11 +10,12 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/BotonNavegacion"
         style="@style/BotonNavegacion"
-        android:layout_width="600dp"
+        android:layout_width="2000dp"
         android:layout_height="60dp"
+        android:background="@android:color/transparent"
+        app:itemHorizontalTranslationEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/boton_navegacion" />
 
@@ -89,13 +90,13 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginTop="10dp"
         android:text="TIEMPO"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnmenor"
+        app:layout_constraintStart_toStartOf="@+id/btnmenor"
         app:layout_constraintTop_toBottomOf="@+id/btnpostre" />
 
     <Button
@@ -168,13 +169,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginTop="10dp"
         android:text="DIFICULTAD"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnalta"
+        app:layout_constraintStart_toStartOf="@+id/btnalta"
         app:layout_constraintTop_toBottomOf="@+id/btnmayor" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -194,14 +195,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:text="TIPOS DE MENÚ"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.887"
-        app:layout_constraintStart_toEndOf="@+id/idBuscador"
+        app:layout_constraintEnd_toEndOf="@+id/btnentrante"
+        app:layout_constraintStart_toStartOf="@+id/btnentrante"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText

@@ -10,8 +10,9 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/BotonNavegacion"
         style="@style/BotonNavegacion"
-        android:layout_width="600dp"
+        android:layout_width="2000dp"
         android:layout_height="60dp"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
