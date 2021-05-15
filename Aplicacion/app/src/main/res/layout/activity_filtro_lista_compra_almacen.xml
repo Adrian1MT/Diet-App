@@ -7,6 +7,17 @@
     android:background="@drawable/fondo"
     tools:context=".FiltroListaCompraAlmacen">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BotonNavegacion"
+        style="@style/BotonNavegacion"
+        android:layout_width="600dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/boton_navegacion" />
+
     <EditText
         android:id="@+id/txtFechaOrigen"
         android:layout_width="200dp"

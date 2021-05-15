@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -24,6 +28,8 @@ public class Dietario extends AppCompatActivity {
     ArrayList<MenuItem> menuArrayList;
     ArrayList<MenuItem> menuCargarDietaDiaria, menuCargarDietaFinDe, menuCargarDietaSemanal;
 
+    BottomNavigationView  BotonNavegacion;
+
     View vistaCrear, vistaVer;
     boolean elegirDietaDiariaPulsado = false;
     boolean elegirDietaFinDePulsado = false;
@@ -35,6 +41,11 @@ public class Dietario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dietario);
+        BotonNavegacion = findViewById(R.id.BotonNavegacion);
+        BotonNavegacion.setItemIconTintList(null);
+        BotonNavegacion.setItemIconSize(100);
+
+        BotonNavegacion.setOnNavigationItemSelectedListener(Navegacion);
 
         btnDiaria = (Button) findViewById(R.id.btnDiaria);
         btnFinDe = (Button) findViewById(R.id.btnFinDe);
@@ -77,7 +88,30 @@ public class Dietario extends AppCompatActivity {
         rvCargarDietas.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvCargarDietas.setVisibility(View.INVISIBLE);
     }
-
+    private final BottomNavigationView.OnNavigationItemSelectedListener Navegacion = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
+            switch(item.getItemId()){
+                case R.id.idPrimero:
+                    Recetas();
+                    return true;
+                case R.id.idTercero:
+                    ListaCompra();
+                    return true;
+            }
+            return false;
+        }
+    };
+    public void Recetas(){
+        Intent oIntent = new Intent(this, Visualizar_Recetas.class);
+        startActivity(oIntent);
+        finish();
+    }
+    public void ListaCompra(){
+        Intent oIntent = new Intent(this, FiltroListaCompraAlmacen.class);
+        startActivity(oIntent);
+        finish();
+    }
     //Métodos Action Bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

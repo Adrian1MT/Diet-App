@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/idPrimero"
+        android:icon="@drawable/recetas"
+        android:title=""/>
+    <item
+        android:id="@+id/idSegundo"
+        android:icon="@drawable/dietario"
+        android:title="" />
+
+    <item
+        android:id="@+id/idTercero"
+        android:icon="@drawable/listado_compra"
+        android:title="" />
+</menu>

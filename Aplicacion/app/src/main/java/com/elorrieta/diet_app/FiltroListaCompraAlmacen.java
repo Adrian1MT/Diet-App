@@ -12,9 +12,11 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.elorrieta.diet_app.ui.main.dialog.DatePickerFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,11 +28,17 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
     String dia;
     TextView txtFechaOrigen, txtFechaFin;
     Button btnLista;
-
+    BottomNavigationView BotonNavegacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtro_lista_compra_almacen);
+
+        BotonNavegacion = findViewById(R.id.BotonNavegacion);
+        BotonNavegacion.setItemIconTintList(null);
+        BotonNavegacion.setItemIconSize(100);
+
+        BotonNavegacion.setOnNavigationItemSelectedListener(Navegacion);
 
         btnLista = (Button) findViewById(R.id.btnLista);
         btnLista.setEnabled(false);
@@ -53,7 +61,30 @@ public class FiltroListaCompraAlmacen extends AppCompatActivity implements View.
         txtFechaOrigen.setText(fecha_DD_MM_AAAA(fecha_AAAA_MM_DD(selectedDate)));
         fechaOrigen = txtFechaOrigen.getText().toString();
     }
-
+    private final BottomNavigationView.OnNavigationItemSelectedListener Navegacion = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
+            switch(item.getItemId()){
+                case R.id.idPrimero:
+                    Recetas();
+                    return true;
+                case R.id.idSegundo:
+                    Dietario();
+                    return true;
+            }
+            return false;
+        }
+    };
+    public void Recetas(){
+        Intent oIntent = new Intent(this, Visualizar_Recetas.class);
+        startActivity(oIntent);
+        finish();
+    }
+    public void Dietario(){
+        Intent oIntent = new Intent(this, Dietario.class);
+        startActivity(oIntent);
+        finish();
+    }
     //Métodos Action Bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

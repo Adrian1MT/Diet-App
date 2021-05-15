@@ -14,12 +14,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elorrieta.diet_app.ui.main.AdapterListaRecetas;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ public class Visualizar_Recetas extends AppCompatActivity {
     RecyclerView RecyclerListaRecetas;
     ArrayList<Integer> IDs = new ArrayList<Integer>();
     ArrayList<String> NombreReceta = new ArrayList<String>();
-
+    BottomNavigationView BotonNavegacion;
     boolean entrante=false;
     boolean primero=false;
     boolean segundo=false;
@@ -56,6 +58,11 @@ public class Visualizar_Recetas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.visualizar__recetas);
+        BotonNavegacion = findViewById(R.id.BotonNavegacion);
+        BotonNavegacion.setItemIconTintList(null);
+        BotonNavegacion.setItemIconSize(100);
+
+        BotonNavegacion.setOnNavigationItemSelectedListener(Navegacion);
 
         ENTRANTE= (Button)findViewById(R.id.btnentrante);
         PRIMERO= (Button)findViewById(R.id.btnprimero);
@@ -102,14 +109,30 @@ public class Visualizar_Recetas extends AppCompatActivity {
         vengoDe=getIntent().getStringExtra("activity");
         soyElBoton=getIntent().getIntExtra("button",0);
 
-
-       /* RecyclerListaRecetas.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                mensaje();
-                return false;
+    }
+    private final BottomNavigationView.OnNavigationItemSelectedListener Navegacion = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
+            switch(item.getItemId()){
+                case R.id.idSegundo:
+                    Dietario();
+                    return true;
+                case R.id.idTercero:
+                    ListaCompra();
+                    return true;
             }
-        });*/
+            return false;
+        }
+    };
+    public void Dietario(){
+        Intent oIntent = new Intent(this, Dietario.class);
+        startActivity(oIntent);
+        finish();
+    }
+    public void ListaCompra(){
+        Intent oIntent = new Intent(this, FiltroListaCompraAlmacen.class);
+        startActivity(oIntent);
+        finish();
     }
     //Métodos Action Bar
     @Override
@@ -462,115 +485,4 @@ public class Visualizar_Recetas extends AppCompatActivity {
         int opcion = 2;
         verificar_Difilcutad(opcion);
     }
-
-   /* public void recetas3(View View){
-        BBDD admin = new BBDD(this,"administracion", null,1);
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        ContentValues registro = new ContentValues();
-        registro.put("id", 1);
-        registro.put("nombre", "Arroz con tomate");
-        registro.put("tiempo", "10");
-        registro.put("dificultad", "ALTA");
-        registro.put("tipo", "PRIMERO");
-        registro.put("elaboracion", "Ponte a hacer arroz y echale tomate ostia");
-        registro.put("origen", "Marte");
-        bd.insert("receta",null, registro);
-
-        ContentValues registro2 = new ContentValues();
-        registro2.put("id", 1);
-        registro2.put("numComensales", 4);
-        bd.insert("nComensales",null, registro2);
-
-        ContentValues registro3 = new ContentValues();
-        registro3.put("id", 1);
-        registro3.put("numComensales", 4);
-        registro3.put("cantidad", 100);
-        registro3.put("nomIngrediente", "Arroz");
-        bd.insert("tiene",null, registro3);
-
-        ContentValues registro4 = new ContentValues();
-        registro4.put("id", 1);
-        registro4.put("numComensales", 4);
-        registro4.put("cantidad", 50);
-        registro4.put("nomIngrediente", "Tomate");
-        bd.insert("tiene",null, registro4);
-
-        ContentValues registro5 = new ContentValues();
-        registro5.put("unidad", "gramos");
-        registro5.put("nomIngrediente", "Arroz");
-        bd.insert("ingrediente",null, registro5);
-
-        ContentValues registro6 = new ContentValues();
-        registro6.put("unidad", "gramos");
-        registro6.put("nomIngrediente", "Tomate");
-        bd.insert("ingrediente",null, registro6);
-
-        ContentValues registro7 = new ContentValues();
-        registro7.put("id", 2);
-        registro7.put("nombre", "Huevo frito");
-        registro7.put("tiempo", "30");
-        registro7.put("dificultad", "BAJA");
-        registro7.put("tipo", "SEGUNDO");
-        registro7.put("elaboracion", "Rompe un huevo y frielo inutil");
-        registro7.put("origen", "Luna");
-        bd.insert("receta",null, registro7);
-
-        ContentValues registro8 = new ContentValues();
-        registro8.put("id", 2);
-        registro8.put("numComensales", 1);
-        bd.insert("nComensales",null, registro8);
-
-        ContentValues registro9 = new ContentValues();
-        registro9.put("id", 2);
-        registro9.put("numComensales", 1);
-        registro9.put("cantidad", 1);
-        registro9.put("nomIngrediente", "Huevo");
-        bd.insert("tiene",null, registro9);
-
-        ContentValues registro10 = new ContentValues();
-        registro10.put("unidad", "huevo");
-        registro10.put("nomIngrediente", "Huevo");
-        bd.insert("ingrediente",null, registro10);
-
-        bd.close();
-        admin.close();
-    }
-
-    public void INSERTARTEMPORAL(View View){//igual se borrara
-        int vueltas =0;
-        boolean bucle=false;
-        String Nombre="Menu";
-        int Tiempo =12;
-        String Dificultad="ALTA";
-        String Tipo="ENTRANTE";
-        String NombreCompleto;
-        do{
-            vueltas+=1;
-            NombreCompleto=Nombre+vueltas;
-            if (vueltas==5){
-                Dificultad="ALTA";
-                Tipo="PRIMERO";
-            }else if (vueltas==10){
-                 Dificultad="MEDIA";
-                Tipo="SEGUNDO";
-            } if (vueltas==15){
-                Dificultad="BAJA";
-                Tipo="POSTRE";
-            }
-            Tiempo +=vueltas;
-        BBDD admin = new BBDD(this,"administracion", null,1);
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        ContentValues registro = new ContentValues();
-        registro.put("nombre",NombreCompleto);
-        registro.put("tiempo",Tiempo);
-        registro.put("dificultad",Dificultad);
-        registro.put("tipo",Tipo);
-        bd.insert("receta",null,registro);
-        if (vueltas==20){
-                bucle=true;
-                bd.close();
-                admin.close();
-            }
-        }while (bucle==false);
-    }*/
 }

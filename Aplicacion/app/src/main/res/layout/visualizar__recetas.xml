@@ -7,6 +7,17 @@
     android:background="@drawable/fondo"
     tools:context=".Visualizar_Recetas">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BotonNavegacion"
+        style="@style/BotonNavegacion"
+        android:layout_width="600dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/boton_navegacion" />
+
     <Button
         android:id="@+id/btnbaja"
         android:layout_width="200dp"
@@ -169,9 +180,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ListadoReceta"
         android:layout_width="596dp"
-        android:layout_height="461dp"
+        android:layout_height="460dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="130dp"
         android:layout_marginBottom="32dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

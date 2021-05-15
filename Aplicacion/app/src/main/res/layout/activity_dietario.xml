@@ -47,15 +47,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerCargarDieta"
         android:layout_width="425dp"
-        android:layout_height="420dp"
+        android:layout_height="370dp"
         android:layout_marginStart="500dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crearNueva" />
+        app:layout_constraintTop_toBottomOf="@+id/crearNueva"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnDiaria"
@@ -99,11 +101,22 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reciclerListaRecetas"
         android:layout_width="300dp"
-        android:layout_height="420dp"
+        android:layout_height="370dp"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="@+id/verGuardada"
         app:layout_constraintTop_toBottomOf="@+id/verGuardada">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BotonNavegacion"
+        style="@style/BotonNavegacion"
+        android:layout_width="600dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/boton_navegacion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
