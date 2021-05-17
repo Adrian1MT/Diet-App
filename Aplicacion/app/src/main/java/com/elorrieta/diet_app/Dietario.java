@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,6 +122,10 @@ public class Dietario extends AppCompatActivity {
         int id = item.getItemId();
         if (id==R.id.acercade) {
             Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
+        }
+        if (id==R.id.manual) {
+            Intent i = new Intent(this, Manual.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);

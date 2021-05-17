@@ -6,4 +6,9 @@
         android:title="Acerca De ..."
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/manual"
+        android:title="Manual de Usuario"
+        android:icon="@drawable/manual"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
 </menu>

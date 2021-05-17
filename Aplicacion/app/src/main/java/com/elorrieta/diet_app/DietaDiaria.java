@@ -130,6 +130,10 @@ public class DietaDiaria extends AppCompatActivity implements View.OnClickListen
             Intent i = new Intent(this, AcercaDeActivity.class);
             startActivity(i);
         }
+        if (id==R.id.manual) {
+            Intent i = new Intent(this, Manual.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 

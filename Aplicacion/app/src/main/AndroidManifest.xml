@@ -8,9 +8,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.DietApp">
-        <activity android:name=".AcercaDeActivity"
+        <activity android:name=".Manual"></activity>
+        <activity
+            android:name=".AcercaDeActivity"
             android:label="Acerca de ..."
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".listaCompra" />
         <activity android:name=".Almacen" />
         <activity android:name=".DietaFinDe" />
@@ -30,10 +32,12 @@
         <activity
             android:name=".Visualizar_Recetas"
             android:screenOrientation="landscape" />
-        <activity android:name=".MainActivity"
-            android:screenOrientation="landscape" >
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -168,6 +167,10 @@ public class Almacen extends AppCompatActivity {
         int id = item.getItemId();
         if (id==R.id.acercade) {
             Intent i = new Intent(this, AcercaDeActivity.class);
+            startActivity(i);
+        }
+        if (id==R.id.manual) {
+            Intent i = new Intent(this, Manual.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);

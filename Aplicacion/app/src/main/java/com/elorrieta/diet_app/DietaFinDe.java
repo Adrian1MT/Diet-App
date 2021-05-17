@@ -167,6 +167,10 @@ public class DietaFinDe extends AppCompatActivity implements View.OnClickListene
             Intent i = new Intent(this, AcercaDeActivity.class);
             startActivity(i);
         }
+        if (id==R.id.manual) {
+            Intent i = new Intent(this, Manual.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
