@@ -15,15 +15,10 @@ public class Manual extends AppCompatActivity {
         setContentView(R.layout.activity_manual);
 
         mWebView = (WebView) findViewById(R.id.webView);
-        // Activamos jаvascript
-//       WebSettings webSettings = mWebView.getSettings();
- //       webSettings.setJаvaScriptEnabled(true);
 // Url que carga la app (webview)
         mWebView.loadUrl("file:///android_asset/Manual_Diet-App.htm");
 // Forzamos el webview para que abra los enlaces internos dentro de la la APP
         mWebView.setWebViewClient(new WebViewClient());
-// Forzamos el webview para que abra los enlaces externos en el navegador
-//        mWebView.setWebViewClient(new MyAppWebViewClient());
     }
 
     @Override
