@@ -93,55 +93,58 @@
         android:id="@+id/tipo"
         android:layout_width="120dp"
         android:layout_height="33dp"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="10dp"
         android:text="Tipo"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/nomReceta"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/Fmenu"
+        app:layout_constraintStart_toStartOf="@+id/Fmenu"
+        app:layout_constraintTop_toBottomOf="@+id/Fmenu" />
 
     <TextView
         android:id="@+id/comensales"
         android:layout_width="120dp"
         android:layout_height="31dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:autoText="false"
         android:text="1"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/dificultad"
-        app:layout_constraintTop_toTopOf="@+id/dificultad" />
+        app:layout_constraintEnd_toEndOf="@+id/Fcomensal"
+        app:layout_constraintStart_toStartOf="@+id/Fcomensal"
+        app:layout_constraintTop_toBottomOf="@+id/Fcomensal" />
 
     <TextView
         android:id="@+id/dificultad"
         android:layout_width="120dp"
         android:layout_height="31dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
         android:text="dificultad"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tiempo"
-        app:layout_constraintTop_toTopOf="@+id/tiempo" />
+        app:layout_constraintEnd_toEndOf="@+id/Fdificultad"
+        app:layout_constraintStart_toStartOf="@+id/Fdificultad"
+        app:layout_constraintTop_toBottomOf="@+id/Fdificultad" />
 
     <TextView
         android:id="@+id/tiempo"
         android:layout_width="120dp"
         android:layout_height="31dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:text="tiempo"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tipo"
-        app:layout_constraintTop_toTopOf="@+id/tipo" />
+        app:layout_constraintEnd_toEndOf="@+id/Ftiempo"
+        app:layout_constraintStart_toStartOf="@+id/Ftiempo"
+        app:layout_constraintTop_toBottomOf="@+id/Ftiempo" />
 
     <ImageView
         android:id="@+id/foto"

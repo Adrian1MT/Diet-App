@@ -107,7 +107,7 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:onClick="entre"
-        android:text="15 MIN y 30 MIN"
+        android:text="DE 15 A 30 MIN"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnmenor" />

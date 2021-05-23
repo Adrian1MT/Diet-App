@@ -29,7 +29,7 @@
         android:text="item"
         android:textAlignment="textStart"
         android:textColor="@color/verde_oscuro"
-        android:textSize="130px"
+        android:textSize="120px"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/icono"
